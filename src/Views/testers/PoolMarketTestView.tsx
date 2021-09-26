@@ -66,7 +66,7 @@ export const PoolMarketTestView : React.FC = () =>{
         
           <p><Button className="commonButton" type="primary" onClick={()=>{
               
-              read(null, 
+              read("C558NqNps88Knx67etMkKDQBCyUQNttpz2QU2i3BnVWJ", 
                 
                 (res : PoolMarket | Error) =>  {
 
