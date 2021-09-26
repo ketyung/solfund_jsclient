@@ -66,6 +66,19 @@ export default function usePoolMarket(){
         }
     }
 
+
+    async function read(){
+
+        let marketPkey = await poolMarketIdPubKey();
+        let acc = await connection.getAccountInfo(marketPkey);
+        
+        if ( acc != null ){
+
+            console.log("acc.data:", acc.data);
+        }
+    }
+
+
     async function createPoolMarket(completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
@@ -173,6 +186,6 @@ export default function usePoolMarket(){
 
     }
 
-    return [createPoolMarketAccount, createPoolMarket, registerAddress, loading] as const;
+    return [createPoolMarketAccount, createPoolMarket, registerAddress, read, loading] as const;
    
 }

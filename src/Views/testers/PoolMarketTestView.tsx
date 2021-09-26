@@ -8,7 +8,7 @@ import './css/common.css';
 
 export const PoolMarketTestView : React.FC = () =>{
 
-    const [createPoolMarketAccount, createPoolMarket, registreAddress, loading] = usePoolMarket();
+    const [createPoolMarketAccount, createPoolMarket, registreAddress, read, loading] = usePoolMarket();
 
 
     const completion2 = (res : boolean | Error) =>  {
@@ -50,6 +50,12 @@ export const PoolMarketTestView : React.FC = () =>{
               registreAddress(completion2);
 
           }} >Register Random Address</Button></p>
+
+          <p><Button className="commonButton" type="primary" onClick={()=>{
+              
+              read();
+
+          }} >Read Data</Button></p>
         
     </div>;
 
