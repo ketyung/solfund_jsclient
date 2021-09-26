@@ -1,6 +1,7 @@
 import * as web3 from '@solana/web3.js';
-import {programId} from './useSolana';
+import {programId, MODULE_POOL_MARKET, ACTION_CREATE} from './useSolana';
 import useSolana from './useSolana';
+import { SolUtil } from '../utils/SolUtil';
 
 export default function usePoolMarket(){
 
@@ -78,6 +79,9 @@ export default function usePoolMarket(){
         let marketPkey = await poolMarketIdPubKey();
         let acc = await connection.getAccountInfo(marketPkey);
           
+
+        let data = SolUtil.createBuffer(new Uint8Array(0),ACTION_CREATE,MODULE_POOL_MARKET);
+
         if (acc != null ){
 
             let accounts : Array<web3.AccountMeta> = [
@@ -85,8 +89,6 @@ export default function usePoolMarket(){
                 { pubkey: publicKey, isSigner: true, isWritable: false },
                 { pubkey: marketPkey, isSigner: false, isWritable: true },
             ];
-
-            let data = Buffer.from("xx");
 
             sendIns(accounts, programId, data, (res : string | Error) =>  {
 
@@ -107,7 +109,7 @@ export default function usePoolMarket(){
 
         }
     }
-    
+
     async function registerAddress(completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
@@ -132,7 +134,7 @@ export default function usePoolMarket(){
                 { pubkey: marketPkey, isSigner: false, isWritable: true },
             ];
 
-            let data = Buffer.from(randomPk);
+            let data = SolUtil.createBuffer(randomPk.toBytes(),ACTION_CREATE,MODULE_POOL_MARKET);
 
             sendIns(accounts, programId, data, (res : string | Error) =>  {
 

@@ -5,6 +5,17 @@ import {solanaNet} from '../utils/SolUtil';
 
 export const programId : web3.PublicKey = new web3.PublicKey("2GkHTs42nVfU15AqTpfDA2EgBzHix6rCewwutTKETM4M");
 
+export const MODULE_POOL_MARKET : number = 33;
+
+export const ACTION_CREATE : number = 1;
+
+export const ACTION_UPDATE : number = 2;
+
+export const ACTION_REGISTER_ADDR : number = 3;
+
+export const ACTION_REMOVE_ADDR : number = 4;
+
+
 
 export default function useSolana() {
 
