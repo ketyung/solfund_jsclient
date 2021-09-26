@@ -1,5 +1,5 @@
 import * as web3 from '@solana/web3.js';
-import {programId, MODULE_POOL_MARKET, ACTION_CREATE} from './useSolana';
+import {programId, MODULE_POOL_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
 import useSolana from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
 
@@ -141,7 +141,7 @@ export default function usePoolMarket(){
                 { pubkey: publicKey, isSigner: true, isWritable: false },
            ];
 
-            let data = SolUtil.createBuffer(randomPk.toBytes(),ACTION_CREATE,MODULE_POOL_MARKET);
+            let data = SolUtil.createBuffer(randomPk.toBytes(),ACTION_REGISTER_ADDR,MODULE_POOL_MARKET);
 
             sendIns(accounts, programId, data, (res : string | Error) =>  {
 
