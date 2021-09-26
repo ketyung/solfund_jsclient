@@ -108,6 +108,12 @@ export default function usePoolMarket(){
             });
 
         }
+        else {
+
+            completionHandler(new Error("No pool market account"));
+            setLoading(false);
+       
+        }
     }
 
     async function registerAddress(completionHandler : (result : boolean | Error) => void) {
@@ -154,7 +160,12 @@ export default function usePoolMarket(){
             });
 
         }
+        else {
 
+            completionHandler(new Error("No pool market account"));
+            setLoading(false);
+       
+        }
        
 
     }
