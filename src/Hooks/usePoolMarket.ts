@@ -2,6 +2,7 @@ import * as web3 from '@solana/web3.js';
 import {programId, MODULE_POOL_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
 import useSolana from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
+import { extract_pool_market } from '../models';
 
 export default function usePoolMarket(){
 
@@ -74,7 +75,8 @@ export default function usePoolMarket(){
         
         if ( acc != null ){
 
-            console.log("acc.data:", acc.data);
+            extract_pool_market(acc.data);
+
         }
     }
 
