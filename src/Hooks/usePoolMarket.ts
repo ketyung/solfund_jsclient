@@ -168,8 +168,10 @@ export default function usePoolMarket(){
         }
 
 
-        return [createPoolMarketAccount, createPoolMarket, registerAddress] as const;
        
 
     }
+
+    return [createPoolMarketAccount, createPoolMarket, registerAddress, loading] as const;
+   
 }
