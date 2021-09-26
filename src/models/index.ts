@@ -1,6 +1,7 @@
 import * as web3 from '@solana/web3.js';
 
-export const extract_pool_market = (data : Uint8Array) => {
+export const extract_pool_market = (data : Uint8Array, 
+    completionHandler : (result : PoolMarket | Error) => void ) => {
 
     //let pool_market = new PoolMarket();
 
@@ -20,15 +21,15 @@ export const extract_pool_market = (data : Uint8Array) => {
         let key_arr = keys.slice(offset, offset + 32);
         let pkey = new web3.PublicKey(key_arr);
 
-        if ( pkey !== web3.PublicKey.default){
+        if ( pkey.toBase58() !== web3.PublicKey.default.toBase58()){
 
             validPkeys.push(pkey);
         }
     }
 
-    return new  PoolMarket( { pool_size :  
+    let pm =  new  PoolMarket( { pool_size :  
         Buffer.from(pool_size).readUInt16BE(0), fund_pools: validPkeys } );
-
+    completionHandler(pm);
 
 }
 

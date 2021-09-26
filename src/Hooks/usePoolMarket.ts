@@ -2,7 +2,7 @@ import * as web3 from '@solana/web3.js';
 import {programId, MODULE_POOL_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
 import useSolana from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
-import { extract_pool_market } from '../models';
+import { extract_pool_market, PoolMarket } from '../models';
 
 export default function usePoolMarket(){
 
@@ -68,8 +68,10 @@ export default function usePoolMarket(){
     }
 
 
-    async function read(pubkey : null | string ){
+    async function read(pubkey : null | string, completionHandler : (result : PoolMarket | Error) => void ){
 
+        setLoading(true);
+        
         let marketPkey = pubkey ? new web3.PublicKey(pubkey) : await poolMarketIdPubKey();
         let acc = await connection.getAccountInfo(marketPkey);
         
@@ -78,7 +80,24 @@ export default function usePoolMarket(){
         
         if ( acc != null ){
 
-            extract_pool_market(acc.data);
+            extract_pool_market(acc.data, 
+                (res : PoolMarket | Error) =>  {
+
+                    if (res instanceof Error){
+            
+                        setLoading(false);
+                        completionHandler(res);
+            
+                    }
+                    else {
+            
+                        console.log("Completed!", res);
+                        setLoading(false);     
+                        completionHandler(res);   
+                    }
+            
+                }
+            );
 
         }
     }

@@ -1,15 +1,19 @@
 import React, {useState} from 'react';
 import 'antd/dist/antd.css';
-import { Button, Spin } from 'antd';
+import { Button, Spin, Modal } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../Wallet";
 import usePoolMarket from '../../Hooks/usePoolMarket';
+import { PoolMarket } from '../../models';
 import './css/common.css';
 
 export const PoolMarketTestView : React.FC = () =>{
 
     const [createPoolMarketAccount, createPoolMarket, registreAddress, read, loading] = usePoolMarket();
 
+    const [poolMarket, setPoolMarket] = useState<PoolMarket>();
+
+    const [modelPresented, setModalPresented] = useState(false);
 
     const completion2 = (res : boolean | Error) =>  {
 
@@ -62,9 +66,46 @@ export const PoolMarketTestView : React.FC = () =>{
         
           <p><Button className="commonButton" type="primary" onClick={()=>{
               
-              read(null);
+              read(null, 
+                
+                (res : PoolMarket | Error) =>  {
+
+                    if (res instanceof Error){
+            
+                        error((res as Error).message, 5 );
+                        setModalPresented(false);
+                    }
+                    else {
+            
+                        setPoolMarket(res);
+                        setModalPresented(true);
+                    }
+            
+                }
+            );
 
           }} >Read Data</Button></p>
+
+        <Modal title="Basic Modal"
+          visible={modelPresented}
+          okButtonProps={{ disabled: false }}
+          cancelButtonProps={{ disabled: true }}>
+        <div>Registered Addresses</div>
+
+        {
+
+            poolMarket?.fund_pools.map (( address , index) => {
+
+                console.log("addr"+index, address.toBase58());
+                return <div style={{textAlign: "justify"}}>
+                {index + 1}. {address.toBase58()}
+                </div>;
+
+            })
+        }
+
+
+        </Modal>
         
     </div>;
 
