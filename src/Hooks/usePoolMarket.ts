@@ -166,6 +166,9 @@ export default function usePoolMarket(){
             setLoading(false);
        
         }
+
+
+        return [createPoolMarketAccount, createPoolMarket, registerAddress] as const;
        
 
     }
