@@ -111,6 +111,8 @@ export default function usePoolMarket(){
             return; 
         }
 
+        setLoading(true);
+
         // use a random address first 
 
         let marketPkey = await poolMarketIdPubKey();
@@ -164,6 +166,8 @@ export default function usePoolMarket(){
             return; 
         }
 
+        setLoading(true);
+        
         // use a random address first 
 
         let randomPk = await web3.PublicKey.createWithSeed(publicKey, 
