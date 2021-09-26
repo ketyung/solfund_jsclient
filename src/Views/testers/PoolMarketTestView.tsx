@@ -4,7 +4,7 @@ import { Button, Spin } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../Wallet";
 import usePoolMarket from '../../Hooks/usePoolMarket';
-
+import './css/common.css';
 
 export const PoolMarketTestView : React.FC = () =>{
 

@@ -1,0 +1,8 @@
+.commonButton {
+    width : 400px;
+    padding: 10px;
+    margin: 10px;
+    min-height: 50px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size:11pt;
+}
