@@ -86,8 +86,9 @@ export default function usePoolMarket(){
 
             let accounts : Array<web3.AccountMeta> = [
 
-                { pubkey: publicKey, isSigner: true, isWritable: false },
                 { pubkey: marketPkey, isSigner: false, isWritable: true },
+                { pubkey: publicKey, isSigner: true, isWritable: false },
+             
             ];
 
             sendIns(accounts, programId, data, (res : string | Error) =>  {
@@ -136,9 +137,9 @@ export default function usePoolMarket(){
 
             let accounts : Array<web3.AccountMeta> = [
 
-                { pubkey: publicKey, isSigner: true, isWritable: false },
                 { pubkey: marketPkey, isSigner: false, isWritable: true },
-            ];
+                { pubkey: publicKey, isSigner: true, isWritable: false },
+           ];
 
             let data = SolUtil.createBuffer(randomPk.toBytes(),ACTION_CREATE,MODULE_POOL_MARKET);
 
