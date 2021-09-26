@@ -68,10 +68,13 @@ export default function usePoolMarket(){
     }
 
 
-    async function read(){
+    async function read(pubkey : null | string ){
 
-        let marketPkey = await poolMarketIdPubKey();
+        let marketPkey = pubkey ? new web3.PublicKey(pubkey) : await poolMarketIdPubKey();
         let acc = await connection.getAccountInfo(marketPkey);
+        
+        //console.log("marketPkey", marketPkey.toBase58());
+        
         
         if ( acc != null ){
 
@@ -92,6 +95,8 @@ export default function usePoolMarket(){
         // use a random address first 
 
         let marketPkey = await poolMarketIdPubKey();
+
+        
         let acc = await connection.getAccountInfo(marketPkey);
           
 
@@ -132,7 +137,7 @@ export default function usePoolMarket(){
         }
     }
 
-    async function registerAddress(completionHandler : (result : boolean | Error) => void) {
+    async function registerAddress( pubkey : string | null, completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
             completionHandler(new Error("No wallet connected"));
@@ -145,7 +150,11 @@ export default function usePoolMarket(){
         let randomPk = await web3.PublicKey.createWithSeed(publicKey, 
             "xxxx" + Math.floor(Math.random() * 1000), programId);
 
-        let marketPkey = await poolMarketIdPubKey();
+
+
+        let marketPkey = pubkey ? new web3.PublicKey(pubkey) : await poolMarketIdPubKey();
+
+
         let acc = await connection.getAccountInfo(marketPkey);
           
         if (acc != null ){

@@ -47,13 +47,22 @@ export const PoolMarketTestView : React.FC = () =>{
 
           <p><Button className="commonButton" type="primary" onClick={()=>{
               
-              registreAddress(completion2);
+              registreAddress(null, completion2);
 
           }} >Register Random Address</Button></p>
 
+          <p><Button className="commonButton" style={{height:"70px"}} type="primary" onClick={()=>{
+              
+              registreAddress("EG3gDphS8oWnjXYMVGc7mGKRoxdJzz3J944nZioJ8qvm", completion2);
+
+          }} >Register Random Address,<br/> 
+          EG3gDphS8oWnjXYMVGc7mGKRoxdJzz3J944nZioJ8qvm</Button></p>
+
+
+        
           <p><Button className="commonButton" type="primary" onClick={()=>{
               
-              read();
+              read("EG3gDphS8oWnjXYMVGc7mGKRoxdJzz3J944nZioJ8qvm");
 
           }} >Read Data</Button></p>
         
