@@ -65,7 +65,49 @@ export default function usePoolMarket(){
         }
     }
 
+    async function createPoolMarket(completionHandler : (result : boolean | Error) => void) {
 
+        if (!publicKey){
+            completionHandler(new Error("No wallet connected"));
+            setLoading(false);
+            return; 
+        }
+
+        // use a random address first 
+
+        let marketPkey = await poolMarketIdPubKey();
+        let acc = await connection.getAccountInfo(marketPkey);
+          
+        if (acc != null ){
+
+            let accounts : Array<web3.AccountMeta> = [
+
+                { pubkey: publicKey, isSigner: true, isWritable: false },
+                { pubkey: marketPkey, isSigner: false, isWritable: true },
+            ];
+
+            let data = Buffer.from("xx");
+
+            sendIns(accounts, programId, data, (res : string | Error) =>  {
+
+                if (res instanceof Error){
+        
+                    completionHandler(res);
+                    setLoading(false);
+        
+                }
+                else {
+        
+                    console.log("Completed!", res);
+                    completionHandler(true);
+                    setLoading(false);        
+                }
+        
+            });
+
+        }
+    }
+    
     async function registerAddress(completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
