@@ -3,6 +3,8 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useState } from 'react';
 import {solanaNet} from '../utils/SolUtil';
 
+export const programId : web3.PublicKey = new web3.PublicKey("2GkHTs42nVfU15AqTpfDA2EgBzHix6rCewwutTKETM4M");
+
 
 export default function useSolana() {
 
