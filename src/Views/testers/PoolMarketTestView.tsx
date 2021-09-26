@@ -87,7 +87,7 @@ export const PoolMarketTestView : React.FC = () =>{
           }} >Read Data</Button></p>
 
         <Modal title="Registered Addresses"
-          style={{minWidth:"700px"}}
+          style={{minWidth:"80%"}}
           visible={modelPresented}
           onCancel={()=>{
 
@@ -102,7 +102,7 @@ export const PoolMarketTestView : React.FC = () =>{
             poolMarket?.fund_pools.map (( address , index) => {
 
                // console.log("addr"+index, address.toBase58());
-                return <div style={{textAlign: "justify"}}>
+                return <div style={{textAlign: "justify", margin:"10px"}}>
                 {index + 1}. {address.toBase58()}
                 </div>;
 
