@@ -8,7 +8,7 @@ export default function usePoolMarket(){
 
     const [connection, publicKey,  sendIns, createAccount, loading, setLoading] = useSolana();
 
-    const POOL_MARKET_ID : string = "_POOL_MARKET";
+    const POOL_MARKET_ID : string = "POOL_MARKET";
 
     async function poolMarketIdPubKey() : Promise<web3.PublicKey> {
 
@@ -34,7 +34,7 @@ export default function usePoolMarket(){
 
         setLoading(true);
 
-        let size : number  = 322; // hard-coded first 
+        let size : number  = (32 * 100) + 2; // hard-coded first 
 
         let marketPkey = await poolMarketIdPubKey();
 
@@ -73,7 +73,7 @@ export default function usePoolMarket(){
         let marketPkey = pubkey ? new web3.PublicKey(pubkey) : await poolMarketIdPubKey();
         let acc = await connection.getAccountInfo(marketPkey);
         
-        //console.log("marketPkey", marketPkey.toBase58());
+        console.log("marketPkey", marketPkey.toBase58());
         
         
         if ( acc != null ){
