@@ -27,8 +27,11 @@ export const extract_pool_market = (data : Uint8Array,
         }
     }
 
-    let pm =  new  PoolMarket( { pool_size :  
-        Buffer.from(pool_size).readUInt16BE(0), fund_pools: validPkeys } );
+    let num =  Buffer.from(pool_size).readUInt16LE(0);
+
+    console.log("num", num);
+    
+    let pm =  new  PoolMarket( { pool_size : num , fund_pools: validPkeys } );
     completionHandler(pm);
 
 }

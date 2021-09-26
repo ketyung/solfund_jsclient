@@ -86,7 +86,7 @@ export const PoolMarketTestView : React.FC = () =>{
 
           }} >Read Data</Button></p>
 
-        <Modal title="Registered Addresses"
+        <Modal title={"Registered Addresses : " + poolMarket?.pool_size }
           style={{minWidth:"80%"}}
           visible={modelPresented}
           onCancel={()=>{
