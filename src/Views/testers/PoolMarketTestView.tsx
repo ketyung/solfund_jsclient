@@ -57,10 +57,10 @@ export const PoolMarketTestView : React.FC = () =>{
 
           <p><Button className="commonButton" style={{height:"70px"}} type="primary" onClick={()=>{
               
-              registreAddress("EG3gDphS8oWnjXYMVGc7mGKRoxdJzz3J944nZioJ8qvm", completion2);
+              registreAddress("C558NqNps88Knx67etMkKDQBCyUQNttpz2QU2i3BnVWJ", completion2);
 
-          }} >Register Random Address,<br/> 
-          EG3gDphS8oWnjXYMVGc7mGKRoxdJzz3J944nZioJ8qvm</Button></p>
+          }} >Register Random Address With<br/> 
+          C558NqNps88Knx67etMkKDQBCyUQNttpz2QU2i3BnVWJ</Button></p>
 
 
         
@@ -86,17 +86,22 @@ export const PoolMarketTestView : React.FC = () =>{
 
           }} >Read Data</Button></p>
 
-        <Modal title="Basic Modal"
+        <Modal title="Registered Addresses"
+          style={{minWidth:"700px"}}
           visible={modelPresented}
-          okButtonProps={{ disabled: false }}
-          cancelButtonProps={{ disabled: true }}>
-        <div>Registered Addresses</div>
+          onCancel={()=>{
 
-        {
+            setModalPresented(false);
+
+          }}
+
+          okButtonProps={{ disabled: true }}
+          cancelButtonProps={{ disabled: false }}>
+          {
 
             poolMarket?.fund_pools.map (( address , index) => {
 
-                console.log("addr"+index, address.toBase58());
+               // console.log("addr"+index, address.toBase58());
                 return <div style={{textAlign: "justify"}}>
                 {index + 1}. {address.toBase58()}
                 </div>;
