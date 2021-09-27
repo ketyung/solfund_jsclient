@@ -16,18 +16,20 @@ export const ICONS = ["https://cdn-icons-png.flaticon.com/512/3074/3074955.png",
 interface IconChooserProps{
 
     selectedIcon : number, 
+
+    presented : boolean,
 }
 
-export const IconChooser : React.FC<IconChooserProps> = ({selectedIcon}) => {
+export const IconChooser : React.FC<IconChooserProps> = ({selectedIcon, presented}) => {
 
     return <div>
     {
 
         ICONS.map (( img , index) => {
 
-            // console.log("addr"+index, address.toBase58());
             return <div style={{textAlign: "justify", margin:"10px"}}>
             {index + 1}. <Image
+                onClick={()=>{presented = false ; selectedIcon = index;}}
                 width={80}
                 height={80}
                 src={img}
