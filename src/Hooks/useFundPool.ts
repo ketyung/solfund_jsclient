@@ -34,7 +34,7 @@ export default function useFundPool(){
 
         setLoading(true);
 
-        let size : number  = 82 + (80 * 100) + (80 *100); // hard-coded first 
+        let size : number  = 84 + (80 * 100) + (80 *100); // hard-coded first 
 
         let fundPoolPkey = await fundPoolIdPubKey();
 
@@ -71,7 +71,8 @@ export default function useFundPool(){
     
 
     async function createFundPool(lamports : number, token_count : number, 
-        is_finalized : boolean, completionHandler : (result : boolean | Error) => void) {
+        is_finalized : boolean, icon : number,
+         completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
             completionHandler(new Error("No wallet connected"));
@@ -87,7 +88,8 @@ export default function useFundPool(){
         
         let acc = await connection.getAccountInfo(fundPoolPkey);
           
-        let fund_pool_array : Uint8Array = create_fund_pool(publicKey, lamports, token_count, is_finalized);
+        let fund_pool_array : Uint8Array = create_fund_pool(
+            publicKey, lamports, token_count, is_finalized, icon);
 
         console.log("fund_pool_array", fund_pool_array.length, fund_pool_array);
         

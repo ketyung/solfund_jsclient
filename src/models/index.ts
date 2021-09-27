@@ -38,10 +38,10 @@ export const extract_pool_market = (data : Uint8Array,
 
 
 export const create_fund_pool = (manager : web3.PublicKey, lamports : number, token_count : number, 
-    is_finalized : boolean) => {
+    is_finalized : boolean, icon : number) => {
 
         // manager,lamports, token_count,is_finalized
-        const newInsArray : Uint8Array = new Uint8Array(49);
+        const newInsArray : Uint8Array = new Uint8Array(51);
        
         const pkbytes = manager.toBytes();
 
@@ -75,6 +75,17 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
 
         newInsArray[offset] = is_finalized ? 1 : 0;
 
+
+        offset += 1;
+
+        let ibytes = num_to_u16(icon);
+
+        for (var r=0; r < ibytes.length; r++){
+
+            newInsArray[offset+r] = ibytes[r];
+        }
+
+
         return newInsArray;
 
 }
@@ -90,12 +101,23 @@ export const num_to_u64 = (num : number)  => {
     }
 
     return byteArray;
-    
-    //return new Uint8Array(num);
-
 
 };
 
+
+export const num_to_u16 = (num : number)  => {
+   
+    var byteArray = [0, 0];
+
+    for ( var index = 0; index < byteArray.length; index ++ ) {
+        var byte = num & 0xff;
+        byteArray [ index ] = byte;
+        num = (num - byte) / 256 ;
+    }
+
+    return byteArray;
+
+};
 
 export class PoolMarket {
 
