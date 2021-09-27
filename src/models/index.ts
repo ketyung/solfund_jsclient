@@ -56,7 +56,7 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
 
         let lbytes = num_to_u64(lamports);
 
-        for (var r=0; r < lbytes.length; r++){
+        for (r=0; r < lbytes.length; r++){
 
             newInsArray[offset+r] = lbytes[r];
         }
@@ -66,7 +66,7 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
 
         let tbytes = num_to_u64(token_count);
 
-        for (var r=0; r < tbytes.length; r++){
+        for (r=0; r < tbytes.length; r++){
 
             newInsArray[offset+r] = tbytes[r];
         }
@@ -80,7 +80,7 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
 
         let ibytes = num_to_u16(icon);
 
-        for (var r=0; r < ibytes.length; r++){
+        for (r=0; r < ibytes.length; r++){
 
             newInsArray[offset+r] = ibytes[r];
         }
@@ -94,9 +94,9 @@ export const num_to_u64 = (num : number)  => {
    
     var byteArray = [0, 0, 0, 0, 0, 0, 0, 0];
 
-    for ( var index = 0; index < byteArray.length; index ++ ) {
-        var byte = num & 0xff;
-        byteArray [ index ] = byte;
+    for (var i = 0; i < byteArray.length; i++ ) {
+        let byte = num & 0xff;
+        byteArray[i] = byte;
         num = (num - byte) / 256 ;
     }
 
@@ -109,9 +109,9 @@ export const num_to_u16 = (num : number)  => {
    
     var byteArray = [0, 0];
 
-    for ( var index = 0; index < byteArray.length; index ++ ) {
+    for ( var i = 0; i < byteArray.length; i++ ) {
         var byte = num & 0xff;
-        byteArray [ index ] = byte;
+        byteArray[i] = byte;
         num = (num - byte) / 256 ;
     }
 

@@ -44,7 +44,7 @@ export const IconChooser : React.FC<IconChooserProps> = ({selectedIcon, setSelec
 
         ICONS.map (( img , index) => {
 
-            return <div className={index % 4 == 0 ? "divBreak" : "divFloat"}   
+            return <div className={index % 4 === 0 ? "divBreak" : "divFloat"}   
             onClick={()=>{setSelected(index) ; selectedIcon = index;}}>
             {index + 1}. <Image
                 width={40}

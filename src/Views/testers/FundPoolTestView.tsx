@@ -105,7 +105,7 @@ export const FundPoolTestView : React.FC = () => {
 
             </span>
 
-            <Modal title="Create Fund Pool"
+            <Modal title="Choose An Icon"
                     style={{minWidth:"60%"}}
                     visible={iconModalPresented}
                     onCancel={()=>{setIconModalPresented(false);}}
