@@ -89,6 +89,8 @@ export default function useFundPool(){
           
         let fund_pool_array : Uint8Array = create_fund_pool(publicKey, lamports, token_count, is_finalized);
 
+        console.log("fund_pool_array", fund_pool_array.length, fund_pool_array);
+        
         let data = SolUtil.createBuffer(fund_pool_array,ACTION_CREATE,MODULE_FUND_POOL);
 
         if (acc != null ){
