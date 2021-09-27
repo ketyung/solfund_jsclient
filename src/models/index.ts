@@ -29,10 +29,30 @@ export const extract_pool_market = (data : Uint8Array,
 
     let num =  Buffer.from(pool_size).readUInt16LE(0);
 
-    console.log("num", num);
+   // console.log("num", num);
     
     let pm =  new  PoolMarket( { pool_size : num , fund_pools: validPkeys } );
     completionHandler(pm);
+
+}
+
+
+export const create_fund_pool = (manager : web3.PublicKey, lamports : number, token_count : number, 
+    is_finalized : boolean) => {
+
+        // manager,lamports, token_count,is_finalized
+        const newInsArray : Uint8Array = new Uint8Array(49);
+       
+        const pkbytes = manager.toBytes();
+
+        var offset = 2; 
+
+        for (var r=0; r < pkbytes.length; r++){
+
+            newInsArray[offset+r] = pkbytes[r];
+        }
+
+        //let lbytes = 
 
 }
 

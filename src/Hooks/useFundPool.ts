@@ -1,0 +1,132 @@
+import * as web3 from '@solana/web3.js';
+import useSolana from './useSolana';
+import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
+import { SolUtil } from '../utils/SolUtil';
+
+
+export default function useFundPool(){
+
+    const [connection, publicKey,  sendIns, createAccount, loading, setLoading] = useSolana();
+
+    const FUND_POOL_ID : string = "FUND_POOL";
+
+    async function fundPoolIdPubKey() : Promise<web3.PublicKey> {
+
+        if ( !publicKey) {
+
+            let kp = web3.Keypair.generate();
+
+            return await web3.PublicKey.createWithSeed( kp.publicKey, FUND_POOL_ID, programId);
+
+        }
+
+        return await web3.PublicKey.createWithSeed(publicKey, FUND_POOL_ID, programId);
+
+    }
+
+    async function createFundPoolAccount( completionHandler : (result : boolean | Error) => void){
+
+        if (!publicKey){
+            completionHandler(new Error("No wallet connected"));
+            setLoading(false);
+            return; 
+        }
+
+        setLoading(true);
+
+        let size : number  = 194 + (80 * 100) + (80 *100); // hard-coded first 
+
+        let fundPoolPkey = await fundPoolIdPubKey();
+
+        let acc = await connection.getAccountInfo(fundPoolPkey);
+        // create only when it's null
+        if ( acc == null ){
+
+            await createAccount(publicKey, publicKey, fundPoolPkey, programId, FUND_POOL_ID, size, 
+            (res : boolean | Error) =>  {
+
+                if (res instanceof Error){
+        
+                    completionHandler(res);
+                    setLoading(false);
+        
+                }
+                else {
+        
+                    completionHandler(true);
+                    setLoading(false);        
+                }
+        
+            });
+        }
+        else {
+
+            completionHandler(true);
+            setLoading(false);        
+    
+        }
+    }
+
+
+    
+
+    async function createFundPool(token_count : number, lamports : number,
+        is_finalized : boolean, completionHandler : (result : boolean | Error) => void) {
+
+        if (!publicKey){
+            completionHandler(new Error("No wallet connected"));
+            return; 
+        }
+
+        setLoading(true);
+
+        // use a random address first 
+
+        let fundPoolPkey = await fundPoolIdPubKey();
+
+        
+        let acc = await connection.getAccountInfo(fundPoolPkey);
+          
+
+        let data = SolUtil.createBuffer(new Uint8Array(0),ACTION_CREATE,MODULE_FUND_POOL);
+
+        if (acc != null ){
+
+            let accounts : Array<web3.AccountMeta> = [
+
+                { pubkey: fundPoolPkey, isSigner: false, isWritable: true },
+                { pubkey: publicKey, isSigner: true, isWritable: false },
+             
+            ];
+
+            sendIns(accounts, programId, data, (res : string | Error) =>  {
+
+                if (res instanceof Error){
+        
+                    completionHandler(res);
+                    setLoading(false);
+        
+                }
+                else {
+        
+                    console.log("Completed!", res);
+                    completionHandler(true);
+                    setLoading(false);        
+                }
+        
+            });
+
+        }
+        else {
+
+            completionHandler(new Error("No pool market account"));
+            setLoading(false);
+       
+        }
+    }
+
+    
+
+    return [createFundPoolAccount, createFundPool, loading] as const;
+   
+}
