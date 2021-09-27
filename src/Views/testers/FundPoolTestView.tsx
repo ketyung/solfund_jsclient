@@ -4,6 +4,9 @@ import useFundPool from '../../Hooks/useFundPool';
 import { Button, Spin, Modal } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../Wallet";
+import { Form, Input, Radio } from 'antd';
+
+
 
 export const FundPoolTesterView : React.FC = () => {
 
@@ -11,6 +14,8 @@ export const FundPoolTesterView : React.FC = () => {
     const [createFundPoolAccount, createFundPool, loading] = useFundPool();
 
     const [modelPresented, setModalPresented] = useState(false);
+
+    const [requiredMark, setRequiredMarkType] = useState('optional');
 
     const completion = (res : boolean | Error) =>  {
 
@@ -53,7 +58,26 @@ export const FundPoolTesterView : React.FC = () => {
           okButtonProps={{ disabled: true }}
           cancelButtonProps={{ disabled: false }}>
        
-       
+        <Form layout="vertical">
+
+            <Form.Item label="Number of tokens" required tooltip="This is a required field">
+                <Input placeholder="number of tokens" />
+            </Form.Item>
+        
+            <Form.Item label="Amount In SOL" required tooltip="This is a required field">
+                <Input placeholder="amount in SOL" />
+            </Form.Item>
+
+            <Form.Item label="Is Finalized?" name="requiredMarkValue">
+            <Radio.Group>
+              <Radio.Button value="no">No</Radio.Button>
+              <Radio.Button value="yes">Yes</Radio.Button>
+            </Radio.Group>
+            </Form.Item>
+
+        </Form>
+
+
        </Modal>
 
     </div>;
