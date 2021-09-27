@@ -1,0 +1,36 @@
+.iconChooser {
+
+    min-height:400px;
+    width: 100%;
+    padding:10px;
+    margin:10px;
+    background-color: aliceblue;
+    text-align: center;
+}
+
+.divFloat {
+
+    text-align: center;
+    width: 18%;
+    float:left;
+    padding:10px;
+    margin:10px;
+    display:block;
+    background:#abc;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.divBreak {
+
+    text-align: center;
+    width: 18%;
+    float:left;
+    padding:10px;
+    margin:10px;
+    display:block;
+    clear:both;
+    background:#abc;
+    border-radius: 10px;
+    cursor: pointer;    
+}
