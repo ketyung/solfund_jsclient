@@ -54,7 +54,7 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
 
         offset += pkbytes.length; 
 
-        let lbytes = num_to_byte_array(lamports);
+        let lbytes = num_to_u64(lamports);
 
         for (var r=0; r < lbytes.length; r++){
 
@@ -64,7 +64,7 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
         offset += lbytes.length; 
 
 
-        let tbytes = num_to_byte_array(token_count);
+        let tbytes = num_to_u64(token_count);
 
         for (var r=0; r < tbytes.length; r++){
 
@@ -79,7 +79,7 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
 
 }
 
-export const num_to_byte_array = (num : number)  => {
+export const num_to_u64 = (num : number)  => {
    
     var byteArray = [0, 0, 0, 0, 0, 0, 0, 0];
 
