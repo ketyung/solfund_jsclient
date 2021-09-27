@@ -21,6 +21,11 @@ export const FundPoolTestView : React.FC = () => {
 
     const [selectedIcon, setSelectedIcon] = useState(0);
 
+    const setSelected = (selected : number) => {
+
+        setSelectedIcon(selected);
+        setIconModalPresented(false);
+    }
 
     const completion = (res : boolean | Error) =>  {
 
@@ -94,7 +99,7 @@ export const FundPoolTestView : React.FC = () => {
                     okButtonProps={{ disabled: true }}
                     cancelButtonProps={{ disabled: false }}>
 
-                <IconChooser selectedIcon={selectedIcon} presented={iconModalPresented} />
+                <IconChooser selectedIcon={selectedIcon} setSelected={setSelected} />
                 
             </Modal>
 

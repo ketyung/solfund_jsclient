@@ -21,6 +21,11 @@
     cursor: pointer;
 }
 
+.divFloat:hover {
+
+    background-color:#ddd;
+}
+
 .divBreak {
 
     text-align: center;
@@ -33,4 +38,10 @@
     background:#abc;
     border-radius: 10px;
     cursor: pointer;    
+}
+
+
+.divBreak:hover {
+
+    background-color:#ddd;
 }
