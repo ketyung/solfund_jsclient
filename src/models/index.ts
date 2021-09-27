@@ -90,6 +90,10 @@ export const num_to_u64 = (num : number)  => {
     }
 
     return byteArray;
+    
+    //return new Uint8Array(num);
+
+
 };
 
 
