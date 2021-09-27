@@ -2,7 +2,7 @@ import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
-
+import { create_fund_pool } from '../models';
 
 export default function useFundPool(){
 
@@ -34,7 +34,7 @@ export default function useFundPool(){
 
         setLoading(true);
 
-        let size : number  = 194 + (80 * 100) + (80 *100); // hard-coded first 
+        let size : number  = 82 + (80 * 100) + (80 *100); // hard-coded first 
 
         let fundPoolPkey = await fundPoolIdPubKey();
 
@@ -70,7 +70,7 @@ export default function useFundPool(){
 
     
 
-    async function createFundPool(token_count : number, lamports : number,
+    async function createFundPool(lamports : number, token_count : number, 
         is_finalized : boolean, completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
@@ -87,8 +87,9 @@ export default function useFundPool(){
         
         let acc = await connection.getAccountInfo(fundPoolPkey);
           
+        let fund_pool_array : Uint8Array = create_fund_pool(publicKey, lamports, token_count, is_finalized);
 
-        let data = SolUtil.createBuffer(new Uint8Array(0),ACTION_CREATE,MODULE_FUND_POOL);
+        let data = SolUtil.createBuffer(fund_pool_array,ACTION_CREATE,MODULE_FUND_POOL);
 
         if (acc != null ){
 

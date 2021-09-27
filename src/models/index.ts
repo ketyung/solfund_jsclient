@@ -52,8 +52,30 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
             newInsArray[offset+r] = pkbytes[r];
         }
 
+        offset += pkbytes.length; 
+
         let lbytes = num_to_byte_array(lamports);
-        
+
+        for (var r=0; r < lbytes.length; r++){
+
+            newInsArray[offset+r] = lbytes[r];
+        }
+
+        offset += lbytes.length; 
+
+
+        let tbytes = num_to_byte_array(token_count);
+
+        for (var r=0; r < tbytes.length; r++){
+
+            newInsArray[offset+r] = tbytes[r];
+        }
+
+        offset += tbytes.length; 
+
+        newInsArray[offset] = is_finalized ? 1 : 0;
+
+        return newInsArray;
 
 }
 
