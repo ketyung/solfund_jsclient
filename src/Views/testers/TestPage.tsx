@@ -3,7 +3,9 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {getPhantomWallet,getSolflareWallet,getSolletWallet} from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
-import { PoolMarketTestView } from './PoolMarketTestView';
+//import { PoolMarketTestView } from './PoolMarketTestView';
+
+import { FundPoolTestView } from './FundPoolTestView';
 
 export const TestPage : React.FC = () => {
 
@@ -21,7 +23,7 @@ export const TestPage : React.FC = () => {
     return <div>
         <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
-        <PoolMarketTestView/>
+        <FundPoolTestView/>
         </WalletProvider>
         </ConnectionProvider>
     </div>

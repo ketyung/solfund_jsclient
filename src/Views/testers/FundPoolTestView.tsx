@@ -5,10 +5,11 @@ import { Button, Spin, Modal } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../Wallet";
 import { Form, Input, Radio } from 'antd';
+import './css/common.css';
 
 
 
-export const FundPoolTesterView : React.FC = () => {
+export const FundPoolTestView : React.FC = () => {
 
 
     const [createFundPoolAccount, createFundPool, loading] = useFundPool();
