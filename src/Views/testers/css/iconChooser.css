@@ -1,6 +1,8 @@
 .iconChooser {
 
-    min-height:400px;
+    min-height:300px;
+    max-height:400px;
+    overflow: auto;
     width: 100%;
     padding:10px;
     margin:10px;
@@ -23,7 +25,7 @@
 
 .divFloat:hover {
 
-    background-color:#ddd;
+    background-color:#ad2;
 }
 
 .divBreak {
@@ -43,5 +45,5 @@
 
 .divBreak:hover {
 
-    background-color:#ddd;
+    background-color:#ad2;
 }
