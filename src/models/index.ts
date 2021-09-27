@@ -52,9 +52,23 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
             newInsArray[offset+r] = pkbytes[r];
         }
 
-        //let lbytes = 
+        let lbytes = num_to_byte_array(lamports);
+        
 
 }
+
+export const num_to_byte_array = (num : number)  => {
+   
+    var byteArray = [0, 0, 0, 0, 0, 0, 0, 0];
+
+    for ( var index = 0; index < byteArray.length; index ++ ) {
+        var byte = num & 0xff;
+        byteArray [ index ] = byte;
+        num = (num - byte) / 256 ;
+    }
+
+    return byteArray;
+};
 
 
 export class PoolMarket {
