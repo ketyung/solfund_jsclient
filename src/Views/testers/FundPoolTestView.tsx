@@ -101,8 +101,7 @@ export const FundPoolTestView : React.FC = () => {
           cancelButtonProps={{ disabled: false }}>
        
           <FundPoolForm setValuesOf={setValuesOf}/>
-
-
+          
        </Modal>
 
     </div>;
