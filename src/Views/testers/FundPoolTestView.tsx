@@ -73,6 +73,7 @@ export const FundPoolTestView : React.FC = () => {
           visible={modalPresented}
           onOk={()=>{
 
+                setModalPresented(false);
                 createFundPool(amount,tokenCount,finalized,selectedIcon, completion);
           }}
 
