@@ -6,21 +6,26 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import './css/Wallet.css';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Link } from 'wouter';
+import { Link, useRoute } from 'wouter';
 
 export const Wallet : React.FC = () => {
 
     const { publicKey } = useWallet();
 
+    const [matchHome] = useRoute("/");
+
+    const [matchPoolMarket] = useRoute("/poolmarket");
+
+
     return <div>
         <WalletModalProvider>
             <div className="walletBar">
-            <div className="topLink">
+            <div className={matchHome ? "topLinkSel" : "topLink"}>
                 <Link href="/">
                 <a className="link">Home</a>
                 </Link>
             </div>
-            <div className="topLink">
+            <div className={matchPoolMarket ? "topLinkSel" : "topLink"}>
                 <Link href="/poolmarket">
                 <a className="link">Pool Market</a>
                 </Link>
