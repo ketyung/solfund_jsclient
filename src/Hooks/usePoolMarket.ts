@@ -1,8 +1,10 @@
 import * as web3 from '@solana/web3.js';
 import {programId, MODULE_POOL_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
 import useSolana from './useSolana';
-import { SolUtil } from '../utils/SolUtil';
 import { extract_pool_market, PoolMarket } from '../models';
+
+export const POOL_MARKET_KEY = "9jGazEpw8agjChuRE5LPKv3HACtsm8fFcrgBcNquoTsz";
+
 
 export default function usePoolMarket(){
 
@@ -104,6 +106,6 @@ export default function usePoolMarket(){
 
 
 
-    return [createPoolMarketAccount, read, loading] as const;
+    return [createPoolMarketAccount, read, loading, poolMarketIdPubKey] as const;
    
 }

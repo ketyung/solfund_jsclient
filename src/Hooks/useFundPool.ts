@@ -3,6 +3,7 @@ import useSolana from './useSolana';
 import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_DELETE} from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
 import { create_fund_pool } from '../models';
+import { POOL_MARKET_KEY } from './usePoolMarket';
 
 export default function useFundPool(){
 
@@ -89,7 +90,8 @@ export default function useFundPool(){
     }
 
 
-    async function deleteFundPool (completionHandler : (result : boolean | Error) => void) {
+    async function deleteFundPool (manager_pool_account : web3.PublicKey | null, 
+        completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
             completionHandler(new Error("No wallet connected"));
@@ -109,9 +111,17 @@ export default function useFundPool(){
             let accounts : Array<web3.AccountMeta> = [
 
                 { pubkey: fundPoolPkey, isSigner: false, isWritable: true },
-                { pubkey: publicKey, isSigner: true, isWritable: false },
-             
             ];
+
+            if (manager_pool_account) {
+
+                accounts.push({ pubkey: manager_pool_account, isSigner: false, isWritable: true });
+            }
+
+            let mkey = new web3.PublicKey(POOL_MARKET_KEY);
+            accounts.push({ pubkey: mkey, isSigner: false, isWritable: true });
+
+            accounts.push({ pubkey: publicKey, isSigner: true, isWritable: false });
 
             sendIns(accounts, programId, data, (res : string | Error) =>  {
 
@@ -161,7 +171,7 @@ export default function useFundPool(){
         let fund_pool_array : Uint8Array = create_fund_pool(
             publicKey, lamports, token_count, is_finalized, icon);
 
-        console.log("fund_pool_array", fund_pool_array.length, fund_pool_array);
+       // console.log("fund_pool_array", fund_pool_array.length, fund_pool_array);
         
         let data = SolUtil.createBuffer(fund_pool_array,ACTION_CREATE,MODULE_FUND_POOL);
 
@@ -170,13 +180,15 @@ export default function useFundPool(){
             let accounts : Array<web3.AccountMeta> = [
 
                 { pubkey: fundPoolPkey, isSigner: false, isWritable: true },
-             
             ];
 
             if (manager_pool_account) {
 
                 accounts.push({ pubkey: manager_pool_account, isSigner: false, isWritable: true });
             }
+
+            let mkey = new web3.PublicKey(POOL_MARKET_KEY);
+            accounts.push({ pubkey: mkey, isSigner: false, isWritable: true });
 
             accounts.push({ pubkey: publicKey, isSigner: true, isWritable: false });
 

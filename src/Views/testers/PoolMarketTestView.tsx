@@ -9,7 +9,7 @@ import '../css/common.css';
 
 export const PoolMarketTestView : React.FC = () =>{
 
-    const [createPoolMarketAccount, read, loading] = usePoolMarket();
+    const [createPoolMarketAccount, read, loading, poolMarketIdPubKey] = usePoolMarket();
 
     const [poolMarket, setPoolMarket] = useState<PoolMarket>();
 
@@ -44,9 +44,11 @@ export const PoolMarketTestView : React.FC = () =>{
           }} >Create Pool Market Account</Button></p>
        
          
-          <p><Button className="commonButton" type="primary" onClick={()=>{
+          <p><Button className="commonButton" type="primary" onClick={async ()=>{
               
-              read("C558NqNps88Knx67etMkKDQBCyUQNttpz2QU2i3BnVWJ", 
+              let pkey = await poolMarketIdPubKey();
+
+              read(pkey.toBase58(), 
                 
                 (res : PoolMarket | Error) =>  {
 

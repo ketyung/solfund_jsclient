@@ -35,9 +35,10 @@ export const FundPoolTestView : React.FC = () => {
         setFinalized(is_finalized); 
     }
   
-    const onConfirm = ()=> {
+    const onConfirm = async ()=> {
 
-        deleteFundPool(completion);
+        let mp_acc = await managerPoolIdPubKey();
+        deleteFundPool(mp_acc, completion);
     }
 
 
