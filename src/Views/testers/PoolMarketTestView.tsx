@@ -5,7 +5,7 @@ import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../Wallet";
 import usePoolMarket from '../../Hooks/usePoolMarket';
 import { PoolMarket } from '../../models';
-import './css/common.css';
+import '../css/common.css';
 
 export const PoolMarketTestView : React.FC = () =>{
 
