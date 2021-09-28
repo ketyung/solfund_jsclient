@@ -64,6 +64,8 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
         setSelectedIcon(selected);
         setIconModalPresented(false);
+        setValuesOf(tokenCount, amount, finalized, selectedIcon);
+    
     }
 
     return <div>

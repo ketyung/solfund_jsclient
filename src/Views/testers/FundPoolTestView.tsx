@@ -14,12 +14,26 @@ export const FundPoolTestView : React.FC = () => {
 
     const [modalPresented, setModalPresented] = useState(false);
 
+    const [selectedIcon, setSelectedIcon] = useState(0);
+
+    const [tokenCount, setTokenCount] = useState(0);
+    
+    const [amount, setAmount] = useState(0);
+    
+    const [finalized, setFinalized] = useState(false);
+ 
+
     const setValuesOf = (token_count : number, amount : 
         number, is_finalized : boolean, icon : number ) => {
 
-        setModalPresented(false);   
+        setTokenCount(token_count);
+        setAmount(amount);
+        setSelectedIcon(icon);
+        setFinalized(is_finalized); 
     }
   
+
+
     const completion = (res : boolean | Error) =>  {
 
         if (res instanceof Error){
