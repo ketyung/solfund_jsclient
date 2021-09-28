@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import useFundPool from '../../Hooks/useFundPool';
+import useCounter from '../../Hooks/useCounter';
 import { Button, Spin, Modal,Popconfirm } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../Wallet";
@@ -11,6 +12,8 @@ export const FundPoolTestView : React.FC = () => {
 
 
     const [createFundPoolAccount, createFundPool, loading, read, deleteFundPool] = useFundPool();
+
+    const [createCounterAccount,,,counterIdPubKey] = useCounter(); 
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -60,6 +63,12 @@ export const FundPoolTestView : React.FC = () => {
 
           <p><Button className="commonButton" onClick={async ()=> {
               
+              createCounterAccount(completion);
+
+          }} >Create Counter Account</Button></p>
+       
+          <p><Button className="commonButton" onClick={async ()=> {
+              
               createFundPoolAccount(completion);
 
           }} >Create Fund Pool Account</Button></p>
@@ -91,9 +100,11 @@ export const FundPoolTestView : React.FC = () => {
        <Modal title="Create Fund Pool"
           style={{minWidth:"80%"}}
           visible={modalPresented}
-          onOk={()=>{
+          onOk={async ()=>{
                 setModalPresented(false);
-                createFundPool(amount,tokenCount,finalized,selectedIcon, completion);
+                let counter_acc = await counterIdPubKey();
+                createFundPool(amount,tokenCount,finalized,
+                selectedIcon, counter_acc,completion);
           }}
           onCancel={()=>{setModalPresented(false);}}
           okButtonProps={{ disabled: false }}
@@ -101,7 +112,7 @@ export const FundPoolTestView : React.FC = () => {
           cancelButtonProps={{ disabled: false }}>
        
           <FundPoolForm setValuesOf={setValuesOf}/>
-          
+
        </Modal>
 
     </div>;
