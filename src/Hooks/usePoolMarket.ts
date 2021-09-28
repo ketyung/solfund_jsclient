@@ -102,6 +102,11 @@ export default function usePoolMarket(){
             );
 
         }
+        else {
+
+            completionHandler( new Error("Specified Account NOT found!"));
+        }
+       
     }
 
 
