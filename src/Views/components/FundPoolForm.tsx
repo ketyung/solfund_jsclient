@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Image } from 'antd';
+import { Image, RadioChangeEvent } from 'antd';
 import { Form, Input, Radio, Button, Modal } from 'antd';
 import { IconChooser, ICONS } from './IconsChooser';
 
@@ -19,7 +19,46 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
     const [iconModalPresented, setIconModalPresented] = useState(false);
 
-    const [selectedIcon, setSelectedIcon] = useState(-1);
+    const [selectedIcon, setSelectedIcon] = useState(0);
+
+    const [tokenCount, setTokenCount] = useState(0);
+    
+    const [amount, setAmount] = useState(0);
+    
+    const [finalized, setFinalized] = useState(false);
+ 
+
+    const tokenCountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
+
+        let txt = e.currentTarget.value;
+
+        setTokenCount(parseInt(txt)); 
+        setValuesOf(tokenCount, amount, finalized, selectedIcon);
+      
+    };
+
+
+    const amountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
+
+        let txt = e.currentTarget.value;
+
+        setAmount(parseInt(txt));   
+        setValuesOf(tokenCount, amount, finalized, selectedIcon);
+          
+    };
+
+
+    const finalizedOnChange = (e: RadioChangeEvent): void => {
+
+        let txt = e.target.value;
+
+        let b = txt === "yes" ? true : false ;
+
+        setFinalized(b);
+        setValuesOf(tokenCount, amount, finalized, selectedIcon);
+       
+    };
+
 
     const setSelected = (selected : number) => {
 
@@ -31,15 +70,15 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     <Form layout="vertical">
 
     <Form.Item label="Number of tokens" required tooltip="This is a required field">
-        <Input placeholder="number of tokens" />
+        <Input placeholder="number of tokens"  onChange={tokenCountOnChange}/>
     </Form.Item>
 
     <Form.Item label="Amount In SOL" required tooltip="This is a required field">
-        <Input placeholder="amount in SOL" />
+        <Input placeholder="amount in SOL" onChange={amountOnChange}/>
     </Form.Item>
 
     <Form.Item label="Is Finalized?">
-    <Radio.Group>
+    <Radio.Group onChange={finalizedOnChange}>
       <Radio.Button value="no">No</Radio.Button>
       <Radio.Button value="yes">Yes</Radio.Button>
     </Radio.Group>
@@ -68,7 +107,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
             style={{minWidth:"60%"}}
             visible={iconModalPresented}
             onCancel={()=>{setIconModalPresented(false);}}
-            okButtonProps={{ disabled: true }}
+            okButtonProps={{ disabled:true }}
             cancelButtonProps={{ disabled: false }}>
 
         <IconChooser selectedIcon={selectedIcon} setSelected={setSelected} />
