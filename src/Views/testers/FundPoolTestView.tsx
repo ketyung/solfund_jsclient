@@ -10,7 +10,7 @@ import { FundPoolForm } from '../components/FundPoolForm';
 export const FundPoolTestView : React.FC = () => {
 
 
-    const [createFundPoolAccount, createFundPool, loading] = useFundPool();
+    const [createFundPoolAccount, createFundPool, loading, read] = useFundPool();
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -59,6 +59,12 @@ export const FundPoolTestView : React.FC = () => {
               createFundPoolAccount(completion);
 
           }} >Create Fund Pool Account</Button></p>
+       
+        <p><Button className="commonButton" onClick={async ()=> {
+              
+              read(null);
+
+          }} >Read Account</Button></p>
        
          <p><Button className="commonButton" danger onClick={async ()=> {
               

@@ -24,6 +24,27 @@ export default function useFundPool(){
 
     }
 
+
+    async function read(pubkey : null | string ){
+
+        setLoading(true);
+        
+        let fundPkey = pubkey ? new web3.PublicKey(pubkey) : await fundPoolIdPubKey();
+        let acc = await connection.getAccountInfo(fundPkey);
+        
+        console.log("marketPkey", fundPkey.toBase58());
+        
+        
+        if ( acc != null ){
+
+            console.log("acc.data", acc.data);
+            alert("Len of data ::" + acc.data.length);
+           
+        }
+        setLoading(false);
+    
+    }
+
     async function createFundPoolAccount( completionHandler : (result : boolean | Error) => void){
 
         if (!publicKey){
@@ -132,6 +153,6 @@ export default function useFundPool(){
 
     
 
-    return [createFundPoolAccount, createFundPool, loading] as const;
+    return [createFundPoolAccount, createFundPool, loading, read] as const;
    
 }
