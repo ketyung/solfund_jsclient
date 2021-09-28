@@ -1,6 +1,8 @@
 import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId} from './useSolana';
+import { extract_manager_pool, ManagerPool } from '../models';
+
 
 export default function useManagerPool(){
 
@@ -23,7 +25,8 @@ export default function useManagerPool(){
     }
 
 
-    async function read(pubkey : null | string ){
+    async function read(pubkey : null | string, 
+        completionHandler : (result : ManagerPool | Error) => void ){
 
         setLoading(true);
         
@@ -32,8 +35,24 @@ export default function useManagerPool(){
         
         if ( acc != null ){
 
-            console.log("acc.data", acc.data);
-            alert("Len of data ::" + acc.data.length);
+            extract_manager_pool(acc.data, 
+                (res : ManagerPool | Error) =>  {
+
+                    if (res instanceof Error){
+            
+                        setLoading(false);
+                        completionHandler(res);
+            
+                    }
+                    else {
+            
+                        setLoading(false);     
+                        completionHandler(res);   
+                    }
+            
+                }
+            );
+
            
         }
         setLoading(false);

@@ -37,6 +37,43 @@ export const extract_pool_market = (data : Uint8Array,
 }
 
 
+export const extract_manager_pool = (data : Uint8Array, 
+    completionHandler : (result : ManagerPool | Error) => void ) => {
+
+    //let pool_market = new PoolMarket();
+
+    let manager = data.slice(0 , 32);
+
+    let keys = data.slice(32, data.length - 32);
+    
+    let no_of_keys = keys.length / 32 ;
+
+    //console.log("keys.len", keys.length);
+
+    var validPkeys : Array<web3.PublicKey> = [];
+
+    for (var r =0; r < no_of_keys; r++){
+
+        let offset = r * 32 ;
+        let key_arr = keys.slice(offset, offset + 32);
+        let pkey = new web3.PublicKey(key_arr);
+
+        if ( pkey.toBase58() !== web3.PublicKey.default.toBase58()){
+
+            validPkeys.push(pkey);
+        }
+    }
+
+    let mgrKey =  new web3.PublicKey(manager);
+
+    
+    let m =  new  ManagerPool( { manager : mgrKey , addresses: validPkeys } );
+    completionHandler(m);
+
+}
+
+
+
 export const create_fund_pool = (manager : web3.PublicKey, lamports : number, token_count : number, 
     is_finalized : boolean, icon : number) => {
 
@@ -121,7 +158,6 @@ export const num_to_u16 = (num : number)  => {
 
 export class PoolMarket {
 
-
     pool_size : number = 0 ;
 
     fund_pools : Array<web3.PublicKey> = [];
@@ -133,6 +169,24 @@ export class PoolMarket {
 
             this.pool_size = pool_market.pool_size;
             this.fund_pools = pool_market.fund_pools;
+        }
+    }
+}
+
+
+export class ManagerPool {
+
+    manager : web3.PublicKey = web3.PublicKey.default ;
+
+    addresses : Array<web3.PublicKey> = [];
+
+
+    constructor ( pool : {manager : web3.PublicKey, addresses  :  Array<web3.PublicKey>}) {
+    
+        if (pool) {
+
+            this.manager = pool.manager;
+            this.addresses = pool.addresses;
         }
     }
 }
