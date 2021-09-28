@@ -9,7 +9,7 @@ import './css/common.css';
 
 export const PoolMarketTestView : React.FC = () =>{
 
-    const [createPoolMarketAccount, createPoolMarket, registreAddress, read, loading] = usePoolMarket();
+    const [createPoolMarketAccount, read, loading] = usePoolMarket();
 
     const [poolMarket, setPoolMarket] = useState<PoolMarket>();
 
@@ -43,27 +43,7 @@ export const PoolMarketTestView : React.FC = () =>{
 
           }} >Create Pool Market Account</Button></p>
        
-          <p><Button className="commonButton" block onClick={()=>{
-              
-              createPoolMarket(completion2);
-
-          }} >Create Pool Market</Button></p>
-
-          <p><Button className="commonButton" type="primary" onClick={()=>{
-              
-              registreAddress(null, completion2);
-
-          }} >Register Random Address</Button></p>
-
-          <p><Button className="commonButton" style={{height:"70px"}} type="primary" onClick={()=>{
-              
-              registreAddress("C558NqNps88Knx67etMkKDQBCyUQNttpz2QU2i3BnVWJ", completion2);
-
-          }} >Register Random Address With<br/> 
-          C558NqNps88Knx67etMkKDQBCyUQNttpz2QU2i3BnVWJ</Button></p>
-
-
-        
+         
           <p><Button className="commonButton" type="primary" onClick={()=>{
               
               read("C558NqNps88Knx67etMkKDQBCyUQNttpz2QU2i3BnVWJ", 

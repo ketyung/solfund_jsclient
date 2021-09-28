@@ -2,13 +2,13 @@ import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId} from './useSolana';
 
-export default function useCounter(){
+export default function useManagerPool(){
 
     const [connection, publicKey, , createAccount, loading, setLoading] = useSolana();
 
-    const ID : string = "_COUNTER";
+    const ID : string = "__MANAGER_POOL";
 
-    async function counterIdPubKey() : Promise<web3.PublicKey> {
+    async function managerPoolIdPubKey() : Promise<web3.PublicKey> {
 
         if ( !publicKey) {
 
@@ -27,11 +27,8 @@ export default function useCounter(){
 
         setLoading(true);
         
-        let counterPKey = pubkey ? new web3.PublicKey(pubkey) : await counterIdPubKey();
-        let acc = await connection.getAccountInfo(counterPKey);
-        
-        console.log("Pkey", counterPKey.toBase58());
-        
+        let managerPoolPKey = pubkey ? new web3.PublicKey(pubkey) : await managerPoolIdPubKey();
+        let acc = await connection.getAccountInfo(managerPoolPKey);
         
         if ( acc != null ){
 
@@ -43,7 +40,7 @@ export default function useCounter(){
     
     }
 
-    async function createCounterAccount( completionHandler : (result : boolean | Error) => void){
+    async function createManagerPoolAccount( completionHandler : (result : boolean | Error) => void){
 
         if (!publicKey){
             completionHandler(new Error("No wallet connected"));
@@ -55,13 +52,13 @@ export default function useCounter(){
 
         let size : number  = 2; // hard-coded first 
 
-        let CounterPkey = await counterIdPubKey();
+        let managerPoolPKey = await managerPoolIdPubKey();
 
-        let acc = await connection.getAccountInfo(CounterPkey);
+        let acc = await connection.getAccountInfo(managerPoolPKey);
         // create only when it's null
         if ( acc == null ){
 
-            await createAccount(publicKey, publicKey, CounterPkey, programId, ID, size, 
+            await createAccount(publicKey, publicKey, managerPoolPKey, programId, ID, size, 
             (res : boolean | Error) =>  {
 
                 if (res instanceof Error){
@@ -89,6 +86,6 @@ export default function useCounter(){
 
     
 
-    return [createCounterAccount, loading, read, counterIdPubKey] as const;
+    return [createManagerPoolAccount, loading, read, managerPoolIdPubKey] as const;
    
 }

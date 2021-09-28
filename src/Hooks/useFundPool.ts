@@ -8,7 +8,7 @@ export default function useFundPool(){
 
     const [connection, publicKey,  sendIns, createAccount, loading, setLoading] = useSolana();
 
-    const FUND_POOL_ID : string = "_FUND_POOL";
+    const ID : string = "__FUND_POOL";
 
     async function fundPoolIdPubKey() : Promise<web3.PublicKey> {
 
@@ -16,11 +16,11 @@ export default function useFundPool(){
 
             let kp = web3.Keypair.generate();
 
-            return await web3.PublicKey.createWithSeed( kp.publicKey, FUND_POOL_ID, programId);
+            return await web3.PublicKey.createWithSeed( kp.publicKey, ID, programId);
 
         }
 
-        return await web3.PublicKey.createWithSeed(publicKey, FUND_POOL_ID, programId);
+        return await web3.PublicKey.createWithSeed(publicKey, ID, programId);
 
     }
 
@@ -63,7 +63,7 @@ export default function useFundPool(){
         // create only when it's null
         if ( acc == null ){
 
-            await createAccount(publicKey, publicKey, fundPoolPkey, programId, FUND_POOL_ID, size, 
+            await createAccount(publicKey, publicKey, fundPoolPkey, programId, ID, size, 
             (res : boolean | Error) =>  {
 
                 if (res instanceof Error){
