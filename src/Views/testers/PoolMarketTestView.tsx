@@ -6,10 +6,11 @@ import { Wallet } from "../components/Wallet";
 import usePoolMarket from '../../Hooks/usePoolMarket';
 import { PoolMarket } from '../../models';
 import '../css/common.css';
+import { POOL_MARKET_KEY } from '../../Hooks/usePoolMarket';
 
 export const PoolMarketTestView : React.FC = () =>{
 
-    const [createPoolMarketAccount, read, loading, poolMarketIdPubKey] = usePoolMarket();
+    const [createPoolMarketAccount, read, loading] = usePoolMarket();
 
     const [poolMarket, setPoolMarket] = useState<PoolMarket>();
 
@@ -44,11 +45,10 @@ export const PoolMarketTestView : React.FC = () =>{
           }} >Create Pool Market Account</Button></p>
        
          
-          <p><Button className="commonButton" type="primary" onClick={async ()=>{
+          <p><Button className="commonButton" type="primary" onClick={()=>{
               
-              let pkey = await poolMarketIdPubKey();
-
-              read(pkey.toBase58(), 
+             
+              read(POOL_MARKET_KEY, 
                 
                 (res : PoolMarket | Error) =>  {
 
