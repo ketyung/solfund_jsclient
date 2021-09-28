@@ -7,15 +7,18 @@ import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../components/Wallet";
 import '../css/common.css';
 import { FundPoolForm } from '../components/FundPoolForm';
+import { ManagerPool } from '../../models';
 
 export const FundPoolTestView : React.FC = () => {
 
 
     const [createFundPoolAccount, createFundPool, loading, read, deleteFundPool] = useFundPool();
 
-    const [createManagerPoolAccount,,,managerPoolIdPubKey] = useManagerPool(); 
+    const [createManagerPoolAccount,,readMgp,managerPoolIdPubKey] = useManagerPool(); 
 
     const [modalPresented, setModalPresented] = useState(false);
+
+    const [mgpPresented, setMgpPresented] = useState(false);
 
     const [selectedIcon, setSelectedIcon] = useState(0);
 
@@ -25,6 +28,8 @@ export const FundPoolTestView : React.FC = () => {
     
     const [finalized, setFinalized] = useState(false);
  
+    const [pool, setPool] = useState<ManagerPool>();
+
 
     const setValuesOf = (token_count : number, amount : 
         number, is_finalized : boolean, icon : number ) => {
@@ -67,6 +72,27 @@ export const FundPoolTestView : React.FC = () => {
               createManagerPoolAccount(completion);
 
           }} >Create Manager Pool Account</Button></p>
+
+        <p><Button className="commonButton" type="primary" onClick={async ()=>{
+              
+             let pk = await managerPoolIdPubKey();
+              readMgp(pk.toBase58(), (res : ManagerPool | Error) =>  {
+
+                    if (res instanceof Error){
+            
+                        error((res as Error).message, 5 );
+                        setMgpPresented(false);
+                    }
+                    else {
+            
+                        setPool(res);
+                        setMgpPresented(true);
+                    }
+            
+                }
+            );
+
+          }} >Read Manager Pool's Data</Button></p>
        
           <p><Button className="commonButton" onClick={async ()=> {
               
@@ -115,6 +141,31 @@ export const FundPoolTestView : React.FC = () => {
           <FundPoolForm setValuesOf={setValuesOf}/>
 
        </Modal>
+
+       <Modal title={"Registered Addresses : " + pool?.addresses.length }
+          style={{minWidth:"80%"}}
+          visible={mgpPresented}
+          onCancel={()=>{
+
+            setMgpPresented(false);
+
+          }}
+
+          okButtonProps={{ disabled: true }}
+          cancelButtonProps={{ disabled: false }}>
+          {
+
+            pool?.addresses.map (( address , index) => {
+
+                return <div style={{textAlign: "justify", margin:"10px"}}>
+                {index + 1}. {address.toBase58()}
+                </div>;
+
+            })
+        }
+
+        </Modal>
+      
 
     </div>;
 

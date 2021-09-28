@@ -25,7 +25,7 @@ export default function useManagerPool(){
     }
 
 
-    async function read(pubkey : null | string, 
+    async function readMgp(pubkey : null | string, 
         completionHandler : (result : ManagerPool | Error) => void ){
 
         setLoading(true);
@@ -53,7 +53,10 @@ export default function useManagerPool(){
                 }
             );
 
-           
+        }
+        else {
+
+            completionHandler( new Error("Specified Account NOT found!"));
         }
         setLoading(false);
     
@@ -105,6 +108,6 @@ export default function useManagerPool(){
 
     
 
-    return [createManagerPoolAccount, loading, read, managerPoolIdPubKey] as const;
+    return [createManagerPoolAccount, loading, readMgp, managerPoolIdPubKey] as const;
    
 }
