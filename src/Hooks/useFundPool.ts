@@ -142,7 +142,7 @@ export default function useFundPool(){
     
 
     async function createFundPool(lamports : number, token_count : number, 
-        is_finalized : boolean, icon : number, counter_account : web3.PublicKey | null, 
+        is_finalized : boolean, icon : number, manager_pool_account : web3.PublicKey | null, 
          completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
@@ -173,9 +173,9 @@ export default function useFundPool(){
              
             ];
 
-            if (counter_account) {
+            if (manager_pool_account) {
 
-                accounts.push({ pubkey: counter_account, isSigner: false, isWritable: true });
+                accounts.push({ pubkey: manager_pool_account, isSigner: false, isWritable: true });
             }
 
             accounts.push({ pubkey: publicKey, isSigner: true, isWritable: false });
