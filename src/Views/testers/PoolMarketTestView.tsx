@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import { Button, Spin, Modal } from 'antd';
 import { success,error } from '../../utils/Mesg';
-import { Wallet } from "../Wallet";
+import { Wallet } from "../components/Wallet";
 import usePoolMarket from '../../Hooks/usePoolMarket';
 import { PoolMarket } from '../../models';
 import '../css/common.css';

@@ -4,7 +4,7 @@ import useFundPool from '../../Hooks/useFundPool';
 import useManagerPool from '../../Hooks/useManagerPool';
 import { Button, Spin, Modal,Popconfirm } from 'antd';
 import { success,error } from '../../utils/Mesg';
-import { Wallet } from "../Wallet";
+import { Wallet } from "../components/Wallet";
 import '../css/common.css';
 import { FundPoolForm } from '../components/FundPoolForm';
 
