@@ -1,31 +1,31 @@
 .walletBar {
 
-    width:98%;
+    width:100%;
     padding:0px 5px 20px 5px;
     text-align: right;
-    margin:10px;
-    background:#358;
+    margin:1px auto;
+    background:#235;
     height:50px;
 }
 
 .topLink {
     float:left;
-    margin:7px 10px;
+    margin:7px 20px 10px;
     padding:5px;
     min-width: 100px;
     text-align: center;
-    background:#889;
-    border-radius: 10px;
+    background:#445;
+    border-radius: 6px;
 }
 
 .topLinkSel {
     float:left;
-    margin:7px 10px;
+    margin:7px 20px 10px;
     padding:5px;
     min-width: 100px;
     text-align: center;
-    background:rgb(9, 119, 104);
-    border-radius: 10px;
+    background: #67d;
+    border-radius: 6px;
 }
 
 
@@ -33,7 +33,7 @@
 
     color: white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-weight: 300;
+    font-weight: 700;
 }
 
 .walletButton {
