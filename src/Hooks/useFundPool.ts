@@ -8,7 +8,7 @@ export default function useFundPool(){
 
     const [connection, publicKey,  sendIns, createAccount, loading, setLoading] = useSolana();
 
-    const FUND_POOL_ID : string = "FUND_POOL";
+    const FUND_POOL_ID : string = "_FUND_POOL";
 
     async function fundPoolIdPubKey() : Promise<web3.PublicKey> {
 
@@ -55,7 +55,7 @@ export default function useFundPool(){
 
         setLoading(true);
 
-        let size : number  = 84 + (80 * 100) + (80 *100); // hard-coded first 
+        let size : number  = 84 + (80 * 100) + (80 *100) + 2; // hard-coded first 
 
         let fundPoolPkey = await fundPoolIdPubKey();
 
