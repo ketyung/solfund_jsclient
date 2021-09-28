@@ -45,7 +45,7 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
        
         const pkbytes = manager.toBytes();
 
-        var offset = 2; 
+        var offset = 0; 
 
         for (var r=0; r < pkbytes.length; r++){
 
