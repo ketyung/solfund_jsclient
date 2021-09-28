@@ -71,8 +71,13 @@ export const FundPoolTestView : React.FC = () => {
        <Modal title="Create Fund Pool"
           style={{minWidth:"80%"}}
           visible={modalPresented}
+          onOk={()=>{
+
+                createFundPool(amount,tokenCount,finalized,selectedIcon, completion);
+          }}
+
           onCancel={()=>{setModalPresented(false);}}
-          okButtonProps={{ disabled: true }}
+          okButtonProps={{ disabled: false }}
           cancelButtonProps={{ disabled: false }}>
        
           <FundPoolForm setValuesOf={setValuesOf}/>
