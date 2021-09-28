@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import useFundPool from '../../Hooks/useFundPool';
-import { Button, Spin, Modal } from 'antd';
+import { Button, Spin, Modal,Popconfirm } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../Wallet";
 import '../css/common.css';
@@ -10,7 +10,7 @@ import { FundPoolForm } from '../components/FundPoolForm';
 export const FundPoolTestView : React.FC = () => {
 
 
-    const [createFundPoolAccount, createFundPool, loading, read] = useFundPool();
+    const [createFundPoolAccount, createFundPool, loading, read, deleteFundPool] = useFundPool();
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -32,6 +32,10 @@ export const FundPoolTestView : React.FC = () => {
         setFinalized(is_finalized); 
     }
   
+    const onConfirm = ()=> {
+
+        deleteFundPool(completion);
+    }
 
 
     const completion = (res : boolean | Error) =>  {
@@ -54,7 +58,7 @@ export const FundPoolTestView : React.FC = () => {
           <br/>
           <div style={{display: loading ? "block" : "none", margin : "10px"}}><Spin size="large"/></div>
 
-          <p><Button className="commonButton" danger onClick={async ()=> {
+          <p><Button className="commonButton" onClick={async ()=> {
               
               createFundPoolAccount(completion);
 
@@ -73,6 +77,16 @@ export const FundPoolTestView : React.FC = () => {
           }} >Create Fund Pool</Button></p>
        
 
+         <p>
+         <Popconfirm
+            title="Are you sure to delete this?"
+            onConfirm={onConfirm}   
+            okText="Yes"
+            cancelText="No">
+             <Button className="commonButton" danger>Delete Fund Pool</Button>
+        </Popconfirm>     
+        </p>
+       
 
        <Modal title="Create Fund Pool"
           style={{minWidth:"80%"}}

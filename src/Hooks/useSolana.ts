@@ -13,6 +13,8 @@ export const ACTION_CREATE : number = 1;
 
 export const ACTION_UPDATE : number = 2;
 
+export const ACTION_DELETE : number = 44;
+
 export const ACTION_REGISTER_ADDR : number = 3;
 
 export const ACTION_REMOVE_ADDR : number = 4;

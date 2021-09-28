@@ -1,6 +1,6 @@
 import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
-import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
+import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_DELETE} from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
 import { create_fund_pool } from '../models';
 
@@ -89,6 +89,56 @@ export default function useFundPool(){
     }
 
 
+    async function deleteFundPool (completionHandler : (result : boolean | Error) => void) {
+
+        if (!publicKey){
+            completionHandler(new Error("No wallet connected"));
+            return; 
+        }
+
+        setLoading(true);
+
+        let fundPoolPkey = await fundPoolIdPubKey();
+ 
+        let acc = await connection.getAccountInfo(fundPoolPkey);
+       
+        let data = SolUtil.createBuffer(new Uint8Array(0),ACTION_DELETE,MODULE_FUND_POOL);
+
+        if (acc != null ){
+
+            let accounts : Array<web3.AccountMeta> = [
+
+                { pubkey: fundPoolPkey, isSigner: false, isWritable: true },
+                { pubkey: publicKey, isSigner: true, isWritable: false },
+             
+            ];
+
+            sendIns(accounts, programId, data, (res : string | Error) =>  {
+
+                if (res instanceof Error){
+        
+                    completionHandler(res);
+                    setLoading(false);
+        
+                }
+                else {
+        
+                    console.log("Completed!", res);
+                    completionHandler(true);
+                    setLoading(false);        
+                }
+        
+            });
+
+        }
+        else {
+
+            completionHandler(new Error("No pool market account"));
+            setLoading(false);
+       
+        }
+
+    }
     
 
     async function createFundPool(lamports : number, token_count : number, 
@@ -105,8 +155,7 @@ export default function useFundPool(){
         // use a random address first 
 
         let fundPoolPkey = await fundPoolIdPubKey();
-
-        
+ 
         let acc = await connection.getAccountInfo(fundPoolPkey);
           
         let fund_pool_array : Uint8Array = create_fund_pool(
@@ -153,6 +202,6 @@ export default function useFundPool(){
 
     
 
-    return [createFundPoolAccount, createFundPool, loading, read] as const;
+    return [createFundPoolAccount, createFundPool, loading, read, deleteFundPool] as const;
    
 }
