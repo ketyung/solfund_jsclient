@@ -8,6 +8,22 @@
     height:50px;
 }
 
+.topLink {
+    float:left;
+    margin:7px 10px;
+    padding:5px;
+    min-width: 100px;
+    text-align: center;
+    background:#333;
+    border-radius: 10px;
+}
+.topLink .link{
+
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 300;
+}
+
 .walletButton {
 
     min-width:160px;

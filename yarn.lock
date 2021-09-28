@@ -1670,19 +1670,15 @@
   resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-phantom/-/wallet-adapter-phantom-0.6.0.tgz#3b06ed7bb04fbcd72595a24c61600c64cc6640b3"
   integrity sha512-XXT1bYoGG/5kkoz7MljfZcsAVhQvfFlfST08ETCuOwzWWX/CKqxLWw72X6kVGjrvawKL0j3j/1eEegyTAmbwHw==
 
-"@solana/wallet-adapter-react-ui@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-react-ui/-/wallet-adapter-react-ui-0.4.1.tgz#cf8b4335acadace31632d88c6a713bd4007e214f"
-  integrity sha512-0BHvWf1IjmYl9EaniE9gGenMuXvk+v9hxXDMDn5c7BFQ1yYxznijp7nybRxYniYjWClY+8mZP9CZgeRbHvxR9A==
-  dependencies:
-    "@types/react" "^17.0.16"
+"@solana/wallet-adapter-react-ui@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-react-ui/-/wallet-adapter-react-ui-0.4.2.tgz#4837eec77cbe2f58728a04aad04c1cb02ef095fb"
+  integrity sha512-CyNZVemuFBZWsvjMrLmhkAaSXpNBUYdc0VtjCtbEx1J+F224n0oaDsFKjkq97ic13vjs7cSiiuqQZhQgn/Fv4w==
 
-"@solana/wallet-adapter-react@^0.12.1":
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-react/-/wallet-adapter-react-0.12.1.tgz#5bc7e83d7d23c14156ee8a15e4a0af62d263fc73"
-  integrity sha512-3YPqGQJACRSOwMdBuFvPvqgewjlTOwGGiGo/SHyYW+Q7jiNvoAZDgJnfkOJ8uRVn7Zj4rfwCyElQ/2kUCBw0AA==
-  dependencies:
-    "@types/react" "^17.0.16"
+"@solana/wallet-adapter-react@^0.12.2":
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-react/-/wallet-adapter-react-0.12.2.tgz#1c50604219aff9c2916bf6da9ed8942ef8c08b73"
+  integrity sha512-g7s978ho9/Us8ope4+3Ayw5mG+YVlyU/dM7Y3Jrmkfwn7N635PaXIFVrQaVc5gVeYxMoq8fXquIdFMre/6uzmw==
 
 "@solana/wallet-adapter-safepal@^0.2.0":
   version "0.2.0"
@@ -1741,10 +1737,30 @@
     "@solana/wallet-adapter-solong" "^0.6.0"
     "@solana/wallet-adapter-torus" "^0.7.0"
 
-"@solana/web3.js@^1.22.0", "@solana/web3.js@^1.29.0":
+"@solana/web3.js@^1.22.0":
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.29.0.tgz#61cb40e2190f13ae8084d20012cb81f8fade78fa"
   integrity sha512-5427ZZ7l34xdf07EU6e/8IDQ0gr87lMAU+6UHGrlmOp+lhM39rwN6RmRoOiQYailH15TM5pM3YeQO8KZXEOMIA==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    "@solana/buffer-layout" "^3.0.0"
+    bn.js "^5.0.0"
+    borsh "^0.4.0"
+    bs58 "^4.0.1"
+    buffer "6.0.1"
+    cross-fetch "^3.1.4"
+    crypto-hash "^1.2.2"
+    jayson "^3.4.4"
+    js-sha3 "^0.8.0"
+    rpc-websockets "^7.4.2"
+    secp256k1 "^4.0.2"
+    superstruct "^0.14.2"
+    tweetnacl "^1.0.0"
+
+"@solana/web3.js@^1.29.1":
+  version "1.29.1"
+  resolved "https://registry.yarnpkg.com/@solana/web3.js/-/web3.js-1.29.1.tgz#b8dfcbba4a097a06aab6a1bd72be8cdff79c6230"
+  integrity sha512-cgYOec8pJaDZ0Wk8TmfA895JE0d6+05lY7/hq2RpEoKsT/d0bTPGhN2yUQmOew1meG60R1pIMoNc3yzBB5/MlQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@solana/buffer-layout" "^3.0.0"
@@ -2204,7 +2220,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.0", "@types/react@^17.0.16":
+"@types/react@*", "@types/react@^17.0.0":
   version "17.0.24"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.24.tgz#7e1b3f78d0fc53782543f9bce6d949959a5880bd"
   integrity sha512-eIpyco99gTH+FTI3J7Oi/OH8MZoFMJuztNRimDOJwH4iGIsKV2qkGnk4M9VzlaVWeEEWLWSQRy0FEA0Kz218cg==
@@ -12562,6 +12578,11 @@ worker-rpc@^0.1.0:
   integrity sha512-P1WjMrUB3qgJNI9jfmpZ/htmBEjFh//6l/5y8SD9hg1Ef5zTTVVoRjTrTEzPrNBQvmhMxkoTsjOXN10GWU7aCg==
   dependencies:
     microevent.ts "~0.1.1"
+
+wouter@^2.7.5:
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/wouter/-/wouter-2.7.5.tgz#c7466a2630bed3a4ec010aea0cda42a5bae69e5d"
+  integrity sha512-TOI9gD1wa7a8wW+lh3rjg0C+MjYGKMV3eC+++6D+7n1z36ZJIBPWe2G9Hs1jYNPsV7oKiPTI3UFC5TGhZjQfrQ==
 
 wrap-ansi@^5.1.0:
   version "5.1.0"
