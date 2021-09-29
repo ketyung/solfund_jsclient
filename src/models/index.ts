@@ -74,7 +74,7 @@ export const extract_manager_pool = (data : Uint8Array,
 
 
 
-export const create_fund_pool = (manager : web3.PublicKey, 
+export const createFundPoolBytes = (manager : web3.PublicKey, 
     address : web3.PublicKey, 
     lamports : number, token_count : number, 
     is_finalized : boolean, icon : number) => {
