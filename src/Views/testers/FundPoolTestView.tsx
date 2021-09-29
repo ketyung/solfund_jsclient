@@ -96,7 +96,7 @@ export const FundPoolTestView : React.FC = () => {
        
           <p><Button className="commonButton" onClick={async ()=> {
               
-              createFundPoolAccount(completion);
+              createFundPoolAccount(null, completion);
 
           }} >Create Fund Pool Account</Button></p>
        
@@ -131,7 +131,7 @@ export const FundPoolTestView : React.FC = () => {
                 setModalPresented(false);
                 let mp_acc = await managerPoolIdPubKey();
                 createFundPool(amount,tokenCount,finalized,
-                selectedIcon, mp_acc,completion);
+                selectedIcon, mp_acc,true, completion);
           }}
           onCancel={()=>{setModalPresented(false);}}
           okButtonProps={{ disabled: false }}

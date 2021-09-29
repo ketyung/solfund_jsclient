@@ -62,7 +62,7 @@ export default function useFundPool(){
     
     }
 
-    async function createFundPoolAccount( completionHandler : (result : boolean | Error) => void){
+    async function createFundPoolAccount( seed : string | null,  completionHandler : (result : boolean | Error) => void){
 
         if (!publicKey){
             completionHandler(new Error("No wallet connected"));
@@ -75,9 +75,9 @@ export default function useFundPool(){
         // 84 + (80 * FUND_POOL_INVESTOR_LIMIT) + (80 * FUND_POOL_WITHDRAWER_LIMIT)  + 2
         let size : number  = 84 + (80 * 100) + (80 *100) + 2; // hard-coded first 
 
-        genLastSeed();
+        if ( !seed ) genLastSeed();
 
-        let lastSeed = getStoredLastSeed();
+        let lastSeed = seed ? seed : getStoredLastSeed();
 
         let fundPoolPkey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
 
@@ -178,7 +178,7 @@ export default function useFundPool(){
     
 
     async function createFundPool(lamports : number, token_count : number, 
-        is_finalized : boolean, icon : number, managerPoolAccount : web3.PublicKey | null, 
+        is_finalized : boolean, icon : number, managerPoolAccount : web3.PublicKey | null, generateNew : boolean, 
          completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
@@ -189,6 +189,11 @@ export default function useFundPool(){
         setLoading(true);
 
         // use a random address first 
+
+        if (generateNew){
+
+            genLastSeed();
+        }
 
         let lastSeed = getStoredLastSeed();
 
@@ -210,7 +215,7 @@ export default function useFundPool(){
         else {
 
             // create account
-            createFundPoolAccount( (res : boolean | Error) =>  {
+            createFundPoolAccount(lastSeed, (res : boolean | Error) =>  {
 
                 if (res instanceof Error){
         
