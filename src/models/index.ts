@@ -74,11 +74,13 @@ export const extract_manager_pool = (data : Uint8Array,
 
 
 
-export const create_fund_pool = (manager : web3.PublicKey, lamports : number, token_count : number, 
+export const create_fund_pool = (manager : web3.PublicKey, 
+    address : web3.PublicKey, 
+    lamports : number, token_count : number, 
     is_finalized : boolean, icon : number) => {
 
         // manager,lamports, token_count,is_finalized
-        const newInsArray : Uint8Array = new Uint8Array(51);
+        const newInsArray : Uint8Array = new Uint8Array(83);
        
         const pkbytes = manager.toBytes();
 
@@ -90,6 +92,17 @@ export const create_fund_pool = (manager : web3.PublicKey, lamports : number, to
         }
 
         offset += pkbytes.length; 
+
+
+        const abytes = address.toBytes();
+
+        for (r=0; r < abytes.length; r++){
+
+            newInsArray[offset+r] = abytes[r];
+        }
+
+        offset += abytes.length; 
+
 
         let lbytes = num_to_u64(lamports);
 

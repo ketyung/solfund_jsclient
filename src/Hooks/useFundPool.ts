@@ -4,25 +4,35 @@ import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_DELETE} from './useSo
 import { SolUtil } from '../utils/SolUtil';
 import { create_fund_pool } from '../models';
 import { POOL_MARKET_KEY } from './usePoolMarket';
+import { useState, useEffect } from 'react';
 
+
+   
 export default function useFundPool(){
 
+   
     const [connection, publicKey,  sendIns, createAccount, loading, setLoading] = useSolana();
 
-    const ID : string = "__FUND_POOL";
+ 
+    function setStoredLastSeed(seed : string){
 
-    async function fundPoolIdPubKey() : Promise<web3.PublicKey> {
+        localStorage.setItem("storedLastSeed", seed);
 
-        if ( !publicKey) {
+    }
 
-            let kp = web3.Keypair.generate();
+    function getStoredLastSeed() : string {
 
-            return await web3.PublicKey.createWithSeed( kp.publicKey, ID, programId);
+        return localStorage.getItem("storedLastSeed") ?? "";
 
-        }
 
-        return await web3.PublicKey.createWithSeed(publicKey, ID, programId);
+    }
 
+    function genLastSeed()  {
+
+        let seed = "FP_"+ (Math.random() + 1).toString(36).substring(5) +
+        (Math.random() + 3).toString(36).substring(5);
+
+        setStoredLastSeed(seed);
     }
 
 
@@ -30,7 +40,9 @@ export default function useFundPool(){
 
         setLoading(true);
         
-        let fundPkey = pubkey ? new web3.PublicKey(pubkey) : await fundPoolIdPubKey();
+        let fundPkey = pubkey ? new web3.PublicKey(pubkey) :  new web3.PublicKey(
+            getStoredLastSeed());
+
         let acc = await connection.getAccountInfo(fundPkey);
         
         console.log("marketPkey", fundPkey.toBase58());
@@ -58,13 +70,20 @@ export default function useFundPool(){
 
         let size : number  = 84 + (80 * 100) + (80 *100) + 2; // hard-coded first 
 
-        let fundPoolPkey = await fundPoolIdPubKey();
+        genLastSeed();
+
+        let lastSeed = getStoredLastSeed();
+
+        let fundPoolPkey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
 
         let acc = await connection.getAccountInfo(fundPoolPkey);
         // create only when it's null
+
+        console.log("lastSeed@CreateAcc", lastSeed);
+
         if ( acc == null ){
 
-            await createAccount(publicKey, publicKey, fundPoolPkey, programId, ID, size, 
+            await createAccount(publicKey, publicKey, fundPoolPkey, programId, lastSeed, size, 
             (res : boolean | Error) =>  {
 
                 if (res instanceof Error){
@@ -100,7 +119,9 @@ export default function useFundPool(){
 
         setLoading(true);
 
-        let fundPoolPkey = await fundPoolIdPubKey();
+        let lastSeed = getStoredLastSeed();
+
+        let fundPoolPkey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
  
         let acc = await connection.getAccountInfo(fundPoolPkey);
        
@@ -164,14 +185,18 @@ export default function useFundPool(){
 
         // use a random address first 
 
-        let fundPoolPkey = await fundPoolIdPubKey();
+        let lastSeed = getStoredLastSeed();
+
+        console.log("lastSeed@createFundPool", lastSeed);
+
+        let fundPoolPkey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
  
         let acc = await connection.getAccountInfo(fundPoolPkey);
           
         let fund_pool_array : Uint8Array = create_fund_pool(
-            publicKey, lamports, token_count, is_finalized, icon);
+            publicKey, fundPoolPkey, lamports, token_count, is_finalized, icon);
 
-       // console.log("fund_pool_array", fund_pool_array.length, fund_pool_array);
+        //console.log("fund_pool_array", fund_pool_array.length, fund_pool_array);
         
         let data = SolUtil.createBuffer(fund_pool_array,ACTION_CREATE,MODULE_FUND_POOL);
 
