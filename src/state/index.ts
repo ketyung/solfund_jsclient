@@ -6,16 +6,20 @@ export const extract_pool_market = (data : Uint8Array,
     //let pool_market = new PoolMarket();
 
     let pool_size = data.slice(0 , 2);
+    
+    let a_pool_size = Buffer.from(pool_size).readUInt16LE(0);
+
+    //console.log("pool_size", a_pool_size);
 
     let keys = data.slice(2,data.length);
     
-    let no_of_keys = keys.length / 32 ;
+   // let no_of_keys = keys.length / 32 ;
 
     //console.log("keys.len", keys.length);
 
     var validPkeys : Array<web3.PublicKey> = [];
 
-    for (var r =0; r < no_of_keys; r++){
+    for (var r =0; r < a_pool_size; r++){
 
         let offset = r * 32 ;
         let key_arr = keys.slice(offset, offset + 32);
@@ -45,18 +49,20 @@ export const extract_manager_pool = (data : Uint8Array,
     
     let manager = data.slice(0 , 32);
 
-    //let num = data.slice(32, 33);
+    let num = data.slice(32, 33);
 
-    //let anum =  Buffer.from(num).readUInt8(0);
+    let anum =  Buffer.from(num).readUInt8(0);
+
+    console.log("anum", anum);
 
     let keys = data.slice(33, data.length);
     
-    let no_of_keys = keys.length / 32 ;
+    //let no_of_keys = keys.length / 32 ;
 
     
     var validPkeys : Array<web3.PublicKey> = [];
 
-    for (var r =0; r < no_of_keys; r++){
+    for (var r =0; r < anum ; r++){
 
         let offset = r * 32 ;
         let key_arr = keys.slice(offset, offset + 32);
@@ -79,6 +85,20 @@ export const extract_manager_pool = (data : Uint8Array,
 
 export const extract_fund_pool = (data : Uint8Array, 
     completionHandler : (result : ManagerPool | Error) => void ) => {
+
+    // let (is_initialized,manager, address, lamports, 
+    //  token_count,is_finalized, icon, invs_len, wds_len, invs_flat,wds_flat) =
+
+    // let is_initialized = Buffer.from( data.slice(0 , 1) ).readUInt8(0) == 1 ? true : false ;
+
+    let manager = new web3.PublicKey( data.slice(1, 33) );
+    let address = new web3.PublicKey (data.slice(33,66) );
+    let is_finalized = Buffer.from( data.slice(66 , 67) ).readUInt8(0) == 1 ? true : false ;
+    let icon = Buffer.from( data.slice(66 , 67) ).readUInt16LE(0);
+
+
+    
+
 
 }
 
@@ -208,6 +228,24 @@ export class ManagerPool {
 
             this.manager = pool.manager;
             this.addresses = pool.addresses;
+        }
+    }
+}
+
+
+export class FundPool {
+
+    manager : web3.PublicKey = web3.PublicKey.default ;
+
+    address : web3.PublicKey = web3.PublicKey.default ;
+
+
+    constructor ( pool : {manager : web3.PublicKey, address  : web3.PublicKey}) {
+    
+        if (pool) {
+
+            this.manager = pool.manager;
+            this.address = pool.address;
         }
     }
 }
