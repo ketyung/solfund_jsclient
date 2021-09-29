@@ -43,7 +43,7 @@ export const FundPoolTestView : React.FC = () => {
     const onConfirm = async ()=> {
 
         let mp_acc = await managerPoolIdPubKey();
-        deleteFundPool(mp_acc, completion);
+        deleteFundPool(null, mp_acc, completion);
     }
 
 

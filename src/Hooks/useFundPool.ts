@@ -114,7 +114,7 @@ export default function useFundPool(){
     }
 
 
-    async function deleteFundPool (managerPoolAccount : web3.PublicKey | null, 
+    async function deleteFundPool (seed : string | null, managerPoolAccount : web3.PublicKey | null, 
         completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
@@ -124,7 +124,7 @@ export default function useFundPool(){
 
         setLoading(true);
 
-        let lastSeed = getStoredLastSeed();
+        let lastSeed = seed ? seed : getStoredLastSeed();
 
         let fundPoolPkey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
  
