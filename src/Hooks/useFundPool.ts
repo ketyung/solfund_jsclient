@@ -26,10 +26,20 @@ export default function useFundPool(){
 
     function genLastSeed()  {
 
-        let seed = "FP_"+ (Math.random() + 1).toString(36).substring(5) +
-        (Math.random() + 3).toString(36).substring(5);
+        let seed = () => {
+            let s4 = () => {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return s4() + s4() + s4() + s4();
+        }
 
-        setStoredLastSeed(seed);
+        let seedStr = "FP_"+seed();
+
+        console.log("seedStr", seedStr);
+
+        setStoredLastSeed(seedStr);
     }
 
 
