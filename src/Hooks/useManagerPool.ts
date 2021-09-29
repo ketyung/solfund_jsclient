@@ -8,7 +8,7 @@ export default function useManagerPool(){
 
     const [connection, publicKey, , createAccount, loading, setLoading] = useSolana();
 
-    const ID : string = "__MANAGER_POOL";
+    const ID : string = "__MGR_POOL";
 
     async function managerPoolIdPubKey() : Promise<web3.PublicKey> {
 
