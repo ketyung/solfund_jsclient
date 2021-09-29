@@ -84,7 +84,7 @@ export default function useFundPool(){
         let acc = await connection.getAccountInfo(fundPoolPkey);
         // create only when it's null
 
-        console.log("lastSeed@CreateAcc", lastSeed);
+       // console.log("lastSeed@CreateAcc", lastSeed);
 
         if ( acc == null ){
 
@@ -197,7 +197,7 @@ export default function useFundPool(){
 
         let lastSeed = getStoredLastSeed();
 
-        console.log("lastSeed@createFundPool", lastSeed);
+     //   console.log("lastSeed@createFundPool", lastSeed);
 
         let fundPoolPkey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
  
