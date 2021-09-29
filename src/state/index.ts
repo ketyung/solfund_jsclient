@@ -84,7 +84,7 @@ export const extract_manager_pool = (data : Uint8Array,
 
 
 export const extract_fund_pool = (data : Uint8Array, 
-    completionHandler : (result : ManagerPool | Error) => void ) => {
+    completionHandler : (result : FundPool | Error) => void ) => {
 
     // let (is_initialized,manager, address, lamports, 
     //  token_count,is_finalized, icon, invs_len, wds_len, invs_flat,wds_flat) =
@@ -93,11 +93,21 @@ export const extract_fund_pool = (data : Uint8Array,
 
     let manager = new web3.PublicKey( data.slice(1, 33) );
     let address = new web3.PublicKey (data.slice(33,66) );
-    let is_finalized = Buffer.from( data.slice(66 , 67) ).readUInt8(0) == 1 ? true : false ;
-    let icon = Buffer.from( data.slice(66 , 67) ).readUInt16LE(0);
+    let lamports = Buffer.from ( data.slice(66, 74)).readBigUInt64LE(0);
+    let token_count = Buffer.from ( data.slice(74, 82)).readBigUInt64LE(0);
+
+    let is_finalized = Buffer.from( data.slice(82, 83) ).readUInt8(0) == 1 ? true : false ;
+    let icon = Buffer.from( data.slice(83 , 85) ).readUInt16LE(0);
 
 
-    
+    let f =  new  FundPool( { manager : manager, 
+        address: address,
+        lamports : Number(lamports),
+        token_count : Number(token_count),
+        is_finalized : is_finalized,
+        icon : Number(icon) 
+    } );
+    completionHandler(f);
 
 
 }
@@ -221,7 +231,6 @@ export class ManagerPool {
 
     addresses : Array<web3.PublicKey> = [];
 
-
     constructor ( pool : {manager : web3.PublicKey, addresses  :  Array<web3.PublicKey>}) {
     
         if (pool) {
@@ -233,19 +242,41 @@ export class ManagerPool {
 }
 
 
+// let (is_initialized,manager, address, lamports, 
+//  token_count,is_finalized, icon, invs_len, wds_len, invs_flat,wds_flat) =
+
+  
 export class FundPool {
 
     manager : web3.PublicKey = web3.PublicKey.default ;
 
     address : web3.PublicKey = web3.PublicKey.default ;
 
+    lamports : number = 0;
 
-    constructor ( pool : {manager : web3.PublicKey, address  : web3.PublicKey}) {
+    token_count : number = 0; 
+
+    is_finalized : boolean = false ;
+
+    icon : number = 0;
+
+    constructor ( pool : {
+        manager : web3.PublicKey, 
+        address  : web3.PublicKey,
+        lamports : number,
+        token_count : number,
+        is_finalized : boolean ,
+        icon : number, 
+    }) {
     
         if (pool) {
 
             this.manager = pool.manager;
             this.address = pool.address;
+            this.lamports = pool.lamports;
+            this.token_count = pool.token_count;
+            this.is_finalized = pool.is_finalized;
+            this.icon = pool.icon;
         }
     }
 }
