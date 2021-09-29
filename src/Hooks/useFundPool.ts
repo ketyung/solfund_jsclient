@@ -114,7 +114,7 @@ export default function useFundPool(){
     }
 
 
-    async function deleteFundPool (manager_pool_account : web3.PublicKey | null, 
+    async function deleteFundPool (managerPoolAccount : web3.PublicKey | null, 
         completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
@@ -139,9 +139,9 @@ export default function useFundPool(){
                 { pubkey: fundPoolPkey, isSigner: false, isWritable: true },
             ];
 
-            if (manager_pool_account) {
+            if (managerPoolAccount) {
 
-                accounts.push({ pubkey: manager_pool_account, isSigner: false, isWritable: true });
+                accounts.push({ pubkey: managerPoolAccount, isSigner: false, isWritable: true });
             }
 
             let mkey = new web3.PublicKey(POOL_MARKET_KEY);
@@ -178,7 +178,7 @@ export default function useFundPool(){
     
 
     async function createFundPool(lamports : number, token_count : number, 
-        is_finalized : boolean, icon : number, manager_pool_account : web3.PublicKey | null, 
+        is_finalized : boolean, icon : number, managerPoolAccount : web3.PublicKey | null, 
          completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
@@ -204,7 +204,7 @@ export default function useFundPool(){
 
         if (acc != null ){
 
-            send(data, publicKey, fundPoolPkey, manager_pool_account, completionHandler);
+            send(data, publicKey, fundPoolPkey, managerPoolAccount, completionHandler);
 
         }
         else {
@@ -221,7 +221,7 @@ export default function useFundPool(){
                 }
                 else {
         
-                    send(data, publicKey, fundPoolPkey, manager_pool_account, completionHandler);       
+                    send(data, publicKey, fundPoolPkey, managerPoolAccount, completionHandler);       
 
                 }
         
@@ -232,7 +232,7 @@ export default function useFundPool(){
 
 
     async function send(data : Buffer , signer : web3.PublicKey,  
-        fundPoolPkey : web3.PublicKey,  manager_pool_account : web3.PublicKey | null,
+        fundPoolPkey : web3.PublicKey,  managerPoolAccount : web3.PublicKey | null,
         completionHandler : (result : boolean | Error) => void) {
 
         let accounts : Array<web3.AccountMeta> = [
@@ -240,9 +240,9 @@ export default function useFundPool(){
             { pubkey: fundPoolPkey, isSigner: false, isWritable: true },
         ];
 
-        if (manager_pool_account) {
+        if (managerPoolAccount) {
 
-            accounts.push({ pubkey: manager_pool_account, isSigner: false, isWritable: true });
+            accounts.push({ pubkey: managerPoolAccount, isSigner: false, isWritable: true });
         }
 
         let mkey = new web3.PublicKey(POOL_MARKET_KEY);
