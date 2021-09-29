@@ -2,12 +2,15 @@ import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import useFundPool from '../../Hooks/useFundPool';
 import useManagerPool from '../../Hooks/useManagerPool';
-import { Button, Spin, Modal,Popconfirm } from 'antd';
+import { Button, Spin, Modal,Popconfirm} from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../components/Wallet";
 import '../css/common.css';
 import { FundPoolForm } from '../components/FundPoolForm';
 import { ManagerPool } from '../../models';
+import * as web3 from '@solana/web3.js';
+
 
 export const FundPoolTestView : React.FC = () => {
 
@@ -40,11 +43,12 @@ export const FundPoolTestView : React.FC = () => {
         setFinalized(is_finalized); 
     }
   
-    const onConfirm = async ()=> {
+    const onConfirm = async (selectedAddress : web3.PublicKey)=> {
 
-        let mp_acc = await managerPoolIdPubKey();
-        deleteFundPool(null, mp_acc, completion);
+        deleteFundPool(null, selectedAddress, completion);
     }
+
+
 
 
     const completion = (res : boolean | Error) =>  {
@@ -112,17 +116,7 @@ export const FundPoolTestView : React.FC = () => {
 
           }} >Create Fund Pool</Button></p>
        
-
-         <p>
-         <Popconfirm
-            title="Are you sure to delete this?"
-            onConfirm={onConfirm}   
-            okText="Yes"
-            cancelText="No">
-             <Button className="commonButton" danger>Delete Fund Pool</Button>
-        </Popconfirm>     
-        </p>
-       
+ 
 
        <Modal title="Create Fund Pool"
           style={{minWidth:"80%"}}
@@ -157,8 +151,25 @@ export const FundPoolTestView : React.FC = () => {
 
             pool?.addresses.map (( address , index) => {
 
-                return <div style={{textAlign: "justify", margin:"10px"}}>
+                return <div style={{textAlign: "justify", margin:"10px 10px 20px"}}>
                 {index + 1}. {address.toBase58()}
+                <span style={{float:"right",marginLeft:"20px"}}>
+
+                <Popconfirm
+                    title="Are you sure to delete this?"
+                    onConfirm={()=>{
+
+                        onConfirm(address);
+                    }}   
+                    okText="Yes"
+                    cancelText="No">
+                            <Button shape="circle">
+                            <DeleteOutlined/>
+                            </Button>
+            
+                </Popconfirm>     
+      
+                </span>
                 </div>;
 
             })
