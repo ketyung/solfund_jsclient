@@ -4,7 +4,6 @@ import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_DELETE} from './useSo
 import { SolUtil } from '../utils/SolUtil';
 import { create_fund_pool } from '../models';
 import { POOL_MARKET_KEY } from './usePoolMarket';
-import { useState, useEffect } from 'react';
 
 
    
