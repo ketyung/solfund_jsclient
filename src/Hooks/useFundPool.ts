@@ -22,8 +22,6 @@ export default function useFundPool(){
     function getStoredLastSeed() : string {
 
         return localStorage.getItem("storedLastSeed") ?? "";
-
-
     }
 
     function genLastSeed()  {
@@ -74,6 +72,7 @@ export default function useFundPool(){
 
         setLoading(true);
 
+        // 84 + (80 * FUND_POOL_INVESTOR_LIMIT) + (80 * FUND_POOL_WITHDRAWER_LIMIT)  + 2
         let size : number  = 84 + (80 * 100) + (80 *100) + 2; // hard-coded first 
 
         genLastSeed();
@@ -199,56 +198,75 @@ export default function useFundPool(){
  
         let acc = await connection.getAccountInfo(fundPoolPkey);
           
-        let fund_pool_array : Uint8Array = create_fund_pool(
-            publicKey, fundPoolPkey, lamports, token_count, is_finalized, icon);
+        let fund_pool_array : Uint8Array = create_fund_pool( publicKey, fundPoolPkey, lamports, token_count, is_finalized, icon);
 
-        //console.log("fund_pool_array", fund_pool_array.length, fund_pool_array);
-        
         let data = SolUtil.createBuffer(fund_pool_array,ACTION_CREATE,MODULE_FUND_POOL);
 
         if (acc != null ){
 
-            let accounts : Array<web3.AccountMeta> = [
+            send(data, publicKey, fundPoolPkey, manager_pool_account, completionHandler);
 
-                { pubkey: fundPoolPkey, isSigner: false, isWritable: true },
-            ];
+        }
+        else {
 
-            if (manager_pool_account) {
-
-                accounts.push({ pubkey: manager_pool_account, isSigner: false, isWritable: true });
-            }
-
-            let mkey = new web3.PublicKey(POOL_MARKET_KEY);
-            accounts.push({ pubkey: mkey, isSigner: false, isWritable: true });
-
-            accounts.push({ pubkey: publicKey, isSigner: true, isWritable: false });
-
-            sendIns(accounts, programId, data, (res : string | Error) =>  {
+            // create account
+            createFundPoolAccount( (res : boolean | Error) =>  {
 
                 if (res instanceof Error){
         
-                    completionHandler(res);
+                    // return if failed to create account!
                     setLoading(false);
-        
+                    completionHandler(res);
+                    return; 
                 }
                 else {
         
-                    console.log("Completed!", res);
-                    completionHandler(true);
-                    setLoading(false);        
+                    send(data, publicKey, fundPoolPkey, manager_pool_account, completionHandler);       
+
                 }
         
             });
 
         }
-        else {
-
-            completionHandler(new Error("No pool market account"));
-            setLoading(false);
-       
-        }
     }
 
+
+    async function send(data : Buffer , signer : web3.PublicKey,  
+        fundPoolPkey : web3.PublicKey,  manager_pool_account : web3.PublicKey | null,
+        completionHandler : (result : boolean | Error) => void) {
+
+        let accounts : Array<web3.AccountMeta> = [
+
+            { pubkey: fundPoolPkey, isSigner: false, isWritable: true },
+        ];
+
+        if (manager_pool_account) {
+
+            accounts.push({ pubkey: manager_pool_account, isSigner: false, isWritable: true });
+        }
+
+        let mkey = new web3.PublicKey(POOL_MARKET_KEY);
+        accounts.push({ pubkey: mkey, isSigner: false, isWritable: true });
+
+        accounts.push({ pubkey: signer, isSigner: true, isWritable: false });
+
+        sendIns(accounts, programId, data, (res : string | Error) =>  {
+
+            if (res instanceof Error){
+    
+                completionHandler(res);
+                setLoading(false);
+    
+            }
+            else {
+    
+                console.log("Completed!", res);
+                completionHandler(true);
+                setLoading(false);        
+            }
+    
+        });
+    }
     
 
     return [createFundPoolAccount, createFundPool, loading, read, deleteFundPool] as const;
