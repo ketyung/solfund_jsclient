@@ -45,7 +45,9 @@ export const FundPoolTestView : React.FC = () => {
   
     const onConfirm = async (selectedAddress : web3.PublicKey)=> {
 
-        deleteFundPool(null, selectedAddress, completion);
+        let mp_acc = await managerPoolIdPubKey();
+              
+        deleteFundPool(selectedAddress, mp_acc, completion);
     }
 
 
@@ -163,10 +165,10 @@ export const FundPoolTestView : React.FC = () => {
                     }}   
                     okText="Yes"
                     cancelText="No">
-                            <Button shape="circle">
-                            <DeleteOutlined/>
-                            </Button>
-            
+                    <Button shape="circle">
+                    <DeleteOutlined/>
+                    </Button>
+    
                 </Popconfirm>     
       
                 </span>
