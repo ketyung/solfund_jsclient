@@ -38,10 +38,17 @@ export default function useFundPool(){
 
     async function read(pubkey : null | string ){
 
+        if (!publicKey){
+            setLoading(false);
+            return; 
+        }
+
         setLoading(true);
         
-        let fundPkey = pubkey ? new web3.PublicKey(pubkey) :  new web3.PublicKey(
-            getStoredLastSeed());
+        let lastSeed = getStoredLastSeed();
+
+        let fundPkey = pubkey ? new web3.PublicKey(pubkey) :  
+        await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
 
         let acc = await connection.getAccountInfo(fundPkey);
         
