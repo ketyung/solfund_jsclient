@@ -2,7 +2,7 @@ import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_DELETE} from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
-import { createFundPoolBytes } from '../state';
+import { createFundPoolBytes, FundPool, extract_fund_pool } from '../state';
 import { POOL_MARKET_KEY } from './usePoolMarket';
 
 
@@ -43,7 +43,8 @@ export default function useFundPool(){
     }
 
 
-    async function read(pubkey : null | string ){
+    async function read(pubkey : null | string,
+        completionHandler : (result : FundPool | Error) => void  ){
 
         if (!publicKey){
             setLoading(false);
@@ -64,11 +65,15 @@ export default function useFundPool(){
         
         if ( acc != null ){
 
-            console.log("acc.data", acc.data);
-            alert("Len of data ::" + acc.data.length);
-           
+            extract_fund_pool(acc.data, completionHandler);
+            setLoading(false);
+    
         }
-        setLoading(false);
+        else {
+
+            completionHandler(new Error("Account not found"));
+            setLoading(false);
+        }
     
     }
 

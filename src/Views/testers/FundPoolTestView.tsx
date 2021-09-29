@@ -106,12 +106,6 @@ export const FundPoolTestView : React.FC = () => {
 
           }} >Create Fund Pool Account</Button></p>
        
-        <p><Button className="commonButton" onClick={async ()=> {
-              
-              read(null);
-
-          }} >Read Account</Button></p>
-       
          <p><Button className="commonButton" danger onClick={async ()=> {
               
               setModalPresented(true);
