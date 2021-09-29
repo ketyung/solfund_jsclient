@@ -41,14 +41,21 @@ export const extract_manager_pool = (data : Uint8Array,
     completionHandler : (result : ManagerPool | Error) => void ) => {
 
     //let pool_market = new PoolMarket();
-
+    
+    console.log("data.len", data.length);
+    
     let manager = data.slice(0 , 32);
 
-    let keys = data.slice(32, data.length - 32);
+    let num = data.slice(32, 33);
+
+    let anum =  Buffer.from(num).readUInt8(0);
+
+
+    let keys = data.slice(33, data.length);
     
     let no_of_keys = keys.length / 32 ;
 
-    //console.log("keys.len", keys.length);
+    console.log("keys.len", keys.length, anum );
 
     var validPkeys : Array<web3.PublicKey> = [];
 
@@ -66,7 +73,8 @@ export const extract_manager_pool = (data : Uint8Array,
 
     let mgrKey =  new web3.PublicKey(manager);
 
-    
+    console.log("mgrKey", mgrKey.toBase58());
+
     let m =  new  ManagerPool( { manager : mgrKey , addresses: validPkeys } );
     completionHandler(m);
 
