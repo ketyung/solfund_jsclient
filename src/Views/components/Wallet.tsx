@@ -27,7 +27,7 @@ export const Wallet : React.FC = () => {
             </div>
             <div className={matchPoolMarket ? "topLinkSel" : "topLink"}>
                 <Link href="/poolmarket">
-                <a className="link">Pool Market</a>
+                <a className="link">Market</a>
                 </Link>
             </div>
            
