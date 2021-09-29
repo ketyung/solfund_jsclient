@@ -8,7 +8,7 @@ import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../components/Wallet";
 import '../css/common.css';
 import { FundPoolForm } from '../components/FundPoolForm';
-import { ManagerPool } from '../../models';
+import { ManagerPool } from '../../state';
 import * as web3 from '@solana/web3.js';
 
 

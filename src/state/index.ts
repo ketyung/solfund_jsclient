@@ -45,10 +45,9 @@ export const extract_manager_pool = (data : Uint8Array,
     
     let manager = data.slice(0 , 32);
 
-    let num = data.slice(32, 33);
+    //let num = data.slice(32, 33);
 
-    let anum =  Buffer.from(num).readUInt8(0);
-
+    //let anum =  Buffer.from(num).readUInt8(0);
 
     let keys = data.slice(33, data.length);
     
@@ -78,6 +77,10 @@ export const extract_manager_pool = (data : Uint8Array,
 }
 
 
+export const extract_fund_pool = (data : Uint8Array, 
+    completionHandler : (result : ManagerPool | Error) => void ) => {
+
+}
 
 export const createFundPoolBytes = (manager : web3.PublicKey, 
     address : web3.PublicKey, 

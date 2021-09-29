@@ -1,7 +1,7 @@
 import * as web3 from '@solana/web3.js';
 import {programId, MODULE_POOL_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
 import useSolana from './useSolana';
-import { extract_pool_market, PoolMarket } from '../models';
+import { extract_pool_market, PoolMarket } from '../state';
 
 export const POOL_MARKET_KEY = "9jGazEpw8agjChuRE5LPKv3HACtsm8fFcrgBcNquoTsz";
 

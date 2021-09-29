@@ -1,7 +1,7 @@
 import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId} from './useSolana';
-import { extract_manager_pool, ManagerPool } from '../models';
+import { extract_manager_pool, ManagerPool } from '../state';
 
 
 export default function useManagerPool(){

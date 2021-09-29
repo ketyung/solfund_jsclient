@@ -4,7 +4,7 @@ import { Button, Spin, Modal } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../components/Wallet";
 import usePoolMarket from '../../Hooks/usePoolMarket';
-import { PoolMarket } from '../../models';
+import { PoolMarket } from '../../state';
 import '../css/common.css';
 import { POOL_MARKET_KEY } from '../../Hooks/usePoolMarket';
 

@@ -2,7 +2,7 @@ import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_DELETE} from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
-import { createFundPoolBytes } from '../models';
+import { createFundPoolBytes } from '../state';
 import { POOL_MARKET_KEY } from './usePoolMarket';
 
 
