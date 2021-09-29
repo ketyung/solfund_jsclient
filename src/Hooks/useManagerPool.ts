@@ -72,7 +72,8 @@ export default function useManagerPool(){
 
         setLoading(true);
 
-        let size : number  = 2; // hard-coded first 
+        // PUBKEY_BYTES + 1 + (PUBKEY_BYTES * MANAGER_POOL_SIZE_LIMIT)
+        let size : number  = 32 + 1 + (32 * 10); // hard-coded first 
 
         let managerPoolPKey = await managerPoolIdPubKey();
 
