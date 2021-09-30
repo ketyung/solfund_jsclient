@@ -75,38 +75,48 @@ export default function usePoolMarket(){
         setLoading(true);
         
         let marketPkey = pubkey ? new web3.PublicKey(pubkey) : await poolMarketIdPubKey();
-        let acc = await connection.getAccountInfo(marketPkey);
         
-        console.log("marketPkey", marketPkey.toBase58());
-        
-        
-        if ( acc != null ){
+        try {
+            let acc = await connection.getAccountInfo(marketPkey);
 
-            extract_pool_market(acc.data, 
-                (res : PoolMarket | Error) =>  {
+            if ( acc != null ){
 
-                    if (res instanceof Error){
-            
-                        setLoading(false);
-                        completionHandler(res);
-            
+                extract_pool_market(acc.data, 
+                    (res : PoolMarket | Error) =>  {
+
+                        if (res instanceof Error){
+                
+                            setLoading(false);
+                            completionHandler(res);
+                
+                        }
+                        else {
+                
+                            console.log("Completed!", res);
+                            setLoading(false);     
+                            completionHandler(res);   
+                        }
+                
                     }
-                    else {
+                );
+
+            }
+            else {
+
+                completionHandler( new Error("Specified Account NOT found!"));
+                setLoading(false);
             
-                        console.log("Completed!", res);
-                        setLoading(false);     
-                        completionHandler(res);   
-                    }
-            
-                }
-            );
+            }
+        }
+        catch(e) {
+
+            if ( e instanceof Error){
+
+                completionHandler(e);
+            }
+            setLoading(false);
 
         }
-        else {
-
-            completionHandler( new Error("Specified Account NOT found!"));
-        }
-       
     }
 
 

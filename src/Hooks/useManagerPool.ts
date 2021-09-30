@@ -31,34 +31,48 @@ export default function useManagerPool(){
         setLoading(true);
         
         let managerPoolPKey = pubkey ? new web3.PublicKey(pubkey) : await managerPoolIdPubKey();
-        let acc = await connection.getAccountInfo(managerPoolPKey);
+
+        try {
+
+            let acc = await connection.getAccountInfo(managerPoolPKey);
         
-        if ( acc != null ){
-
-            extract_manager_pool(acc.data, 
-                (res : ManagerPool | Error) =>  {
-
-                    if (res instanceof Error){
-            
-                        setLoading(false);
-                        completionHandler(res);
-            
+            if ( acc != null ){
+    
+                extract_manager_pool(acc.data, 
+                    (res : ManagerPool | Error) =>  {
+    
+                        if (res instanceof Error){
+                
+                            setLoading(false);
+                            completionHandler(res);
+                
+                        }
+                        else {
+                
+                            setLoading(false);     
+                            completionHandler(res);   
+                        }
+                
                     }
-                    else {
-            
-                        setLoading(false);     
-                        completionHandler(res);   
-                    }
-            
-                }
-            );
-
+                );
+    
+            }
+            else {
+    
+                completionHandler( new Error("Specified Account NOT found!"));
+            }
+            setLoading(false);
         }
-        else {
+        catch(e) {
 
-            completionHandler( new Error("Specified Account NOT found!"));
+            if ( e instanceof Error){
+
+                completionHandler(e);
+            }
+
+            setLoading(false);
         }
-        setLoading(false);
+        
     
     }
 

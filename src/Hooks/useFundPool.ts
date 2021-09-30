@@ -52,22 +52,34 @@ export default function useFundPool(){
 
         let fundPkey = new web3.PublicKey(pubkey) ;
         
-        let acc = await connection.getAccountInfo(fundPkey);
-        
-        console.log("marketPkey", fundPkey.toBase58());
-        
-        
-        if ( acc != null ){
+        try {
 
-            extract_fund_pool(acc.data, completionHandler);
-            setLoading(false);
-    
-        }
-        else {
+            let acc = await connection.getAccountInfo(fundPkey);
+            
+            if ( acc != null ){
 
-            completionHandler(new Error("Account not found"));
+                extract_fund_pool(acc.data, completionHandler);
+                setLoading(false);
+        
+            }
+            else {
+
+                completionHandler(new Error("Account not found"));
+                setLoading(false);
+            }
+        }
+        catch( e  ){
+
+            if (e instanceof Error){
+
+                completionHandler(e);
+          
+            }
+            
             setLoading(false);
         }
+        
+        
     
     }
 
