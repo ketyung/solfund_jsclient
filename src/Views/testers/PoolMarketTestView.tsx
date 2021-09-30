@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import { Button, Spin, Modal } from 'antd';
 import { success,error } from '../../utils/Mesg';
-import { Wallet } from "../components/Wallet";
 import usePoolMarket from '../../Hooks/usePoolMarket';
 import { PoolMarket } from '../../state';
 import '../css/common.css';
@@ -33,9 +32,6 @@ export const PoolMarketTestView : React.FC = () =>{
 
 
     return <div>
-         <Wallet/>
-          <br/>
-          <br/>
           <div style={{display: loading ? "block" : "none", margin : "10px"}}><Spin size="large"/></div>
 
           <p><Button className="commonButton" danger onClick={async ()=> {

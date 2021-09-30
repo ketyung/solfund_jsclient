@@ -5,7 +5,6 @@ import useManagerPool from '../../Hooks/useManagerPool';
 import { Button, Spin, Modal,Popconfirm} from 'antd';
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { success,error } from '../../utils/Mesg';
-import { Wallet } from "../components/Wallet";
 import '../css/common.css';
 import { FundPoolForm } from '../components/FundPoolForm';
 import { ManagerPool } from '../../state';
@@ -69,9 +68,6 @@ export const FundPoolTestView : React.FC = () => {
     }
 
     return <div>
-        <Wallet/>
-          <br/>
-          <br/>
           <div style={{display: loading ? "block" : "none", margin : "10px"}}><Spin size="large"/></div>
 
           <p><Button className="commonButton" onClick={async ()=> {
