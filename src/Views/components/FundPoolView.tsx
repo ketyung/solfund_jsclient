@@ -20,26 +20,22 @@ export const FundPoolView : React.FC <FundPoolViewProps> = ({address}) => {
     
     useEffect(() => {
     
-        async function readAddr(){
-
-            await read (address, 
-            
-                (res : FundPool | Error) =>  {
-    
-                    if (res instanceof Error){
-            
-                        error(res.message);
-                    }
-                    else {
-            
-                        setFundPool(res);
-                    }
-            
-                }
-            );
-        }
+        read (address, 
         
-        readAddr();
+            (res : FundPool | Error) =>  {
+
+                if (res instanceof Error){
+        
+                    error(res.message);
+                }
+                else {
+        
+                    setFundPool(res);
+                }
+        
+            }
+        );
+        //readAddr();
 
     }, [address])
   
