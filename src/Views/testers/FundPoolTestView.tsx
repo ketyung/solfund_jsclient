@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import useFundPool from '../../Hooks/useFundPool';
 import useManagerPool from '../../Hooks/useManagerPool';
 import { Button, Spin, Modal,Popconfirm} from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { success,error } from '../../utils/Mesg';
 import { Wallet } from "../components/Wallet";
 import '../css/common.css';
@@ -150,10 +150,19 @@ export const FundPoolTestView : React.FC = () => {
 
                 return <div style={{textAlign: "justify", margin:"10px 10px 20px"}}>
 
+                {index + 1}. {address.toBase58()}
+
+                <span style={{float:"right",marginRight:"10px",marginLeft:"20px"}}>
                 <Link href={"/fundpool/"+ address.toBase58()}>
-                <a className="link">{index + 1}. {address.toBase58()}</a>
+                <a className="link">
+                <Button shape="circle">
+                    <EyeOutlined/>
+                    </Button>
+    
+
+                </a>
                 </Link>
-          
+                </span>
                 <span style={{float:"right",marginLeft:"20px"}}>
 
                 <Popconfirm
