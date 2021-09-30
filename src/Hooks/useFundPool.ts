@@ -242,8 +242,7 @@ export default function useFundPool(){
             { pubkey: publicKey, isSigner: true, isWritable: false }
         ];
         
-        
-
+    
         let fund_pool_array : Uint8Array = createFundPoolBytes( 
             publicKey, fundPoolAccKey, lamports, token_count, is_finalized, icon);
         let data = SolUtil.createBuffer(fund_pool_array,ACTION_CREATE,MODULE_FUND_POOL);
