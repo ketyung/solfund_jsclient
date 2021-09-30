@@ -82,11 +82,7 @@ export default function useSolana() {
     completionHandler : (result : string | Error) => void){
 
         const instruction = new web3.TransactionInstruction({
-        programId, 
-        
-        keys: keys,
-      
-        data: data, });
+        programId, keys: keys,data: data, });
 
         const transaction = new web3.Transaction().add(instruction);
 
