@@ -9,13 +9,13 @@ import '../css/common.css';
 import { FundPoolForm } from '../components/FundPoolForm';
 import { ManagerPool } from '../../state';
 import * as web3 from '@solana/web3.js';
-import { Link } from 'wouter';
+//import { Link } from 'wouter';
 
 
 export const FundPoolTestView : React.FC = () => {
 
 
-    const [createFundPoolAccount, createFundPool, loading, read, deleteFundPool] = useFundPool();
+    const [createFundPoolAccount, createFundPool, loading, , deleteFundPool] = useFundPool();
 
     const [createManagerPoolAccount,,readMgp,managerPoolIdPubKey] = useManagerPool(); 
 
@@ -148,15 +148,6 @@ export const FundPoolTestView : React.FC = () => {
 
                 {index + 1}. {address.toBase58()}
 
-                <span style={{float:"right",marginRight:"10px",marginLeft:"20px"}}>
-                <Link href={"/fundpool/"+ address.toBase58()}>
-                <a className="link" target="_blank">
-                <Button shape="circle">
-                    <EyeOutlined/>
-                </Button>
-                </a>
-                </Link>
-                </span>
                 <span style={{float:"right",marginLeft:"20px"}}>
 
                 <Popconfirm
@@ -174,6 +165,15 @@ export const FundPoolTestView : React.FC = () => {
                 </Popconfirm>     
       
                 </span>
+
+                <span style={{float:"right",marginRight:"10px",marginLeft:"20px"}}>
+                <a href={"/fundpool/"+ address.toBase58()} target="_new">
+                <Button shape="circle">
+                    <EyeOutlined/>
+                </Button>
+                </a>
+                </span>
+              
                 </div>;
 
             })

@@ -94,9 +94,9 @@ export const extract_fund_pool = (data : Uint8Array,
     
     let manager = new web3.PublicKey( data.slice(1, 33) );
     let address = new web3.PublicKey (data.slice(33,65) );
-    let lamports = Buffer.from ( data.slice(65, 73));//.readBigUInt64LE(0);
-    let token_count = Buffer.from ( data.slice(73, 81));//.readBigUInt64LE(0);
-
+    let lamports = Buffer.from ( data.slice(65, 73)).readUInt32LE(0);
+    let token_count = Buffer.from ( data.slice(73, 81)).readUInt32LE(0);
+    
     let is_finalized = Buffer.from( data.slice(81, 82) ).readUInt8(0) === 1 ? true : false ;
     let icon = Buffer.from( data.slice(82 , 84) ).readUInt16LE(0);
     console.log("icon", icon);

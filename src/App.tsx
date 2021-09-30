@@ -26,6 +26,8 @@ function App() {
 
    const [matchPoolMarket] = useRoute("/poolmarket");
 
+   const [matchFundPool] = useRoute("/fundpool/:address");
+
    const theTitle = () => {
 
       if (matchHome){
@@ -34,8 +36,12 @@ function App() {
       else if (matchPoolMarket){
 
         return "Market - Solafund";
-
       }
+      else if (matchFundPool){
+
+        return "Fund Pool - Solafund";
+      }
+      
       else {
         return "Solafund - Mutual Fund On the Solana Blockchain";
       }
