@@ -10,7 +10,7 @@ import { POOL_MARKET_KEY } from './usePoolMarket';
 export default function useFundPool(){
 
    
-    const [connection, publicKey,  sendIns, createAccount, loading, setLoading] = useSolana();
+    const [connection, publicKey,  sendIns, createAccount, loading, setLoading, sendTxs] = useSolana();
 
  
     function setStoredLastSeed(seed : string){
@@ -235,24 +235,61 @@ export default function useFundPool(){
         }
         else {
 
-            // create account
-            createFundPoolAccount(lastSeed, (res : boolean | Error) =>  {
+            // create account tx
+
+            let dataSize : number  = 84 + (80 * 100) + (80 *100) + 2; // hard-coded first 
+            const lamports = await connection.getMinimumBalanceForRentExemption(dataSize) ;
+   
+            const createAccTx = new web3.Transaction().add(
+                web3.SystemProgram.createAccountWithSeed({
+                fromPubkey: publicKey,
+                basePubkey: publicKey,
+                seed: lastSeed,
+                newAccountPubkey: fundPoolPkey,
+                lamports,
+                space: dataSize,
+                programId,
+                }),
+            );
+
+
+            let accounts : Array<web3.AccountMeta> = [
+                { pubkey: fundPoolPkey, isSigner: false, isWritable: true },
+            ];
+            if (managerPoolAccount) {
+                accounts.push({ pubkey: managerPoolAccount, isSigner: false, isWritable: true });
+            }
+    
+            let mkey = new web3.PublicKey(POOL_MARKET_KEY);
+            accounts.push({ pubkey: mkey, isSigner: false, isWritable: true });
+            accounts.push({ pubkey: publicKey, isSigner: true, isWritable: false });
+            
+            const txIns = new web3.TransactionInstruction({
+            programId, keys: accounts,data: data, });
+        
+            const allTxs = new web3.Transaction().add(
+                createAccTx,
+                new web3.Transaction().add(txIns), 
+            );
+ 
+            sendTxs(allTxs, (res : string | Error) =>  {
 
                 if (res instanceof Error){
         
-                    // return if failed to create account!
-                    setLoading(false);
                     completionHandler(res);
-                    return; 
+                    setLoading(false);
+        
                 }
                 else {
         
-                    send(data, publicKey, fundPoolPkey, managerPoolAccount, completionHandler);       
-
+                    console.log("Completed!", res);
+                    completionHandler(true);
+                    setLoading(false);        
                 }
         
             });
-
+        
+    
         }
     }
 

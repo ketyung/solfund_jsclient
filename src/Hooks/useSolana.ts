@@ -77,6 +77,34 @@ export default function useSolana() {
    }
 
 
+   async function sendTxs( transactions : web3.Transaction, 
+    completionHandler : (result : string | Error) => void ){
+        sendTransaction(transactions, connection)
+        .then( value => {
+
+            connection.confirmTransaction(value, 'processed').then (_ =>{
+
+                completionHandler("success!");
+                setLoading(false);
+
+            })
+            .catch(err => {
+
+                completionHandler(err);
+                setLoading(false);
+                
+            });
+
+        })
+        .catch(err => {
+
+            completionHandler(err);
+            setLoading(false);
+                
+        });
+
+   }
+
    async function sendIns(keys : Array<web3.AccountMeta>, 
     programId : web3.PublicKey, data : Buffer,
     completionHandler : (result : string | Error) => void){
@@ -116,7 +144,7 @@ export default function useSolana() {
 
    
 
-    return [connection, publicKey,  sendIns, createAccount, loading, setLoading] as const;
+    return [connection, publicKey,  sendIns, createAccount, loading, setLoading, sendTxs] as const;
 
 
 
