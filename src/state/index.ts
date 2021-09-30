@@ -91,8 +91,7 @@ export const extract_fund_pool = (data : Uint8Array,
 
     // let is_initialized = Buffer.from( data.slice(0 , 1) ).readUInt8(0) == 1 ? true : false ;
 
-    console.log("exfp", data);
-
+    
     let manager = new web3.PublicKey( data.slice(1, 33) );
     let address = new web3.PublicKey (data.slice(33,65) );
     let lamports = Buffer.from ( data.slice(65, 73));//.readBigUInt64LE(0);
@@ -100,6 +99,7 @@ export const extract_fund_pool = (data : Uint8Array,
 
     let is_finalized = Buffer.from( data.slice(81, 82) ).readUInt8(0) === 1 ? true : false ;
     let icon = Buffer.from( data.slice(82 , 84) ).readUInt16LE(0);
+    console.log("icon", icon);
 
 
     let f =  new  FundPool( { manager : manager, 
