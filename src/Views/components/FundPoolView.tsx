@@ -42,8 +42,7 @@ export const FundPoolView : React.FC <FundPoolViewProps> = ({address}) => {
      <Wallet/>
     <br/><br/>
     
-    <Card>
-    
+    <Card style={{maxWidth:"80%",margin:"auto"}}>
         <Card>
         <Image
         width={80} title="Icon" alt="Icon"
