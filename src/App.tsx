@@ -7,7 +7,7 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {getPhantomWallet,getSolflareWallet,getSolletWallet} from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
-
+import {FundPoolView} from './Views/components/FundPoolView';
 
 function App() {
 
@@ -51,13 +51,19 @@ function App() {
 
      <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
-        <Route path="/">
-      <FundPoolTestView/>
+      <Route path="/">
+        <FundPoolTestView/>
       </Route>
       <Route path="/poolmarket">
         <PoolMarketTestView/>
       </Route>
      
+      <Route path="/fundpool/:address">
+        {(params) => 
+          <FundPoolView address={params.address}/>
+        }
+      </Route>
+
         </WalletProvider>
         </ConnectionProvider>
      

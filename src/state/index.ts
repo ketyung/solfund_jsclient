@@ -96,7 +96,7 @@ export const extract_fund_pool = (data : Uint8Array,
     let lamports = Buffer.from ( data.slice(66, 74)).readBigUInt64LE(0);
     let token_count = Buffer.from ( data.slice(74, 82)).readBigUInt64LE(0);
 
-    let is_finalized = Buffer.from( data.slice(82, 83) ).readUInt8(0) == 1 ? true : false ;
+    let is_finalized = Buffer.from( data.slice(82, 83) ).readUInt8(0) === 1 ? true : false ;
     let icon = Buffer.from( data.slice(83 , 85) ).readUInt16LE(0);
 
 

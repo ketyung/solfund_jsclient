@@ -10,6 +10,7 @@ import '../css/common.css';
 import { FundPoolForm } from '../components/FundPoolForm';
 import { ManagerPool } from '../../state';
 import * as web3 from '@solana/web3.js';
+import { Link } from 'wouter';
 
 
 export const FundPoolTestView : React.FC = () => {
@@ -148,7 +149,11 @@ export const FundPoolTestView : React.FC = () => {
             pool?.addresses.map (( address , index) => {
 
                 return <div style={{textAlign: "justify", margin:"10px 10px 20px"}}>
-                {index + 1}. {address.toBase58()}
+
+                <Link href={"/fundpool/"+ address.toBase58()}>
+                <a className="link">{index + 1}. {address.toBase58()}</a>
+                </Link>
+          
                 <span style={{float:"right",marginLeft:"20px"}}>
 
                 <Popconfirm
