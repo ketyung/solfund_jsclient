@@ -154,12 +154,10 @@ export const FundPoolTestView : React.FC = () => {
 
                 <span style={{float:"right",marginRight:"10px",marginLeft:"20px"}}>
                 <Link href={"/fundpool/"+ address.toBase58()}>
-                <a className="link">
+                <a className="link" target="_blank">
                 <Button shape="circle">
                     <EyeOutlined/>
-                    </Button>
-    
-
+                </Button>
                 </a>
                 </Link>
                 </span>
