@@ -4,7 +4,7 @@ import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_DELETE} from './useSo
 import { SolUtil } from '../utils/SolUtil';
 import { createFundPoolBytes, FundPool, extract_fund_pool } from '../state';
 import { POOL_MARKET_KEY } from './usePoolMarket';
-
+import useManagerPool from'./useManagerPool';
 
    
 export default function useFundPool(){
@@ -12,6 +12,7 @@ export default function useFundPool(){
    
     const [connection, publicKey,  sendIns, createAccount, loading, setLoading, sendTxs] = useSolana();
 
+    const [,,,managerPoolIdPubKey, ID] = useManagerPool();
  
     function setStoredLastSeed(seed : string){
 
@@ -199,7 +200,7 @@ export default function useFundPool(){
     
 
     async function createFundPool(lamports : number, token_count : number, 
-        is_finalized : boolean, icon : number, managerPoolAccount : web3.PublicKey | null, generateNew : boolean, 
+        is_finalized : boolean, icon : number, 
          completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
@@ -209,88 +210,82 @@ export default function useFundPool(){
 
         setLoading(true);
 
-        // use a random address first 
+    
 
-        if (generateNew){
-
-            genLastSeed();
-        }
-
+       let mpDataSize = 32 + 1 + (32 * 10);
+       let managerPoolPKey = await managerPoolIdPubKey();
+       const mgLp = await connection.getMinimumBalanceForRentExemption(mpDataSize);
+       const createMpAccTx = new web3.Transaction().add (
+        web3.SystemProgram.createAccountWithSeed({
+            fromPubkey: publicKey,
+            basePubkey: publicKey,
+            seed: ID,
+            newAccountPubkey: managerPoolPKey,
+            lamports: mgLp, space: mpDataSize ,programId,
+            }),
+        );
+        
+        genLastSeed();
         let lastSeed = getStoredLastSeed();
 
-     //   console.log("lastSeed@createFundPool", lastSeed);
-
-        let fundPoolPkey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
+        let fundPoolAccKey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
+    
+        let accDataSize : number  = 84 + (80 * 100) + (80 *100) + 2; // hard-coded first 
  
-        let acc = await connection.getAccountInfo(fundPoolPkey);
-          
-        let fund_pool_array : Uint8Array = createFundPoolBytes( publicKey, fundPoolPkey, lamports, token_count, is_finalized, icon);
+        const acLp = await connection.getMinimumBalanceForRentExemption(accDataSize) ;
 
+        const createFundPoolAccTx = new web3.Transaction().add(
+            web3.SystemProgram.createAccountWithSeed({
+            fromPubkey: publicKey,
+            basePubkey: publicKey,
+            seed: lastSeed,
+            newAccountPubkey: fundPoolAccKey,
+            lamports: acLp, space: accDataSize ,programId,
+            }),
+        );
+
+
+        let accounts : Array<web3.AccountMeta> = [
+            { pubkey: fundPoolAccKey, isSigner: false, isWritable: true },
+            { pubkey: managerPoolPKey, isSigner: false, isWritable: true },
+            { pubkey: new web3.PublicKey(POOL_MARKET_KEY), isSigner: false, isWritable: true },
+            { pubkey: publicKey, isSigner: true, isWritable: false }
+        ];
+        
+        
+
+        let fund_pool_array : Uint8Array = createFundPoolBytes( 
+            publicKey, fundPoolAccKey, lamports, token_count, is_finalized, icon);
         let data = SolUtil.createBuffer(fund_pool_array,ACTION_CREATE,MODULE_FUND_POOL);
 
-        if (acc != null ){
+        const txIns = new web3.TransactionInstruction({
+        programId, keys: accounts,data: data, });
+    
+        const allTxs = new web3.Transaction().add(
+            createMpAccTx,
+            createFundPoolAccTx,
+            new web3.Transaction().add(txIns), 
+        );
 
-            send(data, publicKey, fundPoolPkey, managerPoolAccount, completionHandler);
+        sendTxs(allTxs, (res : string | Error) =>  {
 
-        }
-        else {
-
-            // create account tx
-
-            let dataSize : number  = 84 + (80 * 100) + (80 *100) + 2; // hard-coded first 
-            const lamports = await connection.getMinimumBalanceForRentExemption(dataSize) ;
-   
-            const createAccTx = new web3.Transaction().add(
-                web3.SystemProgram.createAccountWithSeed({
-                fromPubkey: publicKey,
-                basePubkey: publicKey,
-                seed: lastSeed,
-                newAccountPubkey: fundPoolPkey,
-                lamports,
-                space: dataSize,
-                programId,
-                }),
-            );
-
-
-            let accounts : Array<web3.AccountMeta> = [
-                { pubkey: fundPoolPkey, isSigner: false, isWritable: true },
-            ];
-            if (managerPoolAccount) {
-                accounts.push({ pubkey: managerPoolAccount, isSigner: false, isWritable: true });
+            if (res instanceof Error){
+    
+                completionHandler(res);
+                setLoading(false);
+    
+            }
+            else {
+    
+                console.log("Completed!", res);
+                completionHandler(true);
+                setLoading(false);        
             }
     
-            let mkey = new web3.PublicKey(POOL_MARKET_KEY);
-            accounts.push({ pubkey: mkey, isSigner: false, isWritable: true });
-            accounts.push({ pubkey: publicKey, isSigner: true, isWritable: false });
-            
-            const txIns = new web3.TransactionInstruction({
-            programId, keys: accounts,data: data, });
-        
-            const allTxs = new web3.Transaction().add(
-                createAccTx,
-                new web3.Transaction().add(txIns), 
-            );
- 
-            sendTxs(allTxs, (res : string | Error) =>  {
-
-                if (res instanceof Error){
-        
-                    completionHandler(res);
-                    setLoading(false);
-        
-                }
-                else {
-        
-                    console.log("Completed!", res);
-                    completionHandler(true);
-                    setLoading(false);        
-                }
-        
-            });
-        
+        });
     
-        }
+    
+        
     }
 
 

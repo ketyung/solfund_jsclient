@@ -123,6 +123,6 @@ export default function useManagerPool(){
 
     
 
-    return [createManagerPoolAccount, loading, readMgp, managerPoolIdPubKey] as const;
+    return [createManagerPoolAccount, loading, readMgp, managerPoolIdPubKey, ID] as const;
    
 }

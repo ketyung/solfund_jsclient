@@ -116,11 +116,10 @@ export const FundPoolTestView : React.FC = () => {
           visible={modalPresented}
           onOk={async ()=>{
                 setModalPresented(false);
-                let mp_acc = await managerPoolIdPubKey();
-
+                
                 let amountLp = amount * web3.LAMPORTS_PER_SOL;
                 createFundPool(amountLp,tokenCount,finalized,
-                selectedIcon, mp_acc,true, completion);
+                selectedIcon, completion);
           }}
           onCancel={()=>{setModalPresented(false);}}
           okButtonProps={{ disabled: false }}
