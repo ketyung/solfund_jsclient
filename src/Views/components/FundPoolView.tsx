@@ -18,13 +18,7 @@ export const FundPoolView : React.FC <FundPoolViewProps> = ({address}) => {
 
     const [fundPool, setFundPool] = useState<FundPool>();
 
-    const [isLoaded, setIsLoaded] = useState(false);
-
-
-    useEffect(() => {
-        setIsLoaded(true);
-    }, []);
-
+    
     useEffect(() => {
     
         async function readAddr(){
@@ -48,7 +42,7 @@ export const FundPoolView : React.FC <FundPoolViewProps> = ({address}) => {
         
         readAddr();
 
-    }, [address,isLoaded])
+    }, [address])
   
     return <div>
      <Wallet/>

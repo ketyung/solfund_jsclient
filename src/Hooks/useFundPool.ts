@@ -43,21 +43,15 @@ export default function useFundPool(){
     }
 
 
-    async function read(pubkey : null | string,
+    async function read(pubkey : string,
         completionHandler : (result : FundPool | Error) => void  ){
-
-        if (!publicKey){
-            setLoading(false);
-            return; 
-        }
 
         setLoading(true);
         
         let lastSeed = getStoredLastSeed();
 
-        let fundPkey = pubkey ? new web3.PublicKey(pubkey) :  
-        await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
-
+        let fundPkey = new web3.PublicKey(pubkey) ;
+        
         let acc = await connection.getAccountInfo(fundPkey);
         
         console.log("marketPkey", fundPkey.toBase58());
