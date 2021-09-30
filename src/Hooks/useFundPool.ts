@@ -12,7 +12,7 @@ export default function useFundPool(){
    
     const [connection, publicKey,  sendIns, createAccount, loading, setLoading, sendTxs] = useSolana();
 
-    const [,,,managerPoolIdPubKey, ID] = useManagerPool();
+    const [,,,managerPoolIdPubKey, mgpID] = useManagerPool();
  
     function setStoredLastSeed(seed : string){
 
@@ -212,18 +212,8 @@ export default function useFundPool(){
 
     
 
-       let mpDataSize = 32 + 1 + (32 * 10);
        let managerPoolPKey = await managerPoolIdPubKey();
-       const mgLp = await connection.getMinimumBalanceForRentExemption(mpDataSize);
-       const createMpAccTx = new web3.Transaction().add (
-        web3.SystemProgram.createAccountWithSeed({
-            fromPubkey: publicKey,
-            basePubkey: publicKey,
-            seed: ID,
-            newAccountPubkey: managerPoolPKey,
-            lamports: mgLp, space: mpDataSize ,programId,
-            }),
-        );
+       
         
         genLastSeed();
         let lastSeed = getStoredLastSeed();
@@ -261,8 +251,29 @@ export default function useFundPool(){
         const txIns = new web3.TransactionInstruction({
         programId, keys: accounts,data: data, });
     
-        const allTxs = new web3.Transaction().add(
-            createMpAccTx,
+        const allTxs = new web3.Transaction();
+
+        let mpAcc = await connection.getAccountInfo(managerPoolPKey);
+        if (mpAcc == null ){
+
+            let mpDataSize = 32 + 1 + (32 * 10);
+       
+            const mgLp = await connection.getMinimumBalanceForRentExemption(mpDataSize);
+            const createMpAccTx = new web3.Transaction().add (
+            web3.SystemProgram.createAccountWithSeed({
+                fromPubkey: publicKey,
+                basePubkey: publicKey,
+                seed: mgpID,
+                newAccountPubkey: managerPoolPKey,
+                lamports: mgLp, space: mpDataSize ,programId,
+                }),
+            );
+            allTxs.add(createMpAccTx);
+       
+        }
+        
+        
+        allTxs.add(
             createFundPoolAccTx,
             new web3.Transaction().add(txIns), 
         );

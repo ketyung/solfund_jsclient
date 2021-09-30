@@ -8,7 +8,7 @@ export default function useManagerPool(){
 
     const [connection, publicKey, , createAccount, loading, setLoading] = useSolana();
 
-    const ID : string = "__MGR_POOL";
+    const managerPoolID : string = "__MGR_POOL";
 
     async function managerPoolIdPubKey() : Promise<web3.PublicKey> {
 
@@ -16,11 +16,11 @@ export default function useManagerPool(){
 
             let kp = web3.Keypair.generate();
 
-            return await web3.PublicKey.createWithSeed( kp.publicKey, ID, programId);
+            return await web3.PublicKey.createWithSeed( kp.publicKey, managerPoolID, programId);
 
         }
 
-        return await web3.PublicKey.createWithSeed(publicKey, ID, programId);
+        return await web3.PublicKey.createWithSeed(publicKey, managerPoolID, programId);
 
     }
 
@@ -95,7 +95,7 @@ export default function useManagerPool(){
         // create only when it's null
         if ( acc == null ){
 
-            await createAccount(publicKey, publicKey, managerPoolPKey, programId, ID, size, 
+            await createAccount(publicKey, publicKey, managerPoolPKey, programId, managerPoolID, size, 
             (res : boolean | Error) =>  {
 
                 if (res instanceof Error){
@@ -123,6 +123,6 @@ export default function useManagerPool(){
 
     
 
-    return [createManagerPoolAccount, loading, readMgp, managerPoolIdPubKey, ID] as const;
+    return [createManagerPoolAccount, loading, readMgp, managerPoolIdPubKey, managerPoolID] as const;
    
 }
