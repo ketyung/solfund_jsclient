@@ -94,16 +94,18 @@ export const extract_fund_pool = (data : Uint8Array,
     
     let manager = new web3.PublicKey( data.slice(1, 33) );
     let address = new web3.PublicKey (data.slice(33,65) );
-    let lamports = Buffer.from ( data.slice(65, 73)).readUInt32LE(0);
-    let token_count = Buffer.from ( data.slice(73, 81)).readUInt32LE(0);
+    let token_address = new web3.PublicKey (data.slice(65,97) );
+    let lamports = Buffer.from ( data.slice(97, 105)).readUInt32LE(0);
+    let token_count = Buffer.from ( data.slice(105, 113)).readUInt32LE(0);
 
-    let is_finalized = Buffer.from( data.slice(81, 82) ).readUInt8(0) === 1 ? true : false ;
-    let icon = Buffer.from( data.slice(82 , 84) ).readUInt8(0);
+    let is_finalized = Buffer.from( data.slice(113, 114) ).readUInt8(0) === 1 ? true : false ;
+    let icon = Buffer.from( data.slice(114 , 116) ).readUInt8(0);
     console.log("icon", icon);
 
 
     let f =  new  FundPool( { manager : manager, 
         address: address,
+        token_address : token_address, 
         lamports : Number(lamports),
         token_count : Number(token_count),
         is_finalized : is_finalized,
@@ -115,7 +117,7 @@ export const extract_fund_pool = (data : Uint8Array,
 }
 
 export const createFundPoolBytes = (manager : web3.PublicKey, 
-    address : web3.PublicKey, 
+    address : web3.PublicKey, token_address : web3.PublicKey, 
     lamports : number, token_count : number, 
     is_finalized : boolean, icon : number) => {
 
@@ -142,6 +144,16 @@ export const createFundPoolBytes = (manager : web3.PublicKey,
         }
 
         offset += abytes.length; 
+
+
+        const tkbytes = token_address.toBytes();
+
+        for (r=0; r < tkbytes.length; r++){
+
+            newInsArray[offset+r] = tkbytes[r];
+        }
+
+        offset += tkbytes.length; 
 
 
         let lbytes = num_to_u64(lamports);
@@ -254,6 +266,8 @@ export class FundPool {
 
     address : web3.PublicKey = web3.PublicKey.default ;
 
+    token_address : web3.PublicKey = web3.PublicKey.default ;
+
     lamports : number = 0;
 
     token_count : number = 0; 
@@ -265,6 +279,7 @@ export class FundPool {
     constructor ( pool : {
         manager : web3.PublicKey, 
         address  : web3.PublicKey,
+        token_address  : web3.PublicKey,
         lamports : number,
         token_count : number,
         is_finalized : boolean ,
@@ -275,6 +290,7 @@ export class FundPool {
 
             this.manager = pool.manager;
             this.address = pool.address;
+            this.token_address = pool.token_address; 
             this.lamports = pool.lamports;
             this.token_count = pool.token_count;
             this.is_finalized = pool.is_finalized;
