@@ -210,11 +210,6 @@ export default function useFundPool(){
 
         setLoading(true);
 
-    
-        // token key 
-        // temporary
-        
-
         genLastSeed();
         let lastSeed = getStoredLastSeed();
 
@@ -272,11 +267,11 @@ export default function useFundPool(){
         
         
     
-        let fund_pool_array : Uint8Array = createFundPoolBytes( 
+        let fund_pool_data : Uint8Array = createFundPoolBytes( 
             publicKey, fundPoolAccKey,tokenKey,  lamports, token_count, is_finalized, icon);
-        let data = SolUtil.createBuffer(fund_pool_array,ACTION_CREATE,MODULE_FUND_POOL);
+        let data = SolUtil.createBuffer(fund_pool_data,ACTION_CREATE,MODULE_FUND_POOL);
 
-        const txIns = new web3.TransactionInstruction({
+        const createFpTxIns = new web3.TransactionInstruction({
         programId, keys: accounts,data: data, });
     
         const allTxs = new web3.Transaction();
@@ -305,7 +300,7 @@ export default function useFundPool(){
         
         allTxs.add(
             createFundPoolAccTx,
-            new web3.Transaction().add(txIns), 
+            new web3.Transaction().add(createFpTxIns), 
         );
 
         sendTxs(allTxs, (res : string | Error) =>  {
