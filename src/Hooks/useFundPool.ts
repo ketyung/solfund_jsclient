@@ -5,14 +5,14 @@ import { SolUtil } from '../utils/SolUtil';
 import { createFundPoolBytes, FundPool, extract_fund_pool } from '../state';
 import { POOL_MARKET_KEY } from './useMarket';
 import useuserPool from'./useUserPool';
-
+import * as splToken from "@solana/spl-token";
    
 export default function useFundPool(){
 
    
     const [connection, publicKey,  sendIns, createAccount, loading, setLoading, sendTxs] = useSolana();
 
-    const [,,,userPoolIdPubKey, mgpID] = useuserPool();
+    const [,,,userPoolIdPubKey, UserPoolID] = useuserPool();
  
     function setStoredLastSeed(seed : string){
 
@@ -213,11 +213,30 @@ export default function useFundPool(){
     
         // token key 
         // temporary
-        let tokenKey = web3.PublicKey.default;
-
+        
 
         genLastSeed();
         let lastSeed = getStoredLastSeed();
+
+        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, "TK"+lastSeed, splToken.TOKEN_PROGRAM_ID);
+
+        const tokenMintKey = new web3.PublicKey((await connection.getParsedAccountInfo(tokenKey, 'singleGossip')));
+        const createTokenAccountIx = web3.SystemProgram.createAccount({
+            programId: splToken.TOKEN_PROGRAM_ID,
+            space: splToken.AccountLayout.span,
+            lamports: await connection.getMinimumBalanceForRentExemption(splToken.AccountLayout.span, 'singleGossip'),
+            fromPubkey: publicKey, // initializer 
+            newAccountPubkey: tokenKey
+        });
+
+        const initTokenAccountIx = splToken.Token.createInitAccountInstruction(splToken.TOKEN_PROGRAM_ID, 
+            tokenMintKey, tokenKey, publicKey);
+   
+        const txTokensToAccountIx = splToken.Token
+        .createTransferInstruction(splToken.TOKEN_PROGRAM_ID, publicKey, tokenKey, 
+        publicKey, [], token_count);
+    
+
 
         let fundPoolAccKey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
     
@@ -258,24 +277,26 @@ export default function useFundPool(){
         programId, keys: accounts,data: data, });
     
         const allTxs = new web3.Transaction();
+        
+        // add here for the createTokenAccount, initialize token acc, and transfer the token numbers to acc
+        allTxs.add(createTokenAccountIx, initTokenAccountIx, txTokensToAccountIx);
 
-        let mpAcc = await connection.getAccountInfo(userPoolPKey);
-        if (mpAcc == null ){
+        let upAcc = await connection.getAccountInfo(userPoolPKey);
+        if (upAcc == null ){
 
-            let mpDataSize = 32 + 1 + (32 * 10);
+            let upDataSize = 32 + 1 + (32 * 10);
        
-            const mgLp = await connection.getMinimumBalanceForRentExemption(mpDataSize);
+            const upLp = await connection.getMinimumBalanceForRentExemption(upDataSize);
             const createMpAccTx = new web3.Transaction().add (
             web3.SystemProgram.createAccountWithSeed({
                 fromPubkey: publicKey,
                 basePubkey: publicKey,
-                seed: mgpID,
+                seed: UserPoolID,
                 newAccountPubkey: userPoolPKey,
-                lamports: mgLp, space: mpDataSize ,programId,
+                lamports: upLp, space: upDataSize ,programId,
                 }),
             );
             allTxs.add(createMpAccTx);
-       
         }
         
         
