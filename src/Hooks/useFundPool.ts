@@ -218,9 +218,12 @@ export default function useFundPool(){
         genLastSeed();
         let lastSeed = getStoredLastSeed();
 
-        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, "TK"+lastSeed, splToken.TOKEN_PROGRAM_ID);
+        let tkSeed = "TK"+lastSeed;
 
-        const tokenMintKey = new web3.PublicKey((await connection.getParsedAccountInfo(tokenKey, 'singleGossip')));
+        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, tkSeed, splToken.TOKEN_PROGRAM_ID);
+
+        //const tokenMintKey = new web3.PublicKey((await connection.getParsedAccountInfo(tokenKey, 'singleGossip')));
+
         const createTokenAccountIx = web3.SystemProgram.createAccount({
             programId: splToken.TOKEN_PROGRAM_ID,
             space: splToken.AccountLayout.span,
@@ -229,12 +232,12 @@ export default function useFundPool(){
             newAccountPubkey: tokenKey
         });
 
-        const initTokenAccountIx = splToken.Token.createInitAccountInstruction(splToken.TOKEN_PROGRAM_ID, 
-            tokenMintKey, tokenKey, publicKey);
+        //const initTokenAccountIx = splToken.Token.createInitAccountInstruction(splToken.TOKEN_PROGRAM_ID, 
+          //  tokenMintKey, tokenKey, publicKey);
    
-        const txTokensToAccountIx = splToken.Token
-        .createTransferInstruction(splToken.TOKEN_PROGRAM_ID, publicKey, tokenKey, 
-        publicKey, [], token_count);
+        //const txTokensToAccountIx = splToken.Token
+        //.createTransferInstruction(splToken.TOKEN_PROGRAM_ID, publicKey, tokenKey, 
+        //publicKey, [], token_count);
     
 
 
@@ -279,7 +282,7 @@ export default function useFundPool(){
         const allTxs = new web3.Transaction();
         
         // add here for the createTokenAccount, initialize token acc, and transfer the token numbers to acc
-        allTxs.add(createTokenAccountIx, initTokenAccountIx, txTokensToAccountIx);
+        allTxs.add(createTokenAccountIx);//, initTokenAccountIx, txTokensToAccountIx);
 
         let upAcc = await connection.getAccountInfo(userPoolPKey);
         if (upAcc == null ){
