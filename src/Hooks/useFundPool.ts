@@ -219,6 +219,9 @@ export default function useFundPool(){
 
         //const tokenMintKey = new web3.PublicKey((await connection.getParsedAccountInfo(tokenKey, 'singleGossip')));
 
+        // print for comparison with the rust backend
+        console.log("tokenKey", tokenKey.toBase58());
+
         const createTokenAccountIx = web3.SystemProgram.createAccount({
             programId: splToken.TOKEN_PROGRAM_ID,
             space: splToken.AccountLayout.span,
