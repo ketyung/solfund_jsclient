@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import useFundPool from '../../Hooks/useFundPool';
-import useManagerPool from '../../Hooks/useManagerPool';
+import useUserPool from '../../Hooks/useUserPool';
 import { Button, Spin, Modal,Popconfirm} from 'antd';
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import { success,error } from '../../utils/Mesg';
 import '../css/common.css';
 import { FundPoolForm } from '../components/FundPoolForm';
-import { ManagerPool } from '../../state';
+import { UserPool } from '../../state';
 import * as web3 from '@solana/web3.js';
 //import { Link } from 'wouter';
 
@@ -17,7 +17,7 @@ export const FundPoolTestView : React.FC = () => {
 
     const [createFundPoolAccount, createFundPool, loading, , deleteFundPool] = useFundPool();
 
-    const [createManagerPoolAccount,,readMgp,managerPoolIdPubKey] = useManagerPool(); 
+    const [createUserPoolAccount,,readMgp,UserPoolIdPubKey] = useUserPool(); 
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -31,7 +31,7 @@ export const FundPoolTestView : React.FC = () => {
     
     const [finalized, setFinalized] = useState(false);
  
-    const [pool, setPool] = useState<ManagerPool>();
+    const [pool, setPool] = useState<UserPool>();
 
 
     const setValuesOf = (token_count : number, amount : 
@@ -45,7 +45,7 @@ export const FundPoolTestView : React.FC = () => {
   
     const onConfirm = async (selectedAddress : web3.PublicKey)=> {
 
-        let mp_acc = await managerPoolIdPubKey();
+        let mp_acc = await UserPoolIdPubKey();
               
         deleteFundPool(selectedAddress, mp_acc, completion);
     }
@@ -72,14 +72,14 @@ export const FundPoolTestView : React.FC = () => {
 
           <p><Button className="commonButton" onClick={async ()=> {
               
-              createManagerPoolAccount(completion);
+              createUserPoolAccount(completion);
 
           }} >Create Manager Pool Account</Button></p>
 
         <p><Button className="commonButton" type="primary" onClick={async ()=>{
               
-             let pk = await managerPoolIdPubKey();
-              readMgp(pk.toBase58(), (res : ManagerPool | Error) =>  {
+             let pk = await UserPoolIdPubKey();
+              readMgp(pk.toBase58(), (res : UserPool | Error) =>  {
 
                     if (res instanceof Error){
             

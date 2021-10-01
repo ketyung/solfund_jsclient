@@ -1,45 +1,45 @@
 import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId} from './useSolana';
-import { extract_manager_pool, ManagerPool } from '../state';
+import { extract_user_pool, UserPool } from '../state';
 
 
-export default function useManagerPool(){
+export default function useUserPool(){
 
     const [connection, publicKey, , createAccount, loading, setLoading] = useSolana();
 
-    const managerPoolID : string = "__MGR_POOL";
+    const UserPoolID : string = "__USR_POOL";
 
-    async function managerPoolIdPubKey() : Promise<web3.PublicKey> {
+    async function userPoolIdPubKey() : Promise<web3.PublicKey> {
 
         if ( !publicKey) {
 
             let kp = web3.Keypair.generate();
 
-            return await web3.PublicKey.createWithSeed( kp.publicKey, managerPoolID, programId);
+            return await web3.PublicKey.createWithSeed( kp.publicKey, UserPoolID, programId);
 
         }
 
-        return await web3.PublicKey.createWithSeed(publicKey, managerPoolID, programId);
+        return await web3.PublicKey.createWithSeed(publicKey, UserPoolID, programId);
 
     }
 
 
-    async function readMgp(pubkey : null | string, 
-        completionHandler : (result : ManagerPool | Error) => void ){
+    async function read(pubkey : null | string, 
+        completionHandler : (result : UserPool | Error) => void ){
 
         setLoading(true);
         
-        let managerPoolPKey = pubkey ? new web3.PublicKey(pubkey) : await managerPoolIdPubKey();
+        let UserPoolPKey = pubkey ? new web3.PublicKey(pubkey) : await userPoolIdPubKey();
 
         try {
 
-            let acc = await connection.getAccountInfo(managerPoolPKey);
+            let acc = await connection.getAccountInfo(UserPoolPKey);
         
             if ( acc != null ){
     
-                extract_manager_pool(acc.data, 
-                    (res : ManagerPool | Error) =>  {
+                extract_user_pool(acc.data, 
+                    (res : UserPool | Error) =>  {
     
                         if (res instanceof Error){
                 
@@ -76,7 +76,7 @@ export default function useManagerPool(){
     
     }
 
-    async function createManagerPoolAccount( completionHandler : (result : boolean | Error) => void){
+    async function createUserPoolAccount( completionHandler : (result : boolean | Error) => void){
 
         if (!publicKey){
             completionHandler(new Error("No wallet connected"));
@@ -89,13 +89,13 @@ export default function useManagerPool(){
         // PUBKEY_BYTES + 1 + (PUBKEY_BYTES * MANAGER_POOL_SIZE_LIMIT)
         let size : number  = 32 + 1 + (32 * 10); // hard-coded first 
 
-        let managerPoolPKey = await managerPoolIdPubKey();
+        let UserPoolPKey = await userPoolIdPubKey();
 
-        let acc = await connection.getAccountInfo(managerPoolPKey);
+        let acc = await connection.getAccountInfo(UserPoolPKey);
         // create only when it's null
         if ( acc == null ){
 
-            await createAccount(publicKey, publicKey, managerPoolPKey, programId, managerPoolID, size, 
+            await createAccount(publicKey, publicKey, UserPoolPKey, programId, UserPoolID, size, 
             (res : boolean | Error) =>  {
 
                 if (res instanceof Error){
@@ -123,6 +123,6 @@ export default function useManagerPool(){
 
     
 
-    return [createManagerPoolAccount, loading, readMgp, managerPoolIdPubKey, managerPoolID] as const;
+    return [createUserPoolAccount, loading, read, userPoolIdPubKey, UserPoolID] as const;
    
 }

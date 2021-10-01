@@ -2,16 +2,16 @@ import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import { Button, Spin, Modal } from 'antd';
 import { success,error } from '../../utils/Mesg';
-import usePoolMarket from '../../Hooks/usePoolMarket';
-import { PoolMarket } from '../../state';
+import useMarket from '../../Hooks/useMarket';
+import { Market } from '../../state';
 import '../css/common.css';
-import { POOL_MARKET_KEY } from '../../Hooks/usePoolMarket';
+import { POOL_MARKET_KEY } from '../../Hooks/useMarket';
 
 export const PoolMarketTestView : React.FC = () =>{
 
-    const [createPoolMarketAccount, read, loading] = usePoolMarket();
+    const [createMarketAccount, read, loading] = useMarket();
 
-    const [poolMarket, setPoolMarket] = useState<PoolMarket>();
+    const [Market, setMarket] = useState<Market>();
 
     const [modelPresented, setModalPresented] = useState(false);
 
@@ -36,7 +36,7 @@ export const PoolMarketTestView : React.FC = () =>{
 
           <p><Button className="commonButton" danger onClick={async ()=> {
               
-              createPoolMarketAccount(completion2);
+              createMarketAccount(completion2);
 
           }} >Create Pool Market Account</Button></p>
        
@@ -46,7 +46,7 @@ export const PoolMarketTestView : React.FC = () =>{
              
               read(POOL_MARKET_KEY, 
                 
-                (res : PoolMarket | Error) =>  {
+                (res : Market | Error) =>  {
 
                     if (res instanceof Error){
             
@@ -55,7 +55,7 @@ export const PoolMarketTestView : React.FC = () =>{
                     }
                     else {
             
-                        setPoolMarket(res);
+                        setMarket(res);
                         setModalPresented(true);
                     }
             
@@ -64,7 +64,7 @@ export const PoolMarketTestView : React.FC = () =>{
 
           }} >Read Data</Button></p>
 
-        <Modal title={"Registered Addresses : " + poolMarket?.pool_size }
+        <Modal title={"Registered Addresses : " + Market?.pool_size }
           style={{minWidth:"80%"}}
           visible={modelPresented}
           onCancel={()=>{
@@ -77,7 +77,7 @@ export const PoolMarketTestView : React.FC = () =>{
           cancelButtonProps={{ disabled: false }}>
           {
 
-            poolMarket?.fund_pools.map (( address , index) => {
+            Market?.fund_pools.map (( address , index) => {
 
                // console.log("addr"+index, address.toBase58());
                 return <div style={{textAlign: "justify", margin:"10px"}}>

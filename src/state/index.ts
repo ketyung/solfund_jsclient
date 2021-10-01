@@ -1,9 +1,9 @@
 import * as web3 from '@solana/web3.js';
 
-export const extract_pool_market = (data : Uint8Array, 
-    completionHandler : (result : PoolMarket | Error) => void ) => {
+export const extract_market = (data : Uint8Array, 
+    completionHandler : (result : Market | Error) => void ) => {
 
-    //let pool_market = new PoolMarket();
+    //let pool_market = new Market();
 
     let pool_size = data.slice(0 , 2);
     
@@ -35,16 +35,16 @@ export const extract_pool_market = (data : Uint8Array,
 
    // console.log("num", num);
     
-    let pm =  new  PoolMarket( { pool_size : num , fund_pools: validPkeys } );
+    let pm =  new  Market( { pool_size : num , fund_pools: validPkeys } );
     completionHandler(pm);
 
 }
 
 
-export const extract_manager_pool = (data : Uint8Array, 
-    completionHandler : (result : ManagerPool | Error) => void ) => {
+export const extract_user_pool = (data : Uint8Array, 
+    completionHandler : (result : UserPool | Error) => void ) => {
 
-    //let pool_market = new PoolMarket();
+    //let pool_market = new Market();
     
     
     let manager = data.slice(0 , 32);
@@ -77,7 +77,7 @@ export const extract_manager_pool = (data : Uint8Array,
     let mgrKey =  new web3.PublicKey(manager);
 
    
-    let m =  new  ManagerPool( { manager : mgrKey , addresses: validPkeys } );
+    let m =  new  UserPool( { manager : mgrKey , addresses: validPkeys } );
     completionHandler(m);
 
 }
@@ -209,7 +209,7 @@ export const num_to_u16 = (num : number)  => {
 
 };
 
-export class PoolMarket {
+export class Market {
 
     pool_size : number = 0 ;
 
@@ -227,7 +227,7 @@ export class PoolMarket {
 }
 
 
-export class ManagerPool {
+export class UserPool {
 
     manager : web3.PublicKey = web3.PublicKey.default ;
 

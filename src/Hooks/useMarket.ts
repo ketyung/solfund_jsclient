@@ -1,7 +1,7 @@
 import * as web3 from '@solana/web3.js';
 import {programId, MODULE_POOL_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
 import useSolana from './useSolana';
-import { extract_pool_market, PoolMarket } from '../state';
+import { extract_market, Market} from '../state';
 
 export const POOL_MARKET_KEY = "9jGazEpw8agjChuRE5LPKv3HACtsm8fFcrgBcNquoTsz";
 
@@ -10,7 +10,7 @@ export default function usePoolMarket(){
 
     const [connection, publicKey,  sendIns, createAccount, loading, setLoading] = useSolana();
 
-    const ID : string = "__POOL_MARKET";
+    const ID : string = "__MARKET";
 
     async function poolMarketIdPubKey() : Promise<web3.PublicKey> {
 
@@ -70,7 +70,7 @@ export default function usePoolMarket(){
     }
 
 
-    async function read(pubkey : null | string, completionHandler : (result : PoolMarket | Error) => void ){
+    async function read(pubkey : null | string, completionHandler : (result : Market| Error) => void ){
 
         setLoading(true);
         
@@ -81,8 +81,8 @@ export default function usePoolMarket(){
 
             if ( acc != null ){
 
-                extract_pool_market(acc.data, 
-                    (res : PoolMarket | Error) =>  {
+                extract_market(acc.data, 
+                    (res : Market| Error) =>  {
 
                         if (res instanceof Error){
                 
