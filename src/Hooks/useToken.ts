@@ -55,7 +55,7 @@ export default function useToken(){
 
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: publicKey, isSigner: true, isWritable: false },
-            { pubkey : tokenKey, isSigner : false, isWritable : true}, // pass the last one as the token account 
+            { pubkey : tokenKey, isSigner : false, isWritable : true}, 
             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
         ];
         
