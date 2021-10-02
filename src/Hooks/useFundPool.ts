@@ -217,27 +217,19 @@ export default function useFundPool(){
 
         const tokenKey = await web3.PublicKey.createWithSeed(publicKey, tkSeed, splToken.TOKEN_PROGRAM_ID);
 
-        //const tokenMintKey = new web3.PublicKey((await connection.getParsedAccountInfo(tokenKey, 'singleGossip')));
-
-        // print for comparison with the rust backend
         console.log("tokenKey", tokenKey.toBase58());
 
         const createTokenAccountIx = web3.SystemProgram.createAccount({
             programId: splToken.TOKEN_PROGRAM_ID,
             space: splToken.AccountLayout.span,
-            lamports: await connection.getMinimumBalanceForRentExemption(splToken.AccountLayout.span, 'singleGossip'),
+            lamports: await connection.getMinimumBalanceForRentExemption(
+                splToken.AccountLayout.span, 'singleGossip'),
             fromPubkey: publicKey, // initializer 
             newAccountPubkey: tokenKey
         });
 
-        //const initTokenAccountIx = splToken.Token.createInitAccountInstruction(splToken.TOKEN_PROGRAM_ID, 
-          //  tokenMintKey, tokenKey, publicKey);
-   
-        //const txTokensToAccountIx = splToken.Token
-        //.createTransferInstruction(splToken.TOKEN_PROGRAM_ID, publicKey, tokenKey, 
-        //publicKey, [], token_count);
-    
-
+        //let tokenKey = web3.PublicKey.default;
+       
 
         let fundPoolAccKey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
     
