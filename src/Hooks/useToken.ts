@@ -69,6 +69,11 @@ export default function useToken(){
         allTxs.add(createTokenAccountIx);
         allTxs.add(mintTkWithRustIx);
 
+
+       // await connection.sendTransaction(allTxs, 
+         //   [publicKey, tokenKey], {skipPreflight: false, preflightCommitment: 'singleGossip'});
+
+
         sendTxs(allTxs, (res : string | Error) =>  {
 
             if (res instanceof Error){
