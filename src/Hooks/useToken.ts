@@ -41,7 +41,9 @@ export default function useToken(){
         const createTokenAccountIx = web3.SystemProgram.createAccount({
             programId: splToken.TOKEN_PROGRAM_ID,
             space: splToken.AccountLayout.span,
-            lamports: await connection.getMinimumBalanceForRentExemption(splToken.AccountLayout.span, 'singleGossip'),
+            lamports: 
+            await connection.getMinimumBalanceForRentExemption(
+                splToken.AccountLayout.span, 'singleGossip'),
             fromPubkey: publicKey, // initializer 
             newAccountPubkey: tokenAcc.publicKey
         });
