@@ -9,7 +9,7 @@ import useSolana from './useSolana';
 import * as splToken from "@solana/spl-token";
 import { num_to_u64 } from '../state';
 
-const tokenProgramId : web3.PublicKey = new web3.PublicKey("4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X");
+const myProgramId : web3.PublicKey = new web3.PublicKey("4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X");
 
 
 export default function useToken(){
@@ -30,15 +30,16 @@ export default function useToken(){
         setLoading(true);
 
         
-        const tokenAcc = web3.Keypair.generate();
+       // const tokenAcc = web3.Keypair.generate();
 
         //console.log("tokenKey", tokenKey.toBase58());
 
         //let accPubkey = new web3.Account();
 
-        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+        //const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
 
-
+   /**
+     
         const createTokenAccountIx = web3.SystemProgram.createAccount({
             programId: splToken.TOKEN_PROGRAM_ID,
             space: splToken.AccountLayout.span,
@@ -47,13 +48,26 @@ export default function useToken(){
             newAccountPubkey: tokenAcc.publicKey
         });
 
-
         const initTokenAccountIx =  splToken.Token.createInitAccountInstruction(
             splToken.TOKEN_PROGRAM_ID, // program id, always token program id
             tokenKey, // mint
             tokenAcc.publicKey, // token account public key
             publicKey
         );
+       */
+
+        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, myProgramId);
+
+
+        const createAccountIx = web3.SystemProgram.createAccount({
+            programId: myProgramId,
+            space: 100,
+            lamports: await connection.getMinimumBalanceForRentExemption(100),
+            fromPubkey: publicKey, // initializer 
+            newAccountPubkey: tokenKey
+        });
+
+       
 
         const newInsArray : Uint8Array = new Uint8Array(9);
             
@@ -69,25 +83,25 @@ export default function useToken(){
 
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: publicKey, isSigner: true, isWritable: false },
-            { pubkey : tokenAcc.publicKey, isSigner : false, isWritable : true}, 
-            { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+            { pubkey : tokenKey, isSigner : false, isWritable : true}, 
+         //   { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
         ];
         
         
         const mintTkWithRustIx = new web3.TransactionInstruction({
-        programId : tokenProgramId, keys: accounts, data: dataBuffer, });
+        programId : myProgramId, keys: accounts, data: dataBuffer, });
         
 
         const allTxs = new web3.Transaction();
         
-        allTxs.add(createTokenAccountIx);
-        allTxs.add(initTokenAccountIx);
+    //    allTxs.add(createTokenAccountIx);
+       // allTxs.add(initTokenAccountIx);
+        allTxs.add(createAccountIx);
         allTxs.add(mintTkWithRustIx);
 
-        allTxs.feePayer = publicKey;
+       // allTxs.feePayer = publicKey;
 
-        console.log("tx::.freePayer", allTxs.feePayer);
-
+       
         sendTxs(allTxs, (res : string | Error) =>  {
 
             if (res instanceof Error){

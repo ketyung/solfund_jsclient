@@ -122,7 +122,7 @@ export const createFundPoolBytes = (manager : web3.PublicKey,
     is_finalized : boolean, icon : number) => {
 
         // manager,lamports, token_count,is_finalized
-        const newInsArray : Uint8Array = new Uint8Array(83);
+        const newInsArray : Uint8Array = new Uint8Array(115);
        
         const pkbytes = manager.toBytes();
 

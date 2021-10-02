@@ -213,11 +213,14 @@ export default function useFundPool(){
         genLastSeed();
         let lastSeed = getStoredLastSeed();
 
+        
+        /**
         let tkSeed = "TK"+lastSeed;
 
         const tokenKey = await web3.PublicKey.createWithSeed(publicKey, tkSeed, splToken.TOKEN_PROGRAM_ID);
 
         console.log("tokenKey", tokenKey.toBase58());
+
 
         const createTokenAccountIx = web3.SystemProgram.createAccount({
             programId: splToken.TOKEN_PROGRAM_ID,
@@ -227,13 +230,13 @@ export default function useFundPool(){
             fromPubkey: publicKey, // initializer 
             newAccountPubkey: tokenKey
         });
-
-        //let tokenKey = web3.PublicKey.default;
+ */
+        let tokenKey = web3.PublicKey.default;
        
 
         let fundPoolAccKey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
     
-        let accDataSize : number  = 84 + (80 * 100) + (80 *100) + 2; // hard-coded first 
+        let accDataSize : number  = 116 + (80 * 100) + (80 *100) + 2; // hard-coded first 
  
         const acLp = await connection.getMinimumBalanceForRentExemption(accDataSize) ;
 
@@ -272,7 +275,7 @@ export default function useFundPool(){
         const allTxs = new web3.Transaction();
         
         // add here for the createTokenAccount, initialize token acc, and transfer the token numbers to acc
-        allTxs.add(createTokenAccountIx);//, initTokenAccountIx, txTokensToAccountIx);
+       // allTxs.add(createTokenAccountIx);//, initTokenAccountIx, txTokensToAccountIx);
 
         let upAcc = await connection.getAccountInfo(userPoolPKey);
         if (upAcc == null ){
