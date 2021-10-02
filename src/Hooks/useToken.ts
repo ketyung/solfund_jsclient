@@ -93,6 +93,7 @@ export default function useToken(){
 
        // allTxs.feePayer = publicKey;
 
+       // missing a SysVar rent account!
        
         sendTxs(allTxs, (res : string | Error) =>  {
 
