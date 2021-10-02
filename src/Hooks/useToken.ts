@@ -29,16 +29,21 @@ export default function useToken(){
 
         setLoading(true);
 
-        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+        //const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
 
-        console.log("tokenKey", tokenKey.toBase58());
+        const tokenAcc = web3.Keypair.generate();
+
+        //console.log("tokenKey", tokenKey.toBase58());
+
+        //let accPubkey = new web3.Account();
+
 
         const createTokenAccountIx = web3.SystemProgram.createAccount({
             programId: splToken.TOKEN_PROGRAM_ID,
             space: splToken.AccountLayout.span,
             lamports: await connection.getMinimumBalanceForRentExemption(splToken.AccountLayout.span, 'singleGossip'),
             fromPubkey: publicKey, // initializer 
-            newAccountPubkey: tokenKey
+            newAccountPubkey: tokenAcc.publicKey
         });
 
         const newInsArray : Uint8Array = new Uint8Array(9);
@@ -55,7 +60,7 @@ export default function useToken(){
 
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: publicKey, isSigner: true, isWritable: false },
-            { pubkey : tokenKey, isSigner : false, isWritable : true}, 
+            { pubkey : tokenAcc.publicKey, isSigner : false, isWritable : true}, 
             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
         ];
         
@@ -70,10 +75,27 @@ export default function useToken(){
         allTxs.add(mintTkWithRustIx);
 
 
-       // await connection.sendTransaction(allTxs, 
-         //   [publicKey, tokenKey], {skipPreflight: false, preflightCommitment: 'singleGossip'});
+        try {
 
+            await connection.sendTransaction(allTxs, 
+                [tokenAcc], {skipPreflight: false, preflightCommitment: 'singleGossip'});
+     
+            completionHandler(true);
+            setLoading(false);
+    
+        }
+        catch(e){
 
+            setLoading(false);
+            if (e instanceof Error) {
+
+                completionHandler(e);
+
+            }
+          
+        }
+
+        /*
         sendTxs(allTxs, (res : string | Error) =>  {
 
             if (res instanceof Error){
@@ -89,7 +111,7 @@ export default function useToken(){
                 setLoading(false);        
             }
     
-        });
+        });*/
        
 
     }
