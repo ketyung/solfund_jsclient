@@ -58,10 +58,6 @@ export default function useToken(){
        */
 
 
-        //splToken.Token.getAssociatedTokenAddress
-
-        //splToken.Token;       
-
         const newInsArray : Uint8Array = new Uint8Array(9);
             
         newInsArray[0] = 1; // 2 is counter
@@ -77,7 +73,8 @@ export default function useToken(){
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: publicKey, isSigner: true, isWritable: false },
             { pubkey : tokenKey, isSigner : false, isWritable : true}, 
-             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+            { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false},
+            { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
         ];
         
         
@@ -93,8 +90,7 @@ export default function useToken(){
 
        // allTxs.feePayer = publicKey;
 
-       // missing a SysVar rent account!
-       
+      
         sendTxs(allTxs, (res : string | Error) =>  {
 
             if (res instanceof Error){
