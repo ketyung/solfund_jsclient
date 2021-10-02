@@ -70,9 +70,15 @@ export default function useToken(){
 
         const dataBuffer = Buffer.from(newInsArray);
 
+        console.log("signer.acc", publicKey.toBase58());
+        console.log("tk.acc", tokenKey.toBase58());
+        console.log("tk.prog", splToken.TOKEN_PROGRAM_ID.toBase58());
+        
+
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: publicKey, isSigner: true, isWritable: false },
             { pubkey : tokenKey, isSigner : false, isWritable : true}, 
+            // sys var rent account must come b4 the token program acc
             { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false},
             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
         ];
