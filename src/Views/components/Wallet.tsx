@@ -16,6 +16,8 @@ export const Wallet : React.FC = () => {
 
     const [matchPoolMarket] = useRoute("/poolmarket");
 
+    const [matchTokenTest] = useRoute("/tokentest");
+
 
     return <div>
         <WalletModalProvider>
@@ -28,6 +30,11 @@ export const Wallet : React.FC = () => {
             <div className={matchPoolMarket ? "topLinkSel" : "topLink"}>
                 <Link href="/poolmarket">
                 <a className="link">Market</a>
+                </Link>
+            </div>
+            <div className={matchTokenTest ? "topLinkSel" : "topLink"}>
+                <Link href="/tokentest">
+                <a className="link">Token</a>
                 </Link>
             </div>
            

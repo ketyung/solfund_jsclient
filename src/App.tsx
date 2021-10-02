@@ -8,6 +8,7 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {getPhantomWallet,getSolflareWallet,getSolletWallet} from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import {FundPoolView} from './Views/components/FundPoolView';
+import { TokenTestView } from './Views/testers/TokenTestView';
 import {Wallet} from './Views/components/Wallet';
 
 function App() {
@@ -73,6 +74,10 @@ function App() {
         {(params) => 
           <FundPoolView address={params.address}/>
         }
+      </Route>
+
+      <Route path="/tokentest">
+       <TokenTestView/>
       </Route>
 
         </WalletProvider>

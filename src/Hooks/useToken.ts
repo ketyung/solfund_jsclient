@@ -8,21 +8,22 @@ const tokenProgramId : web3.PublicKey = new web3.PublicKey("2GkHTs42nVfU15AqTpfD
 
 export default function useToken(){
 
-    const [connection, publicKey, , , , setLoading, sendTxs] = useSolana();
+    const [connection, publicKey, , ,loading , setLoading, sendTxs] = useSolana();
 
   
 
-    async function createTokenAccountAndMintTo(tokenCount : number,
+    async function createTokenAccountAndMintTo(seed : string, tokenCount : number,
         completionHandler : (result : boolean | Error) => void) {
 
         if ( !publicKey) {
 
+            completionHandler( new Error("No wallet connected"));
             return; 
         }
 
-        const tkSeed = "tkSeed";
+        setLoading(true);
 
-        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, tkSeed, splToken.TOKEN_PROGRAM_ID);
+        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
 
         console.log("tokenKey", tokenKey.toBase58());
 
@@ -84,6 +85,6 @@ export default function useToken(){
 
     
 
-    return [createTokenAccountAndMintTo] as const;
-    
+    return [createTokenAccountAndMintTo, loading] as const;
+
 }
