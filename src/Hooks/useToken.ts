@@ -1,9 +1,15 @@
+/**
+ * Note - this is just the small part for testing
+ * the Rust on-chain program for creating, minting spl token
+ * By Christopher K Y Chee (ketyung@techchee.com)
+ */
+
 import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import * as splToken from "@solana/spl-token";
 import { num_to_u64 } from '../state';
 
-const tokenProgramId : web3.PublicKey = new web3.PublicKey("2GkHTs42nVfU15AqTpfDA2EgBzHix6rCewwutTKETM4M");
+const tokenProgramId : web3.PublicKey = new web3.PublicKey("4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X");
 
 
 export default function useToken(){
