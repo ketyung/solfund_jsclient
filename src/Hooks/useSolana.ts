@@ -26,7 +26,7 @@ export default function useSolana() {
     const connection = new web3.Connection(web3.clusterApiUrl(solanaNet),'confirmed');
 
     // the connected wallet pubkey
-    const { publicKey, sendTransaction } = useWallet();
+    const { publicKey, sendTransaction, wallet } = useWallet();
 
     const [loading, setLoading] = useState(false);
 

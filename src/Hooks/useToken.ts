@@ -17,6 +17,24 @@ export default function useToken(){
     const [connection, publicKey, , ,loading , setLoading, sendTxs] = useSolana();
 
   
+    const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: web3.PublicKey = new web3.PublicKey(
+        'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
+      );
+      
+    
+    async function findAssociatedTokenAddress(
+        walletAddress: web3.PublicKey,
+        tokenMintAddress: web3.PublicKey
+    ): Promise<web3.PublicKey> {
+        return (await web3.PublicKey.findProgramAddress(
+            [
+                walletAddress.toBuffer(),
+                splToken.TOKEN_PROGRAM_ID.toBuffer(),
+                tokenMintAddress.toBuffer(),
+            ],
+            SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
+        ))[0];
+    }
 
     async function createTokenAccountAndMintTo(seed : string, tokenCount : number,
         completionHandler : (result : boolean | Error) => void) {
@@ -127,8 +145,14 @@ export default function useToken(){
 
         setLoading(true);
 
+        
        
+        
         const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+
+        let mint = await findAssociatedTokenAddress(publicKey, tokenKey);
+    
+        console.log("mint", mint.toBase58());
 
         const createTokenAccountIx = web3.SystemProgram.createAccountWithSeed({
             fromPubkey: publicKey,
@@ -142,15 +166,16 @@ export default function useToken(){
      
         const initTokenAccountIx =  splToken.Token.createInitAccountInstruction(
             splToken.TOKEN_PROGRAM_ID, // program id, always token program id
-            publicKey, // mint
+            mint, // mint
             tokenKey, // token account public key
             publicKey
         );
      
+        /** *
         const mintIx = splToken.Token.createMintToInstruction(splToken.TOKEN_PROGRAM_ID,
-            publicKey, tokenKey, publicKey, [], tokenCount);
+            mint.publicKey, tokenKey, publicKey, [], tokenCount);
 
-
+ */
         //let accounts : Array<web3.AccountMeta> = [
           //  { pubkey: publicKey, isSigner: true, isWritable: false },
         //    { pubkey : tokenKey, isSigner : false, isWritable : true}, 
@@ -165,7 +190,7 @@ export default function useToken(){
         
         allTxs.add(createTokenAccountIx);
         allTxs.add(initTokenAccountIx);
-        allTxs.add(mintIx);
+       // allTxs.add(mintIx);
         allTxs.feePayer = publicKey;
 
       
