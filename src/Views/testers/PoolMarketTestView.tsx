@@ -38,7 +38,7 @@ export const PoolMarketTestView : React.FC = () =>{
               
               createMarketAccount(completion2);
 
-          }} >Create Pool Market Account</Button></p>
+          }} >Create Market</Button></p>
        
          
           <p><Button className="commonButton" type="primary" onClick={()=>{

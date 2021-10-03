@@ -1,14 +1,15 @@
 import * as web3 from '@solana/web3.js';
-import {programId, MODULE_POOL_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
+import {programId, MODULE_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
 import useSolana from './useSolana';
 import { extract_market, Market} from '../state';
+import { SolUtil } from '../utils/SolUtil';
 
 export const POOL_MARKET_KEY = "9jGazEpw8agjChuRE5LPKv3HACtsm8fFcrgBcNquoTsz";
 
 
 export default function usePoolMarket(){
 
-    const [connection, publicKey,  sendIns, createAccount, loading, setLoading] = useSolana();
+    const [connection, publicKey, , , loading, setLoading, sendTxs] = useSolana();
 
     const ID : string = "__MARKET";
 
@@ -26,7 +27,7 @@ export default function usePoolMarket(){
 
     }
 
-    async function createPoolMarketAccount( completionHandler : (result : boolean | Error) => void){
+    async function createMarket( completionHandler : (result : boolean | Error) => void){
 
         if (!publicKey){
             completionHandler(new Error("No wallet connected"));
@@ -36,7 +37,7 @@ export default function usePoolMarket(){
 
         setLoading(true);
 
-        let size : number  = (32 * 100) + 2; // hard-coded first 
+        let size : number  = (32 * 100) + 2 + 32 ; // hard-coded first 
 
         let marketPkey = await poolMarketIdPubKey();
 
@@ -44,8 +45,46 @@ export default function usePoolMarket(){
         // create only when it's null
         if ( acc == null ){
 
-            await createAccount(publicKey, publicKey, marketPkey, programId, ID, size, 
-            (res : boolean | Error) =>  {
+            let marketKey = await web3.PublicKey.createWithSeed(publicKey, ID, programId);
+    
+            const lp = await connection.getMinimumBalanceForRentExemption(size) ;
+
+            const createAccTx = new web3.Transaction().add(
+                web3.SystemProgram.createAccountWithSeed({
+                fromPubkey: publicKey,
+                basePubkey: publicKey,
+                seed: ID,
+                newAccountPubkey: marketKey,
+                lamports: lp, space: size ,programId,
+                }),
+            );
+
+
+            const newInsArray : Uint8Array = new Uint8Array(32);
+       
+            const pkbytes = publicKey.toBytes();
+    
+            for (var r=0; r < pkbytes.length; r++){
+    
+                newInsArray[r] = pkbytes[r];
+            }
+    
+            let data = SolUtil.createBuffer(pkbytes,ACTION_CREATE,MODULE_MARKET);
+
+            let accounts : Array<web3.AccountMeta> = [
+                { pubkey: marketKey, isSigner: false, isWritable: true },
+                { pubkey: publicKey, isSigner: true, isWritable: false },
+            ];
+
+            const createMkIns = new web3.TransactionInstruction({programId, keys: accounts, data: data, });
+    
+            const allTxs = new web3.Transaction();
+            allTxs.add(
+                createAccTx,
+                new web3.Transaction().add(createMkIns), 
+            );
+
+            sendTxs(allTxs, (res : string | Error) =>  {
 
                 if (res instanceof Error){
         
@@ -55,11 +94,15 @@ export default function usePoolMarket(){
                 }
                 else {
         
+                    console.log("Completed!", res);
                     completionHandler(true);
                     setLoading(false);        
                 }
         
             });
+        
+        
+    
         }
         else {
 
@@ -121,6 +164,6 @@ export default function usePoolMarket(){
 
 
 
-    return [createPoolMarketAccount, read, loading, poolMarketIdPubKey] as const;
+    return [createMarket, read, loading, poolMarketIdPubKey] as const;
    
 }

@@ -5,7 +5,7 @@ import {solanaNet} from '../utils/SolUtil';
 
 export const programId : web3.PublicKey = new web3.PublicKey("2GkHTs42nVfU15AqTpfDA2EgBzHix6rCewwutTKETM4M");
 
-export const MODULE_POOL_MARKET : number = 33;
+export const MODULE_MARKET : number = 3;
 
 export const MODULE_FUND_POOL : number = 1;
 
