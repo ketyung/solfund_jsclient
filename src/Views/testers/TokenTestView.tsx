@@ -10,7 +10,7 @@ import * as web3 from '@solana/web3.js';
 export const TokenTestView : React.FC = () => {
 
 
-    const [createAndMintToken, tokenProcessing] = useToken();
+    const [, createAndMintTk2, tokenProcessing] = useToken();
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -66,8 +66,10 @@ export const TokenTestView : React.FC = () => {
           onOk={async ()=>{
                 setModalPresented(false);
       
-                createAndMintToken(seed, tokenCount, completion);
+               //createAndMintToken(seed, tokenCount, completion);
 
+               createAndMintTk2(seed, tokenCount, completion  );
+               
           }}
           onCancel={()=>{setModalPresented(false);}}
           okButtonProps={{ disabled: false }}

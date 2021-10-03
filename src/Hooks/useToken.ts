@@ -115,8 +115,80 @@ export default function useToken(){
         });
     }
 
+
+    async function createTokenAccountAndMintTo2(seed : string, tokenCount : number,
+        completionHandler : (result : boolean | Error) => void) {
+
+        if ( !publicKey) {
+
+            completionHandler( new Error("No wallet connected"));
+            return; 
+        }
+
+        setLoading(true);
+
+       
+        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+
+        const createTokenAccountIx = web3.SystemProgram.createAccountWithSeed({
+            fromPubkey: publicKey,
+            basePubkey: publicKey,
+            seed: seed,
+            newAccountPubkey: tokenKey,
+            lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection), 
+            space: splToken.AccountLayout.span , programId: splToken.TOKEN_PROGRAM_ID
+        });
+
+     
+        const initTokenAccountIx =  splToken.Token.createInitAccountInstruction(
+            splToken.TOKEN_PROGRAM_ID, // program id, always token program id
+            publicKey, // mint
+            tokenKey, // token account public key
+            publicKey
+        );
+     
+        const mintIx = splToken.Token.createMintToInstruction(splToken.TOKEN_PROGRAM_ID,
+            publicKey, tokenKey, publicKey, [], tokenCount);
+
+
+        //let accounts : Array<web3.AccountMeta> = [
+          //  { pubkey: publicKey, isSigner: true, isWritable: false },
+        //    { pubkey : tokenKey, isSigner : false, isWritable : true}, 
+           // { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false},
+          //  { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+           
+       // ];
+        
+        
+
+        const allTxs = new web3.Transaction();
+        
+        allTxs.add(createTokenAccountIx);
+        allTxs.add(initTokenAccountIx);
+        allTxs.add(mintIx);
+        allTxs.feePayer = publicKey;
+
+      
+        sendTxs(allTxs, (res : string | Error) =>  {
+
+            if (res instanceof Error){
+    
+                completionHandler(res);
+                setLoading(false);
+    
+            }
+            else {
+    
+                console.log("Completed!", res);
+                completionHandler(true);
+                setLoading(false);        
+            }
+    
+        });
+    }
+
     
 
-    return [createTokenAccountAndMintTo, loading] as const;
+    return [createTokenAccountAndMintTo, createTokenAccountAndMintTo2,  loading] as const;
 
 }
