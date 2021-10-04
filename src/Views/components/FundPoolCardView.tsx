@@ -5,7 +5,7 @@ import {ICONS} from './IconsChooser';
 import './css/FundPoolCardView.css';
 import {format_pub_key_shorter} from '../../state/';
 import {Tooltip,Button} from 'antd';
-import {UserAddOutlined} from '@ant-design/icons';
+import {UserAddOutlined, ShareAltOutlined} from '@ant-design/icons';
 
 interface FundPoolCardViewProps {
 
@@ -52,6 +52,10 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
 
         <div style={{maxWidth:"200px",textOverflow:"ellipsis"}}>Amount : {(lamports / web3.LAMPORTS_PER_SOL).toFixed(9)}</div>
 
+        <Button shape="circle" style={{float:"right"}}>
+        <ShareAltOutlined />
+        </Button>
+       
       
     </div>;
 
