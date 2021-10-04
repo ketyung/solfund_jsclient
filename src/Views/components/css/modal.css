@@ -1,0 +1,8 @@
+.roundModal {
+    min-width: 80%;
+}
+
+.roundModal .ant-modal-content, .roundModal .ant-modal-content .ant-modal-header {
+
+    border-radius: 20px;    
+}

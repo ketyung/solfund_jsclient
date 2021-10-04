@@ -8,6 +8,7 @@ import * as web3 from '@solana/web3.js';
 import {FundPoolCardView} from './FundPoolCardView';
 import {Modal} from 'antd';
 import {InvestorForm} from './InvestorForm';
+import './css/modal.css';
 
 interface MarketFundPoolsProps {
 
@@ -133,8 +134,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     }
 
     <Modal title={ selectedAddress?.toBase58() ?? ""}
-          style={{minWidth:"80%"}}
-          visible={modalPresented}
+        className="roundModal"
+         visible={modalPresented}
           onCancel={()=>{
 
               setModalPresented(false);
