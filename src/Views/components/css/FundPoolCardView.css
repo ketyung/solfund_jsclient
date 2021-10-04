@@ -1,0 +1,38 @@
+.fundPoolNorm{
+
+    float:left;
+    width:26%;
+    border: 1px solid #aab;
+    padding:10px 10px 10px 50px;
+    margin:10px;
+    border-radius: 20px;
+    background-color: aliceblue;
+    max-height:200px;
+
+
+}
+
+.fundPoolNorm:hover{
+
+    background-color: #eda;
+}
+
+
+.fundPoolBrk{
+    float:left;
+    width:26%;
+    border: 1px solid #aab;
+    padding:10px 10px 10px 50px;
+    margin:10px;
+    border-radius: 20px;
+    background-color: aliceblue;
+    clear:both;
+    max-height:200px;
+    
+}
+
+
+.fundPoolBrk:hover {
+
+    background-color: #eda;
+}

@@ -3,7 +3,6 @@ import useMarket from '../../Hooks/useMarket';
 import useSolana from '../../Hooks/useSolana';
 import { FundPool, Market } from '../../state';
 import { error } from '../../utils/Mesg';
-import { Card } from 'antd';
 import { extract_fund_pool } from '../../state';
 import * as web3 from '@solana/web3.js';
 import {FundPoolCardView} from './FundPoolCardView';
@@ -41,10 +40,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
                             tmpFundPools.push(res);
                         }
                     }
-                    else {
-
-                        console.log("is.default", res.address);
-                    }
+                   
                 }
             });
 
@@ -57,7 +53,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
         return <FundPoolCardView address={fundPool.address.toBase58()}
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
-        tokenCount={fundPool.token_count} icon={fundPool.icon} className="xxx"/>
+        tokenCount={fundPool.token_count} icon={fundPool.icon} 
+        className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}/>
 
     });
 

@@ -228,6 +228,13 @@ export const num_to_u16 = (num : number)  => {
 
 };
 
+
+export const format_pub_key_shorter = ( pubkey : string) => {
+
+    return pubkey.substring(0,4) + ".." + pubkey.substring(pubkey.length - 4 , pubkey.length);
+
+}
+
 export class Market {
 
     pool_size : number = 0 ;
