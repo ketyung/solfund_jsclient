@@ -10,7 +10,7 @@ import * as splToken from "@solana/spl-token";
 export default function useFundPool(){
 
    
-    const [connection, publicKey,  sendIns, createAccount, loading, setLoading, sendTxs] = useSolana();
+    const [connection, publicKey,  sendIns, , loading, setLoading, sendTxs] = useSolana();
 
     const [,,,userPoolIdPubKey, UserPoolID] = useuserPool();
  
@@ -84,58 +84,7 @@ export default function useFundPool(){
     
     }
 
-    async function createFundPoolAccount( seed : string | null,  completionHandler : (result : boolean | Error) => void){
-
-        if (!publicKey){
-            completionHandler(new Error("No wallet connected"));
-            setLoading(false);
-            return; 
-        }
-
-        setLoading(true);
-
-        // 84 + (80 * FUND_POOL_INVESTOR_LIMIT) + (80 * FUND_POOL_WITHDRAWER_LIMIT)  + 2
-        let size : number  = 84 + (80 * 100) + (80 *100) + 2; // hard-coded first 
-
-        if ( !seed ) genLastSeed();
-
-        let lastSeed = seed ? seed : getStoredLastSeed();
-
-        let fundPoolPkey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
-
-        let acc = await connection.getAccountInfo(fundPoolPkey);
-        // create only when it's null
-
-       // console.log("lastSeed@CreateAcc", lastSeed);
-
-        if ( acc == null ){
-
-            await createAccount(publicKey, publicKey, fundPoolPkey, programId, lastSeed, size, 
-            (res : boolean | Error) =>  {
-
-                if (res instanceof Error){
-        
-                    completionHandler(res);
-                    setLoading(false);
-        
-                }
-                else {
-        
-                    completionHandler(true);
-                    setLoading(false);        
-                }
-        
-            });
-        }
-        else {
-
-            completionHandler(true);
-            setLoading(false);        
     
-        }
-    }
-
-
     async function deleteFundPool (address : web3.PublicKey | null, userPoolAccount : web3.PublicKey | null, 
         completionHandler : (result : boolean | Error) => void) {
 
@@ -326,6 +275,6 @@ export default function useFundPool(){
   
     
 
-    return [createFundPoolAccount, createFundPool, loading, read, deleteFundPool] as const;
+    return [createFundPool, loading, read, deleteFundPool] as const;
    
 }

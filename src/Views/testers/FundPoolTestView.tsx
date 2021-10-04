@@ -15,9 +15,9 @@ import * as web3 from '@solana/web3.js';
 export const FundPoolTestView : React.FC = () => {
 
 
-    const [createFundPoolAccount, createFundPool, loading, , deleteFundPool] = useFundPool();
+    const [createFundPool, loading, , deleteFundPool] = useFundPool();
 
-    const [createUserPoolAccount,,readMgp,UserPoolIdPubKey] = useUserPool(); 
+    const [,,,UserPoolIdPubKey] = useUserPool(); 
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -69,40 +69,7 @@ export const FundPoolTestView : React.FC = () => {
 
     return <div>
           <div style={{display: loading ? "block" : "none", margin : "10px"}}><Spin size="large"/></div>
-
-          <p><Button className="commonButton" onClick={async ()=> {
-              
-              createUserPoolAccount(completion);
-
-          }} >Create Manager Pool Account</Button></p>
-
-        <p><Button className="commonButton" type="primary" onClick={async ()=>{
-              
-             let pk = await UserPoolIdPubKey();
-              readMgp(pk.toBase58(), (res : UserPool | Error) =>  {
-
-                    if (res instanceof Error){
-            
-                        error((res as Error).message, 5 );
-                        setMgpPresented(false);
-                    }
-                    else {
-            
-                        setPool(res);
-                        setMgpPresented(true);
-                    }
-            
-                }
-            );
-
-          }} >Read Manager Pool's Data</Button></p>
-       
-          <p><Button className="commonButton" onClick={async ()=> {
-              
-              createFundPoolAccount(null, completion);
-
-          }} >Create Fund Pool Account</Button></p>
-       
+   
          <p><Button className="commonButton" danger onClick={async ()=> {
               
               setModalPresented(true);

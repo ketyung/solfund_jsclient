@@ -13,7 +13,7 @@ interface FundPoolViewProps {
 
 export const FundPoolView : React.FC <FundPoolViewProps> = ({address}) => {
 
-    const [,,,read] = useFundPool();
+    const [,,read] = useFundPool();
 
     const [fundPool, setFundPool] = useState<FundPool>();
 
