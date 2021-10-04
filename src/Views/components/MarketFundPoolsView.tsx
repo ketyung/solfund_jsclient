@@ -14,15 +14,47 @@ interface MarketFundPoolsProps {
 }
 
 export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address}) => {
-
     
     const [connection] = useSolana();
 
     const [,read] = useMarket();
 
-    //const [market, setMarket] = useState<Market>();
+    var fundPools : Array<FundPool> = [];
 
-    const [fundPools, setFundPools] = useState<Array<web3.PublicKey>>();
+
+
+    async function readData(pubkey : web3.PublicKey){
+
+        
+        let fpAcc = await connection.getAccountInfo(pubkey);
+
+        if (fpAcc != null){
+
+            extract_fund_pool(fpAcc.data, (res : FundPool | Error) =>  {
+
+                if (!(res instanceof Error)){
+        
+                    fundPools.push(res);
+                }
+            });
+
+        }
+
+    }
+
+
+    const fundPoolsView = fundPools?.map(  (fundPool , index) => {
+
+        return <div className="fundPool">        
+
+        <Card type="inner" title="Address">
+         <span style={{maxWidth:"200px",textOverflow:"ellipsis"}}>
+             {fundPool.address.toBase58()}
+         </span>
+        </Card>        
+        </div>        
+
+    });
 
 
 
@@ -40,8 +72,13 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
                     }
                     else {
             
-                        setFundPools(res.fund_pools);
-                        console.log("market.rd!", res);
+                        for ( var r=0; r < res.fund_pools.length; r++){
+
+                            readData(res.fund_pools[r]);
+                        }
+
+                        //console.log("fps:", fundPools);
+
                     }
             
                 }
@@ -56,37 +93,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     return <div>
     {
 
-        fundPools?.map( async (fundPool , index) => {
-
-            let fpAcc = await connection.getAccountInfo(fundPool);
-
-            if ( fpAcc != null) {
-
-                extract_fund_pool(fpAcc.data, (res : FundPool | Error) =>  {
-
-                    if (!(res instanceof Error)){
-            
-            
-                        return <div className="fundPool">        
-
-                        <Card type="inner" title="Address">
-                         <span style={{maxWidth:"200px",textOverflow:"ellipsis"}}>
-                             {res.address.toBase58()}</span>
-                        </Card>        
-           
-                      </div>
-    
-                    }
-                    
-                });
-              
-            }
-
-
-        })
-
+        fundPoolsView
   
     }
-
     </div>;
 }
