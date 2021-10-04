@@ -34,9 +34,16 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
                 if (!(res instanceof Error)){
         
-                    if ( res.address != web3.PublicKey.default){
+                    if ( res.address.toBase58() !== web3.PublicKey.default.toBase58()){
 
-                        tmpFundPools.push(res);
+                        if (tmpFundPools.indexOf(res)){
+
+                            tmpFundPools.push(res);
+                        }
+                    }
+                    else {
+
+                        console.log("is.default", res.address);
                     }
                 }
             });
@@ -46,15 +53,12 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     }
 
 
-    const fundPoolsView = fundPools?.map(  (fundPool) => {
+    const fundPoolsView = fundPools?.map(  (fundPool, index) => {
 
         return <div className="fundPool">        
 
-        <Card type="inner" title="Address">
-         <div style={{maxWidth:"200px",textOverflow:"ellipsis"}}>
-             {fundPool.address.toBase58()}
-         </div>
-         <div style={{maxWidth:"200px",textOverflow:"ellipsis"}}>
+        <Card type="inner" title={ (index + 1) + ". " + fundPool.address.toBase58()}>
+         <div style={{maxWidth:"200px",textOverflow:"ellipsis", overflow:"auto"}}>
              {fundPool.manager.toBase58()}
          </div>
 
@@ -86,7 +90,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
                         setFundPools(tmpFundPools);
 
-                        console.log("tmpFPools", tmpFundPools);
+                       // console.log("tmpFPools", tmpFundPools);
                     }
             
                 }
