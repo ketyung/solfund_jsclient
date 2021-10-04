@@ -6,14 +6,14 @@
     padding:10px 10px 10px 50px;
     margin:10px;
     border-radius: 20px;
-    background-color: aliceblue;
+    background-color: #dee;
     max-height:200px;
     text-align: justify;
 }
 
 .fundPoolNorm:hover{
 
-    background-color: #346;
+    background-color: #347;
     color:white;
 
 }
@@ -26,7 +26,7 @@
     padding:10px 10px 10px 50px;
     margin:10px;
     border-radius: 20px;
-    background-color: aliceblue;
+    background-color: #dee;
     clear:both;
     max-height:200px;
     text-align: justify;   
@@ -35,7 +35,7 @@
 
 .fundPoolBrk:hover {
 
-    background-color: #346;
+    background-color: #347;
     color:white;
     
 }
