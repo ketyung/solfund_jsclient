@@ -44,7 +44,7 @@ export default function useInvestor(){
 
         let seed = genSeed();
 
-        let size : number  = (32 * 4) + (8 * 3) ; // hard-coded first 
+        let size : number  = (32 * 4) + (8 * 2) ; // hard-coded first 
 
         let investorAccKey =  await web3.PublicKey.createWithSeed(publicKey,seed, programId);
  
