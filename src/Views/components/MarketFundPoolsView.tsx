@@ -36,7 +36,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
         
                     if ( res.address.toBase58() !== web3.PublicKey.default.toBase58()){
 
-                        if (tmpFundPools.indexOf(res)){
+                        if (tmpFundPools.indexOf(res) === -1 ){
 
                             tmpFundPools.push(res);
                         }
