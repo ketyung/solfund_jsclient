@@ -19,9 +19,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     const [,read] = useMarket();
 
-    var fundPools : Array<FundPool> = [];
+    var tmpFundPools : Array<FundPool> = [];
 
-
+    const [fundPools, setFundPools] = useState<Array<FundPool>>();
 
     async function readData(pubkey : web3.PublicKey){
 
@@ -34,7 +34,10 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
                 if (!(res instanceof Error)){
         
-                    fundPools.push(res);
+                    if ( res.address != web3.PublicKey.default){
+
+                        tmpFundPools.push(res);
+                    }
                 }
             });
 
@@ -43,14 +46,18 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     }
 
 
-    const fundPoolsView = fundPools?.map(  (fundPool , index) => {
+    const fundPoolsView = fundPools?.map(  (fundPool) => {
 
         return <div className="fundPool">        
 
         <Card type="inner" title="Address">
-         <span style={{maxWidth:"200px",textOverflow:"ellipsis"}}>
+         <div style={{maxWidth:"200px",textOverflow:"ellipsis"}}>
              {fundPool.address.toBase58()}
-         </span>
+         </div>
+         <div style={{maxWidth:"200px",textOverflow:"ellipsis"}}>
+             {fundPool.manager.toBase58()}
+         </div>
+
         </Card>        
         </div>        
 
@@ -77,8 +84,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
                             readData(res.fund_pools[r]);
                         }
 
-                        //console.log("fps:", fundPools);
+                        setFundPools(tmpFundPools);
 
+                        console.log("tmpFPools", tmpFundPools);
                     }
             
                 }
