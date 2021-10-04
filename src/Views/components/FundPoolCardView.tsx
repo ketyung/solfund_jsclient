@@ -6,6 +6,7 @@ import './css/FundPoolCardView.css';
 import {format_pub_key_shorter} from '../../state/';
 import {Tooltip,Button} from 'antd';
 import {UserAddOutlined, ShareAltOutlined, InfoOutlined} from '@ant-design/icons';
+import {Link} from 'wouter';
 
 interface FundPoolCardViewProps {
 
@@ -64,10 +65,12 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
         <ShareAltOutlined />
         </Button>
        
+        <Link href={"/fundpool/"+address}>
+             
         <Button shape="circle" style={{float:"right"}}>
         <InfoOutlined />
         </Button>
-      
+        </Link>
       
     </div>;
 
