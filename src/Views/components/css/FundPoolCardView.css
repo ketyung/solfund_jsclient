@@ -13,7 +13,9 @@
 
 .fundPoolNorm:hover{
 
-    background-color: #eda;
+    background-color: #346;
+    color:white;
+
 }
 
 
@@ -33,5 +35,7 @@
 
 .fundPoolBrk:hover {
 
-    background-color: #eda;
+    background-color: #346;
+    color:white;
+    
 }

@@ -6,7 +6,7 @@ import { createInvestorBytes } from '../state';
 
 export default function useInvestor(){
 
-    const [connection, publicKey, , createAccount, loading, setLoading, sendTxs] = useSolana();
+    const [connection, publicKey, , , , setLoading, sendTxs] = useSolana();
 
     const INVESTOR_POOL_ID : string = "INV_POOL";
 
