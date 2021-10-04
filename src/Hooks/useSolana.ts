@@ -7,6 +7,8 @@ export const programId : web3.PublicKey = new web3.PublicKey("2GkHTs42nVfU15AqTp
 
 export const MODULE_MARKET : number = 3;
 
+export const MODULE_INVESTOR : number = 2;
+
 export const MODULE_FUND_POOL : number = 1;
 
 export const ACTION_CREATE : number = 1;

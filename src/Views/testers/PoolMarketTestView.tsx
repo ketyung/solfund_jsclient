@@ -32,16 +32,17 @@ export const PoolMarketTestView : React.FC = () =>{
     return <div>
           <div style={{display: loading ? "block" : "none", margin : "10px"}}><Spin size="large"/></div>
 
+        
+          <div style={{margin:"auto",padding:"10px",textAlign:"center"}}>
+          <MarketFundPoolsView address={POOL_MARKET_KEY} />
+          </div>         
+        
           <p><Button className="commonButton" danger onClick={async ()=> {
               
               createMarketAccount(completion2);
 
           }} >Create Market</Button></p>
        
-          <div style={{margin:"auto",padding:"10px",textAlign:"center"}}>
-          <MarketFundPoolsView address={POOL_MARKET_KEY} />
-          </div>         
-        
         
     </div>;
 

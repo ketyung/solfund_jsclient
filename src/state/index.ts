@@ -123,6 +123,89 @@ export const extract_fund_pool = (data : Uint8Array,
 
 }
 
+/** investor, 
+        pool_address, 
+        address,
+        token_address,
+        amount, 
+        token_count,
+        date, */
+    
+   
+export const createInvestorBytes = (
+    investor : web3.PublicKey, 
+    pool_address : web3.PublicKey, 
+    address : web3.PublicKey, 
+    token_address : web3.PublicKey, 
+    amount : number, 
+    token_count : number) => {
+
+        // manager,lamports, token_count,is_finalized
+        const newInsArray : Uint8Array = new Uint8Array(115);
+       
+        const pkbytes = investor.toBytes();
+
+        var offset = 0; 
+
+        for (var r=0; r < pkbytes.length; r++){
+
+            newInsArray[offset+r] = pkbytes[r];
+        }
+
+        offset += pkbytes.length; 
+
+
+        const abytes = pool_address.toBytes();
+
+        for (r=0; r < abytes.length; r++){
+
+            newInsArray[offset+r] = abytes[r];
+        }
+
+        offset += abytes.length; 
+
+
+        const addrbytes = address.toBytes();
+
+        for (r=0; r < addrbytes.length; r++){
+
+            newInsArray[offset+r] = addrbytes[r];
+        }
+
+        offset += addrbytes.length; 
+
+        const tkbytes = token_address.toBytes();
+
+        for (r=0; r < tkbytes.length; r++){
+
+            newInsArray[offset+r] = tkbytes[r];
+        }
+
+        offset += tkbytes.length; 
+
+        let lbytes = num_to_u64(amount);
+
+        for (r=0; r < lbytes.length; r++){
+
+            newInsArray[offset+r] = lbytes[r];
+        }
+
+        offset += lbytes.length; 
+
+
+        let tbytes = num_to_u64(token_count);
+
+        for (r=0; r < tbytes.length; r++){
+
+            newInsArray[offset+r] = tbytes[r];
+        }
+
+
+        return newInsArray;
+
+}
+
+
 export const createFundPoolBytes = (manager : web3.PublicKey, 
     address : web3.PublicKey, token_address : web3.PublicKey, 
     lamports : number, token_count : number, 

@@ -38,8 +38,6 @@ export default function useFundPool(){
 
         let seedStr = "FP_"+seed();
 
-        console.log("seedStr", seedStr);
-
         setStoredLastSeed(seedStr);
     }
 
