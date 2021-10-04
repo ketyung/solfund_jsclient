@@ -6,7 +6,7 @@ import { error } from '../../utils/Mesg';
 import { Card } from 'antd';
 import { extract_fund_pool } from '../../state';
 import * as web3 from '@solana/web3.js';
-
+import {FundPoolCardView} from './FundPoolCardView';
 
 interface MarketFundPoolsProps {
 
@@ -55,15 +55,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     const fundPoolsView = fundPools?.map(  (fundPool, index) => {
 
-        return <div className="fundPool">        
-
-        <Card type="inner" title={ (index + 1) + ". " + fundPool.address.toBase58()}>
-         <div style={{maxWidth:"200px",textOverflow:"ellipsis", overflow:"auto"}}>
-             {fundPool.manager.toBase58()}
-         </div>
-
-        </Card>        
-        </div>        
+        return <FundPoolCardView address={fundPool.address.toBase58()}
+        manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
+        tokenCount={fundPool.token_count} icon={fundPool.icon} className="xxx"/>
 
     });
 
