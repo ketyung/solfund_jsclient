@@ -55,21 +55,19 @@ function App() {
 
   
   return (
-    <div className="App">
 
+    <div className="App">
      <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
         <Wallet/>
           <br/>
           <br/>
-       
       <Route path="/">
         <FundPoolTestView/>
       </Route>
       <Route path="/poolmarket">
         <PoolMarketTestView/>
       </Route>
-     
       <Route path="/fundpool/:address">
         {(params) => 
           <FundPoolView address={params.address}/>
@@ -82,7 +80,6 @@ function App() {
 
         </WalletProvider>
         </ConnectionProvider>
-     
     </div>
   );
 }

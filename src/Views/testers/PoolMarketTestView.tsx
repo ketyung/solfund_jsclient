@@ -11,11 +11,7 @@ import { MarketFundPoolsView } from '../components/MarketFundPoolsView';
 
 export const PoolMarketTestView : React.FC = () =>{
 
-    const [createMarketAccount, read, loading] = useMarket();
-
-    const [market, setMarket] = useState<Market>(Market.default());
-
-    const [modelPresented, setModalPresented] = useState(false);
+    const [createMarketAccount, , loading] = useMarket();
 
     const completion2 = (res : boolean | Error) =>  {
 
@@ -42,46 +38,10 @@ export const PoolMarketTestView : React.FC = () =>{
 
           }} >Create Market</Button></p>
        
-         
-          <p><Button className="commonButton" type="primary" onClick={()=>{
-              
-                setModalPresented(true);
-
-                /**
-                read(POOL_MARKET_KEY, (res : Market | Error) =>  {
-
-                    if (res instanceof Error){
-            
-                        console.log("Error!", res);
-                    
-                    }
-                    else {
-            
-                        setMarket(market);
-                        console.log("mark", market.fund_pools);
-
-                        setModalPresented(true);
-                    }
-            
-                }); */
-                    
-          }} >Read Data</Button></p>
-
-        <Modal title={"Registered Addresses : "  }
-          style={{minWidth:"80%"}}
-          visible={modelPresented}
-          onCancel={()=>{
-
-            setModalPresented(false);
-
-          }}
-
-          okButtonProps={{ disabled: true }}
-          cancelButtonProps={{ disabled: false }}>
-          
+          <div style={{margin:"auto",padding:"10px",textAlign:"center"}}>
           <MarketFundPoolsView address={POOL_MARKET_KEY} />
-
-        </Modal>
+          </div>         
+        
         
     </div>;
 

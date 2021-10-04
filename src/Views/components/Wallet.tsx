@@ -7,6 +7,7 @@ import {
 import './css/Wallet.css';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Link, useRoute } from 'wouter';
+import { HomeOutlined, FundOutlined } from '@ant-design/icons';
 
 export const Wallet : React.FC = () => {
 
@@ -24,12 +25,12 @@ export const Wallet : React.FC = () => {
             <div className="walletBar">
             <div className={matchHome ? "topLinkSel" : "topLink"}>
                 <Link href="/">
-                <a className="link">Home</a>
+                <a className="link">Home <HomeOutlined /></a>
                 </Link>
             </div>
             <div className={matchPoolMarket ? "topLinkSel" : "topLink"}>
                 <Link href="/poolmarket">
-                <a className="link">Market</a>
+                <a className="link">Market <FundOutlined /></a>
                 </Link>
             </div>
             <div className={matchTokenTest ? "topLinkSel" : "topLink"}>

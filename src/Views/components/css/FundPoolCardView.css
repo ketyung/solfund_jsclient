@@ -8,8 +8,7 @@
     border-radius: 20px;
     background-color: aliceblue;
     max-height:200px;
-
-
+    text-align: justify;
 }
 
 .fundPoolNorm:hover{
@@ -28,7 +27,7 @@
     background-color: aliceblue;
     clear:both;
     max-height:200px;
-    
+    text-align: justify;   
 }
 
 

@@ -84,7 +84,6 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
                         setFundPools(tmpFundPools);
 
-                       // console.log("tmpFPools", tmpFundPools);
                         setTimeout(forceUpdate, 500);
 
                        
