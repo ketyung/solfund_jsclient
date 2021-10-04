@@ -1,3 +1,4 @@
+import { throwStatement } from '@babel/types';
 import * as web3 from '@solana/web3.js';
 
 export const extract_market = (data : Uint8Array, 
@@ -11,7 +12,7 @@ export const extract_market = (data : Uint8Array,
 
     //console.log("pool_size", a_pool_size);
 
-    let keys = data.slice(2,data.length);
+    let keys = data.slice(2);//,data.length);
     
    // let no_of_keys = keys.length / 32 ;
 
@@ -31,11 +32,17 @@ export const extract_market = (data : Uint8Array,
         }
     }
 
+    let lastOffset = a_pool_size * 32; 
+    let creator = keys.slice(lastOffset , lastOffset + 32 );
+    let creatorPkey = new web3.PublicKey(creator);
+
+    console.log("creatrPk", creatorPkey.toBase58());
+
     let num =  Buffer.from(pool_size).readUInt16LE(0);
 
    // console.log("num", num);
     
-    let pm =  new  Market( { pool_size : num , fund_pools: validPkeys } );
+    let pm =  new  Market( { pool_size : num , fund_pools: validPkeys, creator : creatorPkey } );
     completionHandler(pm);
 
 }
@@ -227,14 +234,23 @@ export class Market {
 
     fund_pools : Array<web3.PublicKey> = [];
 
+    creator : web3.PublicKey = web3.PublicKey.default;
 
-    constructor ( pool_market : {pool_size : number, fund_pools  :  Array<web3.PublicKey>}) {
+    constructor ( pool_market : {pool_size : number, 
+        fund_pools  :  Array<web3.PublicKey> , creator: web3.PublicKey} ) {
     
         if (pool_market) {
 
             this.pool_size = pool_market.pool_size;
             this.fund_pools = pool_market.fund_pools;
+            this.creator = pool_market.creator;
+
         }
+    }
+
+    static default() : Market {
+        
+        return new Market({pool_size:0, fund_pools : [], creator: web3.PublicKey.default});
     }
 }
 

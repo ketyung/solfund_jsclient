@@ -7,7 +7,7 @@ import { SolUtil } from '../utils/SolUtil';
 export const POOL_MARKET_KEY = "9jGazEpw8agjChuRE5LPKv3HACtsm8fFcrgBcNquoTsz";
 
 
-export default function usePoolMarket(){
+export default function useMarket(){
 
     const [connection, publicKey, , , loading, setLoading, sendTxs] = useSolana();
 
@@ -119,11 +119,14 @@ export default function usePoolMarket(){
         
         let marketPkey = pubkey ? new web3.PublicKey(pubkey) : await poolMarketIdPubKey();
         
+        console.log("mKey", marketPkey.toBase58());
+        
         try {
             let acc = await connection.getAccountInfo(marketPkey);
 
             if ( acc != null ){
 
+                
                 extract_market(acc.data, 
                     (res : Market| Error) =>  {
 
