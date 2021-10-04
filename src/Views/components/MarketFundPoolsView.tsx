@@ -22,6 +22,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     const [fundPools, setFundPools] = useState<Array<FundPool>>();
 
+
+    const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void
+
     async function readData(pubkey : web3.PublicKey){
 
         
@@ -82,6 +85,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
                         setFundPools(tmpFundPools);
 
                        // console.log("tmpFPools", tmpFundPools);
+                        setTimeout(forceUpdate, 500);
+
+                       
                     }
             
                 }
