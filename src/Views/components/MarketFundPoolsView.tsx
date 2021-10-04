@@ -6,6 +6,8 @@ import { error } from '../../utils/Mesg';
 import { extract_fund_pool } from '../../state';
 import * as web3 from '@solana/web3.js';
 import {FundPoolCardView} from './FundPoolCardView';
+import {Modal} from 'antd';
+import {InvestorForm} from './InvestorForm';
 
 interface MarketFundPoolsProps {
 
@@ -22,8 +24,31 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     const [fundPools, setFundPools] = useState<Array<FundPool>>();
 
-
     const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void
+
+    const [modalPresented, setModalPresented] = useState(false);
+
+    const [selectedAddress, setSelectedAddress] = useState<web3.PublicKey>();
+
+    const [tokenCount, setTokenCount] = useState(0);
+    
+    const [amount, setAmount] = useState(0);
+   
+    const setValuesOf = (token_count : number, amount : 
+        number ) => {
+
+        setTokenCount(token_count);
+        setAmount(amount);
+    }
+
+
+    const setAddressPresented = ( address : web3.PublicKey) => {
+
+        setSelectedAddress(address);
+
+        setModalPresented(true);
+    }
+
 
     async function readData(pubkey : web3.PublicKey){
 
@@ -57,7 +82,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
         return <FundPoolCardView address={fundPool.address.toBase58()}
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
-        className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}/>
+        className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
+        setAddressPresented={setAddressPresented}
+        />
 
     });
 
@@ -104,5 +131,20 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
         fundPoolsView
   
     }
+
+    <Modal title={ selectedAddress?.toBase58() ?? ""}
+          style={{minWidth:"80%"}}
+          visible={modalPresented}
+          onCancel={()=>{
+
+              setModalPresented(false);
+            
+          }}
+
+          okButtonProps={{ disabled: true }}
+          cancelButtonProps={{ disabled: false }}>
+         <InvestorForm setValuesOf={setValuesOf} />
+        
+    </Modal>
     </div>;
 }

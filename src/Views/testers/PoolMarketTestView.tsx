@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import 'antd/dist/antd.css';
-import { Button, Spin, Modal } from 'antd';
+import { Button, Spin } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import useMarket from '../../Hooks/useMarket';
-import { Market } from '../../state';
 import '../css/common.css';
 import { POOL_MARKET_KEY } from '../../Hooks/useMarket';
 import { MarketFundPoolsView } from '../components/MarketFundPoolsView';

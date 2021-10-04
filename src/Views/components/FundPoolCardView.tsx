@@ -21,15 +21,21 @@ interface FundPoolCardViewProps {
 
     className : string, 
 
+    setAddressPresented : ( address : web3.PublicKey) => void ,
+
 }
 
 export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, manager, 
-    tokenCount, lamports, icon, className}) => {
+    tokenCount, lamports, icon, className, setAddressPresented}) => {
 
     return <div className={className}>
     
         <div>
-        <Button shape="circle" style={{float:"right"}}>
+        <Button shape="circle" style={{float:"right"}} onClick={()=>{
+
+            setAddressPresented(new web3.PublicKey(address));
+
+        }}  >
         <UserAddOutlined />
         </Button>
         <span>
