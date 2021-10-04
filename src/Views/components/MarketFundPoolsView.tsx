@@ -5,6 +5,7 @@ import { FundPool, Market } from '../../state';
 import { error } from '../../utils/Mesg';
 import { Card } from 'antd';
 import { extract_fund_pool } from '../../state';
+import * as web3 from '@solana/web3.js';
 
 
 interface MarketFundPoolsProps {
@@ -19,28 +20,35 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     const [,read] = useMarket();
 
-    const [market, setMarket] = useState<Market>();
+    //const [market, setMarket] = useState<Market>();
+
+    const [fundPools, setFundPools] = useState<Array<web3.PublicKey>>();
+
 
 
     useEffect(() => {
     
-        read (address, 
-        
-            (res : Market | Error) =>  {
+        async function readAddr (){
 
-                if (res instanceof Error){
+            await read (address, 
         
-                    error(res.message);
+                (res : Market | Error) =>  {
+    
+                    if (res instanceof Error){
+            
+                        error(res.message);
+                    }
+                    else {
+            
+                        setFundPools(res.fund_pools);
+                        console.log("market.rd!", res);
+                    }
+            
                 }
-                else {
+            );
+        }
         
-                  //  setMarket(res);
-
-                    //console.log("market.rd!", res);
-                }
-        
-            }
-        );
+        readAddr();
      
     }, [address])
   
@@ -48,7 +56,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     return <div>
     {
 
-        market?.fund_pools.map( async (fundPool , index) => {
+        fundPools?.map( async (fundPool , index) => {
 
             let fpAcc = await connection.getAccountInfo(fundPool);
 
