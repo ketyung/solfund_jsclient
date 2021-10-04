@@ -126,13 +126,13 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     }, [address])
   
 
-    return <div>
+    return <div style={{display:"block",textAlign:"center",margin:"0px auto",padding:"auto"}}>
     {
 
         fundPoolsView
   
     }
-
+   
     <Modal title={ selectedAddress?.toBase58() ?? ""}
         className="roundModal"
          visible={modalPresented}
@@ -149,5 +149,6 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
          <InvestorForm setValuesOf={setValuesOf} />
         
     </Modal>
+
     </div>;
 }

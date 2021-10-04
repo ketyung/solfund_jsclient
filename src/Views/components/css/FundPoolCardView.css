@@ -6,8 +6,9 @@
     padding:10px 10px 10px 50px;
     margin:10px;
     border-radius: 20px;
-    background-color: #dee;
+    background-color: #233336;
     max-height:200px;
+    color:white;
     text-align: justify;
 }
 
@@ -26,8 +27,9 @@
     padding:10px 10px 10px 50px;
     margin:10px;
     border-radius: 20px;
-    background-color: #dee;
+    background-color: #233336;
     clear:both;
+    color:white;
     max-height:200px;
     text-align: justify;   
 }
