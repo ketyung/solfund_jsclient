@@ -141,7 +141,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
             
           }}
 
-          okButtonProps={{ disabled: true }}
+          okText="Sign & Invest"
+
+          okButtonProps={{ disabled: false }}
           cancelButtonProps={{ disabled: false }}>
          <InvestorForm setValuesOf={setValuesOf} />
         
