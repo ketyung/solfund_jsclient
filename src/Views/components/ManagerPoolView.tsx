@@ -5,7 +5,7 @@ import { UserPool, FundPool, extract_fund_pool } from '../../state';
 import * as web3 from '@solana/web3.js';
 import { FundPoolCardView } from './FundPoolCardView';
 import { Button, Modal, Spin } from 'antd';
-import {FileAddOutlined} from '@ant-design/icons';
+import {FileAddOutlined, ShareAltOutlined} from '@ant-design/icons';
 import { FundPoolForm } from './FundPoolForm';
 import useFundPool from '../../Hooks/useFundPool';
 import { success,error } from '../../utils/Mesg';
@@ -147,7 +147,7 @@ export const ManagerPoolView : React.FC = () => {
 
     <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
    
-    <span className="title">Your Fund Pools</span>
+    <span className="title">Fund Pools Managed By You</span>
     <Button className="addNewButton"  onClick={async ()=> {
               
               setModalPresented(true);
@@ -155,6 +155,10 @@ export const ManagerPoolView : React.FC = () => {
         <FileAddOutlined/> Create Fund Pool
     </Button>
 
+    <Button shape="circle" className="shareButton">
+        <ShareAltOutlined />
+    </Button>
+      
     </p>
 
     {fundPoolsView}

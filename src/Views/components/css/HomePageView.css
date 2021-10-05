@@ -39,3 +39,8 @@
     color:white;
 }
 
+.homeFundPoolDiv .shareButton {
+    
+    float:right;
+    margin:10px;
+}
