@@ -28,7 +28,7 @@ export const ManagerPoolView : React.FC = () => {
 
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
 
-    const [createFundPool,, , deleteFundPool] = useFundPool();
+    const [createFundPool] = useFundPool();
 
     const [tokenCount, setTokenCount] = useState(0);
     
@@ -36,7 +36,7 @@ export const ManagerPoolView : React.FC = () => {
     
     const [finalized, setFinalized] = useState(false);
  
-    const [pool, setPool] = useState<UserPool>();
+    const [loaded, setLoaded] = useState(false);
 
     const [selectedIcon, setSelectedIcon] = useState(0);
 
@@ -113,7 +113,6 @@ export const ManagerPoolView : React.FC = () => {
             (res : UserPool | Error) =>  {
     
                 if (!(res instanceof Error)){
-        
                     
                     for ( var r=0; r < res.addresses.length; r++){
 
@@ -125,6 +124,7 @@ export const ManagerPoolView : React.FC = () => {
                     setTimeout(()=>{
                         forceUpdate();
                         setFundPoolLoading(false);
+                        setLoaded(true);
                     }, 500);
 
                 }
@@ -137,7 +137,11 @@ export const ManagerPoolView : React.FC = () => {
 
     }, []);
 
-    const fundPoolsView = fundPools?.map(  (fundPool, index) => {
+    const fundPoolsView = 
+    
+    (fundPools?.map.length ?? 0) > 0 ? 
+
+    fundPools?.map(  (fundPool) => {
 
         return <FundPoolCardView address={fundPool.address.toBase58()}
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
@@ -147,7 +151,14 @@ export const ManagerPoolView : React.FC = () => {
         setShareView={setShareView}
         />
 
-    });
+    })
+    
+    :
+
+    <div style={{color:"white", marginTop:"20px"}}>
+        You have NOT created any fund pool yet, please click on "Create Fund Pool" 
+        to start creating and invite your investors</div>
+    ;
 
 
 
@@ -185,7 +196,7 @@ export const ManagerPoolView : React.FC = () => {
           }}
           onCancel={()=>{setModalPresented(false);}}
           okButtonProps={{ disabled: false }}
-          okText = "Sign & Create"
+          okText = "Sign &amp; Create"
           cancelButtonProps={{ disabled: false }}>
        
           <FundPoolForm setValuesOf={setValuesOf}/>
