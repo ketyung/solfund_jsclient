@@ -14,8 +14,9 @@
     margin:auto;
     padding:10px;
     width:90%;
-    background-color: black;
+    background-color: #112;
     border-radius: 30px;
+    overflow: auto;
 
 }
 

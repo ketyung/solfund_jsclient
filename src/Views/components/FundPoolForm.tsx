@@ -68,7 +68,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     
     }
 
-    return <div>
+    return <div className="fundPoolForm">
     <Form layout="vertical">
 
     <Form.Item label="Number of tokens" required tooltip="This is a required field">
@@ -98,7 +98,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
     </span>
 
-    <Modal title="Choose An Icon"
+    <Modal title="Choose An Icon" className="roundModal"
             style={{minWidth:"60%"}}
             visible={iconModalPresented}
             onCancel={()=>{setIconModalPresented(false);}}

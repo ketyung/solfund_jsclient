@@ -4,7 +4,7 @@ import useSolana from '../../Hooks/useSolana';
 import { UserPool, FundPool, extract_fund_pool } from '../../state';
 import * as web3 from '@solana/web3.js';
 import { FundPoolCardView } from './FundPoolCardView';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Spin } from 'antd';
 import {FileAddOutlined} from '@ant-design/icons';
 import { FundPoolForm } from './FundPoolForm';
 import useFundPool from '../../Hooks/useFundPool';
@@ -26,7 +26,9 @@ export const ManagerPoolView : React.FC = () => {
 
     }
 
-    const [createFundPool, loading, , deleteFundPool] = useFundPool();
+    const [fundPoolLoading, setFundPoolLoading] = useState(false);
+
+    const [createFundPool,, , deleteFundPool] = useFundPool();
 
     const [tokenCount, setTokenCount] = useState(0);
     
@@ -96,6 +98,8 @@ export const ManagerPoolView : React.FC = () => {
 
         async function readManagerPool(){
 
+            setFundPoolLoading(true);
+
             read( (await managerPoolKey(null)).toBase58(),
             
             (res : UserPool | Error) =>  {
@@ -110,7 +114,11 @@ export const ManagerPoolView : React.FC = () => {
 
                     setFundPools(tmpFundPools);
 
-                    setTimeout(forceUpdate, 500);
+                    setTimeout(()=>{
+                        forceUpdate();
+                        setFundPoolLoading(false);
+                   
+                    }, 1000);
 
                 }
             
@@ -127,7 +135,7 @@ export const ManagerPoolView : React.FC = () => {
         return <FundPoolCardView address={fundPool.address.toBase58()}
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
-        className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
+        className="fundPoolNorm"
         setAddressPresented={setAddressPresented}
         />
 
@@ -137,6 +145,9 @@ export const ManagerPoolView : React.FC = () => {
 
     return <div className="homeFundPoolDiv">
     <p>
+
+    <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+   
     <span className="title">Your Fund Pools</span>
     <Button className="addNewButton"  onClick={async ()=> {
               
