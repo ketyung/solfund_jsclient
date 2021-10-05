@@ -160,8 +160,6 @@ export const ManagerPoolView : React.FC = () => {
         to start creating and invite your investors</div>
     ;
 
-
-
     return <div className="homeFundPoolDiv">
     <p>
 
