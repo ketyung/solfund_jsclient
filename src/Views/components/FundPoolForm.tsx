@@ -69,9 +69,9 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     }
 
     return <div className="fundPoolForm">
-    <Form layout="vertical">
+    <Form layout="vertical" style={{color:"white"}}>
 
-    <Form.Item label="Number of tokens" required tooltip="This is a required field">
+    <Form.Item style={{color:"white"}} label="Number of tokens" required tooltip="This is a required field">
         <Input placeholder="number of tokens"  onChange={tokenCountOnChange}/>
     </Form.Item>
 

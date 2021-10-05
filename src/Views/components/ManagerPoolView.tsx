@@ -12,7 +12,7 @@ import { success,error } from '../../utils/Mesg';
 
 export const ManagerPoolView : React.FC = () => {
 
-    const [,userPoolLoading,read, managerPoolKey] = useUserPool();
+    const [,,read, managerPoolKey] = useUserPool();
 
     const [connection] = useSolana();
 

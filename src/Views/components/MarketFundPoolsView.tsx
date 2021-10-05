@@ -6,7 +6,7 @@ import { error } from '../../utils/Mesg';
 import { extract_fund_pool } from '../../state';
 import * as web3 from '@solana/web3.js';
 import {FundPoolCardView} from './FundPoolCardView';
-import {Modal} from 'antd';
+import {Modal,Spin} from 'antd';
 import {InvestorForm} from './InvestorForm';
 import './css/modal.css';
 
@@ -35,6 +35,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     
     const [amount, setAmount] = useState(0);
    
+    const [fundPoolLoading, setFundPoolLoading] = useState(false);
+
     const setValuesOf = (token_count : number, amount : 
         number ) => {
 
@@ -95,6 +97,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     
         async function readAddr (){
 
+            setFundPoolLoading(true);
+            
             await read (address, 
         
                 (res : Market | Error) =>  {
@@ -112,7 +116,10 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
                         setFundPools(tmpFundPools);
 
-                        setTimeout(forceUpdate, 500);
+                        setTimeout(()=>{
+                            forceUpdate();
+                            setFundPoolLoading(false);   
+                        }, 500);
 
                        
                     }
@@ -127,6 +134,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
   
 
     return <div style={{display:"block",textAlign:"center",margin:"0px auto",padding:"auto"}}>
+    <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+   
     {
 
         fundPoolsView
