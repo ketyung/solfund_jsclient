@@ -1,7 +1,7 @@
 import React from 'react';
-import useSolana from '../../Hooks/useSolana';
 import './css/HomePageView.css';
 import { ManagerPoolView } from './ManagerPoolView';
+import { InvestorPoolView } from './InvestorPoolView';
 export const HomePageView : React.FC = () => {
 
    
@@ -16,5 +16,9 @@ export const HomePageView : React.FC = () => {
 
    
 
-    return <div><ManagerPoolView/></div>
+    return <div>
+        <InvestorPoolView/><br/>
+        <ManagerPoolView/>
+        <br/>
+    </div>
 }

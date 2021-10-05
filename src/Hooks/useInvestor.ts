@@ -27,6 +27,19 @@ export default function useInvestor(){
     }
 
 
+    async function investorPoolPubkey() : Promise<web3.PublicKey> {
+
+        if (!publicKey){
+
+            return await web3.PublicKey.createWithSeed(web3.Keypair.generate().publicKey,
+             INVESTOR_POOL_ID, programId);
+
+        }
+
+        return await web3.PublicKey.createWithSeed(publicKey, INVESTOR_POOL_ID, programId);
+
+    }
+
 
     async function addInvestor( 
         fundPoolAddress : web3.PublicKey,
@@ -48,7 +61,7 @@ export default function useInvestor(){
 
         let investorAccKey =  await web3.PublicKey.createWithSeed(publicKey,seed, programId);
  
-        let investorPoolKey = await web3.PublicKey.createWithSeed(publicKey, INVESTOR_POOL_ID, programId);
+        let investorPoolKey = await investorPoolPubkey();
 
         let investorPoolAcc = await connection.getAccountInfo(investorPoolKey);
 
@@ -137,6 +150,6 @@ export default function useInvestor(){
     
 
 
-    return [addInvestor] as const;
+    return [addInvestor, investorPoolPubkey] as const;
    
 }
