@@ -117,8 +117,7 @@ export const ManagerPoolView : React.FC = () => {
                     setTimeout(()=>{
                         forceUpdate();
                         setFundPoolLoading(false);
-                   
-                    }, 1000);
+                    }, 500);
 
                 }
             
