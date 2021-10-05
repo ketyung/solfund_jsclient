@@ -199,7 +199,7 @@ export default function useFundPool(){
 
 
                
-        let userPoolPKey = await userPoolIdPubKey();
+        let userPoolPKey = await userPoolIdPubKey(null);
        
 
         let accounts : Array<web3.AccountMeta> = [

@@ -8,19 +8,19 @@ export default function useUserPool(){
 
     const [connection, publicKey, , createAccount, loading, setLoading] = useSolana();
 
-    const UserPoolID : string = "__USR_POOL";
+    const UserPoolID : string = "__MGR_POOL";
 
-    async function userPoolIdPubKey() : Promise<web3.PublicKey> {
+    async function userPoolIdPubKey(id : string | null) : Promise<web3.PublicKey> {
 
         if ( !publicKey) {
 
             let kp = web3.Keypair.generate();
 
-            return await web3.PublicKey.createWithSeed( kp.publicKey, UserPoolID, programId);
+            return await web3.PublicKey.createWithSeed( kp.publicKey, id ? id : UserPoolID, programId);
 
         }
 
-        return await web3.PublicKey.createWithSeed(publicKey, UserPoolID, programId);
+        return await web3.PublicKey.createWithSeed(publicKey, id ? id : UserPoolID, programId);
 
     }
 
@@ -30,7 +30,7 @@ export default function useUserPool(){
 
         setLoading(true);
         
-        let UserPoolPKey = pubkey ? new web3.PublicKey(pubkey) : await userPoolIdPubKey();
+        let UserPoolPKey = pubkey ? new web3.PublicKey(pubkey) : await userPoolIdPubKey(null);
 
         try {
 
@@ -89,7 +89,7 @@ export default function useUserPool(){
         // PUBKEY_BYTES + 1 + (PUBKEY_BYTES * MANAGER_POOL_SIZE_LIMIT)
         let size : number  = 32 + 1 + (32 * 10); // hard-coded first 
 
-        let UserPoolPKey = await userPoolIdPubKey();
+        let UserPoolPKey = await userPoolIdPubKey(null);
 
         let acc = await connection.getAccountInfo(UserPoolPKey);
         // create only when it's null

@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import * as web3 from '@solana/web3.js';
-import {Image, Card} from 'antd';
+import {Image} from 'antd';
 import {ICONS} from './IconsChooser';
 import './css/FundPoolCardView.css';
 import {format_pub_key_shorter} from '../../state/';

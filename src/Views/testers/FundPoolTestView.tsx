@@ -45,7 +45,7 @@ export const FundPoolTestView : React.FC = () => {
   
     const onConfirm = async (selectedAddress : web3.PublicKey)=> {
 
-        let mp_acc = await UserPoolIdPubKey();
+        let mp_acc = await UserPoolIdPubKey(null);
               
         deleteFundPool(selectedAddress, mp_acc, completion);
     }

@@ -1,5 +1,7 @@
 import './App.css';
-import {FundPoolTestView} from './Views/testers/FundPoolTestView';
+//import {FundPoolTestView} from './Views/testers/FundPoolTestView';
+
+import { HomePageView } from './Views/components/HomePageView';
 import {PoolMarketTestView} from './Views/testers/PoolMarketTestView';
 import {Route, useRoute} from 'wouter';
 import {useMemo, useEffect} from 'react';
@@ -63,7 +65,7 @@ function App() {
           <br/>
           <br/>
       <Route path="/">
-        <FundPoolTestView/>
+        <HomePageView/>
       </Route>
       <Route path="/poolmarket">
         <PoolMarketTestView/>
