@@ -10,8 +10,10 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {getPhantomWallet,getSolflareWallet,getSolletWallet} from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import {FundPoolView} from './Views/components/FundPoolView';
+import { ManagerPoolPage } from './Views/components/ManagerPoolPage';
 import { TokenTestView } from './Views/testers/TokenTestView';
 import {Wallet} from './Views/components/Wallet';
+
 
 function App() {
 
@@ -31,6 +33,8 @@ function App() {
 
    const [matchFundPool] = useRoute("/fundpool/:address");
 
+   const [matchManagerPool] = useRoute("/poolby/:address");
+
    const theTitle = () => {
 
       if (matchHome){
@@ -43,6 +47,10 @@ function App() {
       else if (matchFundPool){
 
         return "Fund Pool - Solafund";
+      }
+      else if (matchManagerPool){
+
+        return "Fund Pools - Solafund";
       }
       
       else {
@@ -73,6 +81,12 @@ function App() {
       <Route path="/fundpool/:address">
         {(params) => 
           <FundPoolView address={params.address}/>
+        }
+      </Route>
+
+      <Route path="/poolby/:address">
+        {(params) => 
+          <ManagerPoolPage address={params.address}/>
         }
       </Route>
 

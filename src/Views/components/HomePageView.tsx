@@ -17,7 +17,7 @@ export const HomePageView : React.FC = () => {
         <div>
         
         <InvestorPoolView/><br/><br/>
-        <ManagerPoolView/>
+        <ManagerPoolView address={null}/>
         <br/>
  
         </div>

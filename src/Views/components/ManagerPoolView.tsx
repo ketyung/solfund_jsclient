@@ -9,8 +9,14 @@ import {FileAddOutlined, ShareAltOutlined} from '@ant-design/icons';
 import { FundPoolForm } from './FundPoolForm';
 import useFundPool from '../../Hooks/useFundPool';
 import { success,error } from '../../utils/Mesg';
+import {ShareView} from './ShareView';
 
-export const ManagerPoolView : React.FC = () => {
+interface ManagerPoolViewProp {
+
+    address : string | null, 
+}
+
+export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     const [,,read, managerPoolKey] = useUserPool();
 
@@ -41,6 +47,9 @@ export const ManagerPoolView : React.FC = () => {
     const [selectedIcon, setSelectedIcon] = useState(0);
 
     const [modalPresented, setModalPresented] = useState(false);
+
+    const [poolPageAddress , setPoolPageAddress] = useState("");
+
 
     const setValuesOf = (token_count : number, amount : 
         number, is_finalized : boolean, icon : number ) => {
@@ -108,7 +117,10 @@ export const ManagerPoolView : React.FC = () => {
 
             setFundPoolLoading(true);
 
-            read( (await managerPoolKey(null)).toBase58(),
+            let addr =  address ? address : (await managerPoolKey(null)).toBase58();
+            setPoolPageAddress(addr);
+
+            read(addr ,
             
             (res : UserPool | Error) =>  {
     
@@ -155,25 +167,42 @@ export const ManagerPoolView : React.FC = () => {
     
     :
 
-    <div style={{color:"white", marginTop:"20px"}}>
+    <div style={{color:"white", marginTop:"20px", display: loaded ? "block" : "none" }}>
         You have NOT created any fund pool yet, please click on "Create Fund Pool" 
         to start creating and invite your investors</div>
     ;
 
-    return <div className="homeFundPoolDiv">
-    <p>
 
-    <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
-   
+    const topTitle = 
+
+    address ?
+
+    <div style={{color:'white'}}>Pools By {address}</div>
+
+    :
+
+    <div>
     <span className="title">Fund Pools Managed By You</span>
     <Button className="addNewButton"  onClick={async ()=> {
               
               setModalPresented(true);
           }}>
         <FileAddOutlined/> Create Fund Pool
-    </Button>
+    </Button></div>
 
-    <Button shape="circle" className="shareButton">
+
+
+    return <div className="homeFundPoolDiv">
+    <p>
+
+    <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+   
+    {topTitle}
+    
+    <Button shape="circle" className="shareButton" onClick={async ()=> {
+              
+              setShareModalPresented(true);
+          }}>
         <ShareAltOutlined />
     </Button>
       
@@ -199,6 +228,24 @@ export const ManagerPoolView : React.FC = () => {
        
           <FundPoolForm setValuesOf={setValuesOf}/>
 
-       </Modal>
+    </Modal>
+
+    <Modal title={ "Share All Pools Of " + poolPageAddress }
+        className="shareViewModal"
+         visible={shareModalPresented}
+          onCancel={()=>{
+
+              setShareModalPresented(false);
+            
+          }}
+
+          okText="OK"
+
+          okButtonProps={{ disabled: true  }}
+          cancelButtonProps={{ disabled: false }}>
+          <ShareView address={"poolby/"+ poolPageAddress} quote="Solafund Fund Pool"
+            hashtag="#solafund #solana #blockchain #mutual fund"
+          />
+    </Modal>
     </div>
 }
