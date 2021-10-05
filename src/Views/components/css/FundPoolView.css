@@ -1,0 +1,26 @@
+.fundPool{
+
+    display:block;
+    width:80%;
+    border: 1px solid #aab;
+    padding:10px 10px 10px 50px;
+    margin:auto;
+    border-radius: 30px;
+    background-color: #112233;
+    height:236px;
+    color:white;
+    text-align: justify;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size:14pt;
+}
+
+.fundPool .item {
+
+    margin: 10px;
+}
+
+.fundPool:hover{
+
+    background-color: #222368;
+    color:white;
+}

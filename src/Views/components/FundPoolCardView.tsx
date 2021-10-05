@@ -55,12 +55,12 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
         </Tooltip>
         </div>
         <Tooltip placement="bottom" overlayStyle={{maxWidth: '500px'}} title={manager} arrowPointAtCenter>
-        <div style={{maxWidth:"200px",textOverflow:"ellipsis"}}>Manager : {format_pub_key_shorter(manager)}</div>
+        <div className="item">Manager : {format_pub_key_shorter(manager)}</div>
         </Tooltip>
 
-        <div style={{maxWidth:"200px",textOverflow:"ellipsis"}}>Token : {tokenCount}</div>
+        <div className="item">Token : {tokenCount}</div>
 
-        <div style={{maxWidth:"200px",textOverflow:"ellipsis"}}>Amount : {(lamports / web3.LAMPORTS_PER_SOL).toFixed(9)}</div>
+        <div className="item">Amount : {(lamports / web3.LAMPORTS_PER_SOL).toFixed(9)}</div>
 
        
 
