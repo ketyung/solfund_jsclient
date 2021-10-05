@@ -50,12 +50,12 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
         </span>
         <Tooltip overlayStyle={{maxWidth: '500px'}} placement="top" title={address} arrowPointAtCenter>
         <span style={{fontWeight: "bolder",margin:"10px 10px 50px 10px",height:"40px",padding:"5px 5px 30px 5px"}}>
-        {format_pub_key_shorter(address)}
+        {className == "fundPool" ? address : format_pub_key_shorter(address)}
         </span>
         </Tooltip>
         </div>
         <Tooltip placement="bottom" overlayStyle={{maxWidth: '500px'}} title={manager} arrowPointAtCenter>
-        <div className="item">Manager : {format_pub_key_shorter(manager)}</div>
+        <div className="item">Manager : { className == "fundPool" ? manager : format_pub_key_shorter(manager)}</div>
         </Tooltip>
 
         <div className="item">Token : {tokenCount}</div>
