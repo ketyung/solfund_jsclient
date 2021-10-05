@@ -176,7 +176,7 @@ export const ManagerPoolView : React.FC = () => {
           }}
           onCancel={()=>{setModalPresented(false);}}
           okButtonProps={{ disabled: false }}
-          okText = "Create"
+          okText = "Sign & Create"
           cancelButtonProps={{ disabled: false }}>
        
           <FundPoolForm setValuesOf={setValuesOf}/>

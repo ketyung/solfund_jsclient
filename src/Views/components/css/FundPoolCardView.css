@@ -1,6 +1,6 @@
 .fundPoolNorm{
 
-    float:left;
+    display:inline-block;
     width:26%;
     border: 1px solid #aab;
     padding:10px 10px 10px 50px;
@@ -21,7 +21,7 @@
 
 
 .fundPoolBrk{
-    float:left;
+    display:inline-block;
     width:26%;
     border: 1px solid #aab;
     padding:10px 10px 10px 50px;

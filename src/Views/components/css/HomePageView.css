@@ -63,16 +63,19 @@
 .emptyPortfolio .text {
 
     font-size:18pt;
-    animation: 2.5s shine infinite;
+    animation: 3.5s shine infinite;
     color:white;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 
 @keyframes shine {
-    0% {opacity: 20%;}
+    0% {opacity: 30%;}
+    15% {opacity: 40%;}
     30% {opacity: 50%;}
+    50% {opacity: 60%;}
     70% {opacity: 70%;}
+    85% {opacity: 85%;}
     100% {opacity: 100%;}
 }
   
