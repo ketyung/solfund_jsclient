@@ -47,8 +47,6 @@ export default function useFundPool(){
 
         setLoading(true);
         
-        let lastSeed = getStoredLastSeed();
-
         let fundPkey = new web3.PublicKey(pubkey) ;
         
         try {
