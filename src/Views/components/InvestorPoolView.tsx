@@ -82,6 +82,10 @@ export const InvestorPoolView : React.FC = () => {
                     }, 500);
 
                 }
+                else {
+
+                    setFundPoolLoading(false);
+                }
             
             }) 
 
