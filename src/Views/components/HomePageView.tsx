@@ -2,23 +2,38 @@ import React from 'react';
 import './css/HomePageView.css';
 import { ManagerPoolView } from './ManagerPoolView';
 import { InvestorPoolView } from './InvestorPoolView';
+import useSolana from '../../Hooks/useSolana';
+import {WalletOutlined} from '@ant-design/icons';
+
 export const HomePageView : React.FC = () => {
 
    
-    const connectWalletDiv = () => {
+    const [,publicKey] = useSolana();
 
-        return  <div className="connectWallet">
-        Connect your wallet, be a fund manager or invest in any fund pools!
+    const connectWalletDiv = 
+    
+        publicKey ?
+
+        <div>
+        
+        <InvestorPoolView/><br/>
+        <ManagerPoolView/>
+        <br/>
+ 
         </div>
   
-    }
-
+        :
+        <div className="connectWallet">
+        <WalletOutlined style={{marginRight:"20px"}}/> Connect your wallet, be a fund manager or invest in any fund pools!
+        </div>
+  
+    
 
    
 
     return <div>
-        <InvestorPoolView/><br/>
-        <ManagerPoolView/>
-        <br/>
+        {
+            connectWalletDiv
+        }
     </div>
 }

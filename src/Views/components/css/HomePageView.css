@@ -1,11 +1,14 @@
 .connectWallet {
 
-    background-color: black;
+    background-color: #900;
     padding:10px;
     color:white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 14pt;
-    border-radius: 20px;
+    font-size: 20pt;
+    border-radius: 30px;
+    width:90%;
+    min-height: 50px;
+    margin: auto;
 }
 
 .homeFundPoolDiv {
