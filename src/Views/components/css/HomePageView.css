@@ -9,6 +9,8 @@
     width:90%;
     min-height: 50px;
     margin: auto;
+    animation: 1.5s shake infinite;
+  
 }
 
 .homeFundPoolDiv {
@@ -61,11 +63,19 @@
 .emptyPortfolio .text {
 
     font-size:18pt;
-    animation: 1.5s shake infinite;
+    animation: 2.5s shine infinite;
     color:white;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
+
+@keyframes shine {
+    0% {opacity: 20%;}
+    30% {opacity: 50%;}
+    70% {opacity: 70%;}
+    100% {opacity: 100%;}
+}
+  
 @keyframes shake {
     0% { transform: skewX(-15deg); }
     5% { transform: skewX(15deg); }
