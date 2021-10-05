@@ -51,6 +51,14 @@ export const ManagerPoolView : React.FC = () => {
         setFinalized(is_finalized); 
     }
 
+    const setShareView = ( presented : boolean) => {
+
+        setShareModalPresented(true);
+    }
+
+    const [shareModalPresented, setShareModalPresented] = useState(false);
+
+
     const completion = (res : boolean | Error) =>  {
 
         if (res instanceof Error){
@@ -136,6 +144,7 @@ export const ManagerPoolView : React.FC = () => {
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
         className="fundPoolNorm"
         setAddressPresented={setAddressPresented}
+        setShareView={setShareView}
         />
 
     });

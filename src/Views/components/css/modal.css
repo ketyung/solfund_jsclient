@@ -22,3 +22,27 @@
 
 }
 
+
+
+.shareViewModal {
+    max-width: 70%;
+    color:white;
+    max-height:100px;
+}
+
+.shareViewModal .ant-modal-content {
+
+    border-radius: 30px;    
+    background-color: #568;
+    color:white;
+}
+
+.shareViewModal .ant-modal-header{
+
+    border-radius: 30px 30px;    
+    background-color:transparent;
+    color: white;
+    font-size: 30pt;
+    margin:0 auto;
+
+}

@@ -31,6 +31,15 @@ export const InvestorPoolView : React.FC = () => {
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
 
 
+    const setShareView = ( presented : boolean) => {
+
+        setShareModalPresented(true);
+    }
+
+    const [shareModalPresented, setShareModalPresented] = useState(false);
+
+
+
     async function readData(pubkey : web3.PublicKey){
 
         
@@ -110,6 +119,7 @@ export const InvestorPoolView : React.FC = () => {
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
         className="fundPoolNorm"
         setAddressPresented={setAddressPresented}
+        setShareView={setShareView}
         />
 
     })

@@ -8,6 +8,7 @@ import * as web3 from '@solana/web3.js';
 import {FundPoolCardView} from './FundPoolCardView';
 import {Modal,Spin} from 'antd';
 import {InvestorForm} from './InvestorForm';
+import { ShareView } from './ShareView';
 import './css/modal.css';
 
 interface MarketFundPoolsProps {
@@ -29,6 +30,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     const [modalPresented, setModalPresented] = useState(false);
 
+    const [shareModalPresented, setShareModalPresented] = useState(false);
+
     const [selectedAddress, setSelectedAddress] = useState<web3.PublicKey>();
 
     const [tokenCount, setTokenCount] = useState(0);
@@ -42,6 +45,12 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
         setTokenCount(token_count);
         setAmount(amount);
+    }
+
+    const setShareView = ( presented : boolean, address : web3.PublicKey) => {
+
+        setSelectedAddress( address );
+        setShareModalPresented(presented);
     }
 
 
@@ -86,7 +95,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
-        setAddressPresented={setAddressPresented}
+        setAddressPresented={setAddressPresented} setShareView={setShareView}
         />
 
     });
@@ -157,6 +166,25 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
           cancelButtonProps={{ disabled: false }}>
          <InvestorForm setValuesOf={setValuesOf} />
         
+    </Modal>
+
+
+    <Modal title={ "Share " + selectedAddress?.toBase58() ?? ""}
+        className="shareViewModal"
+         visible={shareModalPresented}
+          onCancel={()=>{
+
+              setShareModalPresented(false);
+            
+          }}
+
+          okText="OK"
+
+          okButtonProps={{ disabled: true  }}
+          cancelButtonProps={{ disabled: false }}>
+          <ShareView address={"fundpool/"+ selectedAddress?.toBase58() ?? ""} quote="Solafund Fund Pool"
+            hashtag="#solafund #solana #blockchain #mutual fund"
+          />
     </Modal>
 
     </div>;

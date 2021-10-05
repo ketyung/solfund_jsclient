@@ -24,10 +24,13 @@ interface FundPoolCardViewProps {
 
     setAddressPresented : ( address : web3.PublicKey) => void ,
 
+    setShareView: (presented : boolean, address : web3.PublicKey) => void ,
+
+
 }
 
 export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, manager, 
-    tokenCount, lamports, icon, className, setAddressPresented}) => {
+    tokenCount, lamports, icon, className, setAddressPresented, setShareView}) => {
 
     return <div className={className}>
     
@@ -61,7 +64,12 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
 
        
 
-        <Button shape="circle" style={{float:"right", marginLeft:"20px"}}>
+        <Button shape="circle" style={{float:"right", marginLeft:"20px"}}
+        onClick={()=>{
+
+            setShareView(true, new web3.PublicKey(address));
+        }} 
+        >
         <ShareAltOutlined />
         </Button>
        
