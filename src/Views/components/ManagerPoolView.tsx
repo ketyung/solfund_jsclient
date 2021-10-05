@@ -65,6 +65,10 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
         setShareModalPresented(true);
     }
 
+    const setIndvShareView = ( presented : boolean) => {
+
+    }
+
     const [shareModalPresented, setShareModalPresented] = useState(false);
 
 
@@ -160,7 +164,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
         className="fundPoolNorm"
         setAddressPresented={setAddressPresented}
-        setShareView={setShareView}
+        setShareView={setIndvShareView}
         />
 
     })
@@ -177,7 +181,16 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     address ?
 
-    <div style={{color:'white'}}>Pools By {address}</div>
+    <div style={{color:'white'}}>Pools By {address}
+    
+    <Button shape="circle" className="shareButton" onClick={async ()=> {
+              
+              setShareModalPresented(true);
+          }}>
+        <ShareAltOutlined />
+    </Button>
+   
+    </div>
 
     :
 
@@ -188,7 +201,16 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
               setModalPresented(true);
           }}>
         <FileAddOutlined/> Create Fund Pool
-    </Button></div>
+    </Button>
+    
+    <Button shape="circle" className="shareButton" onClick={async ()=> {
+              
+              setShareModalPresented(true);
+          }}>
+        <ShareAltOutlined />
+    </Button>
+   
+    </div>
 
 
 
@@ -199,12 +221,6 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
    
     {topTitle}
     
-    <Button shape="circle" className="shareButton" onClick={async ()=> {
-              
-              setShareModalPresented(true);
-          }}>
-        <ShareAltOutlined />
-    </Button>
       
     </p>
 
