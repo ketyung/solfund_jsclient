@@ -6,6 +6,7 @@ import {
     RedditShareButton,
     TelegramShareButton,
     TwitterShareButton,
+    LinkedinShareButton,
     WhatsappShareButton,
 } from "react-share";
 
@@ -17,6 +18,7 @@ import {
     WhatsappIcon,    
     EmailIcon, 
     RedditIcon,
+    LinkedinIcon,
 } from "react-share" ;
 
 import "./css/ShareView.css";
@@ -62,6 +64,10 @@ export const ShareView   : React.FC<ShareViewProps> = ({address, quote, hashtag}
         <RedditShareButton  url={shareUrl}  className="shareIcon">
              <RedditIcon size={46} />
         </RedditShareButton>
+
+        <LinkedinShareButton  url={shareUrl}  className="shareIcon">
+             <LinkedinIcon size={46} />
+        </LinkedinShareButton>
 
         <EmailShareButton  url={shareUrl}  className="shareIcon">
              <EmailIcon size={46} />
