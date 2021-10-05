@@ -53,9 +53,25 @@
     background-color: #900;
     padding:10px;
     border-radius: 20px;
-    color:white;
     width: 90%;
     margin: auto;
     min-height: 50px;
-    font-size:larger;
 }
+
+.emptyPortfolio .text {
+
+    font-size:18pt;
+    animation: 1.5s shake infinite;
+    color:white;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+@keyframes shake {
+    0% { transform: skewX(-15deg); }
+    5% { transform: skewX(15deg); }
+    10% { transform: skewX(-15deg); }
+    15% { transform: skewX(15deg); }
+    20% { transform: skewX(0deg); }
+    100% { transform: skewX(0deg); }  
+}
+  

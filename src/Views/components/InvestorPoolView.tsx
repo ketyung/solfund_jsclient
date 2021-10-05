@@ -22,6 +22,8 @@ export const InvestorPoolView : React.FC = () => {
 
     const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void
 
+    const [loaded, setLoaded] = useState(false);
+
     const setAddressPresented = ( address : web3.PublicKey) => {
 
     }
@@ -79,12 +81,16 @@ export const InvestorPoolView : React.FC = () => {
                     setTimeout(()=>{
                         forceUpdate();
                         setFundPoolLoading(false);
+                        setLoaded(true);
+                    
                     }, 500);
 
                 }
                 else {
 
                     setFundPoolLoading(false);
+                    setLoaded(true);
+
                 }
             
             }) 
@@ -110,9 +116,11 @@ export const InvestorPoolView : React.FC = () => {
     
     :
 
-    <div className="emptyPortfolio">
+    <div className="emptyPortfolio" style={{display : loaded ? "block" : "none"}}>
+    <div className="text">
     <AlertOutlined style={{marginRight:"20px"}}/>
     Your Portfolio is empty, look up in the market to start investing now
+    </div>
     </div>
     ;
 
