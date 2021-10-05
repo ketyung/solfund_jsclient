@@ -4,13 +4,13 @@
     padding:10px;
     color:white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 20pt;
+    font-size: 18pt;
     border-radius: 30px;
-    width:90%;
+    width:80%;
     min-height: 50px;
     margin: auto;
     animation: 1.5s shake infinite;
-  
+    margin-top: 50px;
 }
 
 .homeFundPoolDiv {
