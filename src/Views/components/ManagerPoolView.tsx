@@ -4,11 +4,15 @@ import useSolana from '../../Hooks/useSolana';
 import { UserPool, FundPool, extract_fund_pool } from '../../state';
 import * as web3 from '@solana/web3.js';
 import { FundPoolCardView } from './FundPoolCardView';
-
+import { Button, Modal } from 'antd';
+import {FileAddOutlined} from '@ant-design/icons';
+import { FundPoolForm } from './FundPoolForm';
+import useFundPool from '../../Hooks/useFundPool';
+import { success,error } from '../../utils/Mesg';
 
 export const ManagerPoolView : React.FC = () => {
 
-    const [,loading,read, managerPoolKey] = useUserPool();
+    const [,userPoolLoading,read, managerPoolKey] = useUserPool();
 
     const [connection] = useSolana();
 
@@ -21,6 +25,44 @@ export const ManagerPoolView : React.FC = () => {
     const setAddressPresented = ( address : web3.PublicKey) => {
 
     }
+
+    const [createFundPool, loading, , deleteFundPool] = useFundPool();
+
+    const [tokenCount, setTokenCount] = useState(0);
+    
+    const [amount, setAmount] = useState(0);
+    
+    const [finalized, setFinalized] = useState(false);
+ 
+    const [pool, setPool] = useState<UserPool>();
+
+    const [selectedIcon, setSelectedIcon] = useState(0);
+
+    const [modalPresented, setModalPresented] = useState(false);
+
+    const setValuesOf = (token_count : number, amount : 
+        number, is_finalized : boolean, icon : number ) => {
+
+        setTokenCount(token_count);
+        setAmount(amount);
+        setSelectedIcon(icon);
+        setFinalized(is_finalized); 
+    }
+
+    const completion = (res : boolean | Error) =>  {
+
+        if (res instanceof Error){
+
+            error((res as Error).message, 5 );
+
+        }
+        else {
+
+            success("Success!", 5);
+
+        }
+    }
+  
 
 
     async function readData(pubkey : web3.PublicKey){
@@ -93,8 +135,38 @@ export const ManagerPoolView : React.FC = () => {
 
 
 
-    return <div>
-    <h2 style={{fontWeight:"bolder", color:"white"}}>Your Fund Pools</h2>
+    return <div className="homeFundPoolDiv">
+    <p>
+    <span className="title">Your Fund Pools</span>
+    <Button className="addNewButton"  onClick={async ()=> {
+              
+              setModalPresented(true);
+          }}>
+        <FileAddOutlined/> Create Fund Pool
+    </Button>
+
+    </p>
+
     {fundPoolsView}
+
+    <Modal title="Create Fund Pool"   
+         className="roundModal"
+          style={{minWidth:"80%"}}
+          visible={modalPresented}
+          onOk={async ()=>{
+                setModalPresented(false);
+                
+                let amountLp = amount * web3.LAMPORTS_PER_SOL;
+                createFundPool(amountLp,tokenCount,finalized,
+                selectedIcon, completion);
+          }}
+          onCancel={()=>{setModalPresented(false);}}
+          okButtonProps={{ disabled: false }}
+          okText = "Create"
+          cancelButtonProps={{ disabled: false }}>
+       
+          <FundPoolForm setValuesOf={setValuesOf}/>
+
+       </Modal>
     </div>
 }
