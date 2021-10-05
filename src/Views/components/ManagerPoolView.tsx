@@ -197,16 +197,14 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     <div>
     <span className="title">Fund Pools Managed By You</span>
     <Button className="addNewButton"  onClick={async ()=> {
-              
-              setModalPresented(true);
-          }}>
+            setModalPresented(true);
+        }}>
         <FileAddOutlined/> Create Fund Pool
     </Button>
     
     <Button shape="circle" className="shareButton" onClick={async ()=> {
-              
-              setShareModalPresented(true);
-          }}>
+            setShareModalPresented(true);
+        }}>
         <ShareAltOutlined />
     </Button>
    
