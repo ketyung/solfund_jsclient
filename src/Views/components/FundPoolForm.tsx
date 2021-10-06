@@ -22,17 +22,21 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     const [selectedIcon, setSelectedIcon] = useState(0);
 
     const [tokenCount, setTokenCount] = useState(0);
-    
-    const [tokenToSol, setTokenToSol] = useState(0);
+  
+    const SUGGESTED_TOKEN_COUNT : number = 100000;
+
+    const [tokenToSol, setTokenToSol] = useState(1/SUGGESTED_TOKEN_COUNT);
     
     const [finalized, setFinalized] = useState(false);
  
-
+  
     const tokenCountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
 
         let txt = e.currentTarget.value;
-
-        setTokenCount(parseInt(txt)); 
+        let v = parseInt(txt);
+      
+        setTokenCount(v); 
+      
         setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
       
     };
@@ -41,8 +45,11 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     const tokenToSolOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
 
         let txt = e.currentTarget.value;
-
-        setTokenToSol(parseFloat(txt));   
+        let ts = parseFloat(txt);
+        if (isNaN(ts)){
+            ts = 1/SUGGESTED_TOKEN_COUNT;
+        }
+        setTokenToSol(ts);   
         setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
           
     };
@@ -72,11 +79,11 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     <Form layout="vertical" style={{color:"white"}}>
 
     <Form.Item style={{color:"white"}} label="Number of tokens" required tooltip="This is a required field">
-        <Input placeholder="10000" value="10000"  onChange={tokenCountOnChange}/>
+        <Input placeholder={""+SUGGESTED_TOKEN_COUNT}  onChange={tokenCountOnChange}/>
     </Form.Item>
 
     <Form.Item label="Token To SOL Ratio" required tooltip="This is a required field">
-        <Input placeholder="0.0001" value="0.0001" onChange={tokenToSolOnChange}/>
+        <Input placeholder={""+ (1/SUGGESTED_TOKEN_COUNT)} onChange={tokenToSolOnChange}/>
     </Form.Item>
 
     <Form.Item>

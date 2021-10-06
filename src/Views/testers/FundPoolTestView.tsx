@@ -85,7 +85,7 @@ export const FundPoolTestView : React.FC = () => {
                 setModalPresented(false);
                 
                 let amountLp = amount * web3.LAMPORTS_PER_SOL;
-                createFundPool(amountLp,tokenCount,finalized,
+                createFundPool(amountLp,tokenCount,0, finalized,
                 selectedIcon, completion);
           }}
           onCancel={()=>{setModalPresented(false);}}

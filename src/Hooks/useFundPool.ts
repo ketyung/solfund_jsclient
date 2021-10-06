@@ -145,7 +145,7 @@ export default function useFundPool(){
     
 
     async function createFundPool(lamports : number, token_count : number, 
-        is_finalized : boolean, icon : number, 
+        token_to_sol_ratio : number, is_finalized : boolean, icon : number, 
          completionHandler : (result : boolean | Error) => void) {
 
         if (!publicKey){
@@ -211,7 +211,8 @@ export default function useFundPool(){
         
     
         let fund_pool_data : Uint8Array = createFundPoolBytes( 
-            publicKey, fundPoolAccKey, tokenKey,  lamports, token_count, is_finalized, icon);
+            publicKey, fundPoolAccKey, tokenKey,  lamports, token_count, 
+            token_to_sol_ratio, is_finalized, icon);
         let data = SolUtil.createBuffer(fund_pool_data,ACTION_CREATE,MODULE_FUND_POOL);
 
         const createFpTxIns = new web3.TransactionInstruction({

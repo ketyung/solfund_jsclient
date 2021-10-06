@@ -245,7 +245,7 @@ export const createInvestorBytes = (
 
 export const createFundPoolBytes = (manager : web3.PublicKey, 
     address : web3.PublicKey, token_address : web3.PublicKey, 
-    lamports : number, token_count : number, 
+    lamports : number, token_count : number, token_to_lamport_ratio : number, 
     is_finalized : boolean, icon : number) => {
 
         // manager,lamports, token_count,is_finalized
@@ -302,8 +302,17 @@ export const createFundPoolBytes = (manager : web3.PublicKey,
 
         offset += tbytes.length; 
 
-        newInsArray[offset] = is_finalized ? 1 : 0;
 
+        let trbytes = num_to_u64(token_to_lamport_ratio);
+
+        for (r=0; r < trbytes.length; r++){
+
+            newInsArray[offset+r] = trbytes[r];
+        }
+
+        offset += trbytes.length; 
+
+        newInsArray[offset] = is_finalized ? 1 : 0;
 
         offset += 1;
 

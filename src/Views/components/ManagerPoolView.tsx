@@ -38,7 +38,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     const [tokenCount, setTokenCount] = useState(0);
     
-    const [amount, setAmount] = useState(0);
+    const [tokenToSol, setTokenToSol] = useState(0);
     
     const [finalized, setFinalized] = useState(false);
  
@@ -51,11 +51,11 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     const [poolPageAddress , setPoolPageAddress] = useState("");
 
 
-    const setValuesOf = (token_count : number, amount : 
+    const setValuesOf = (token_count : number, token_to_sol : 
         number, is_finalized : boolean, icon : number ) => {
 
         setTokenCount(token_count);
-        setAmount(amount);
+        setTokenToSol(token_to_sol);
         setSelectedIcon(icon);
         setFinalized(is_finalized); 
     }
@@ -236,9 +236,10 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
           onOk={async ()=>{
                 setModalPresented(false);
                 
-                let amountLp = amount * web3.LAMPORTS_PER_SOL;
-                createFundPool(amountLp,tokenCount,finalized,
+                let ratioLp = tokenToSol * web3.LAMPORTS_PER_SOL;
+                createFundPool(0,tokenCount,ratioLp, finalized,
                 selectedIcon, completion);
+                
           }}
           onCancel={()=>{setModalPresented(false);}}
           okButtonProps={{ disabled: false }}
