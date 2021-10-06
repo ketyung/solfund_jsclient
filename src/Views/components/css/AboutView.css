@@ -1,0 +1,15 @@
+.aboutDiv {
+
+    background-color: #683;
+    padding: 20px;
+    margin: auto;
+    width:60%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color:white;
+    font-size: 16pt;
+    border-radius: 60px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    text-align: left;
+    min-height: 50px;
+}

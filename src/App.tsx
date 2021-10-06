@@ -12,8 +12,8 @@ import { clusterApiUrl } from '@solana/web3.js';
 import {FundPoolView} from './Views/components/FundPoolView';
 import { ManagerPoolPage } from './Views/components/ManagerPoolPage';
 import { TokenTestView } from './Views/testers/TokenTestView';
+import { AboutView } from './Views/components/AboutView';
 import {Wallet} from './Views/components/Wallet';
-
 
 function App() {
 
@@ -35,6 +35,8 @@ function App() {
 
    const [matchManagerPool] = useRoute("/poolby/:address");
 
+   const [matchAbout] = useRoute("/about");
+
    const theTitle = () => {
 
       if (matchHome){
@@ -51,6 +53,10 @@ function App() {
       else if (matchManagerPool){
 
         return "Fund Pools - Solafund";
+      }
+      else if (matchAbout){
+
+        return "About Us - Solafund";
       }
       
       else {
@@ -88,6 +94,10 @@ function App() {
         {(params) => 
           <ManagerPoolPage address={params.address}/>
         }
+      </Route>
+
+      <Route path="/about">
+       <AboutView/>
       </Route>
 
       <Route path="/tokentest">

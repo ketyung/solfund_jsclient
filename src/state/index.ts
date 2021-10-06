@@ -114,32 +114,60 @@ export const extract_fund_pool = (data : Uint8Array,
     let wds = data.slice(e1 , e1 + (wds_len * 32) );
     
 
-    var validInvs  : Array<web3.PublicKey> = [];
+    var validInvs  : Array<FundPoolInvestor> = [];
 
     for (var r =0; r < invs_len ; r++){
 
-        let offset = r * 32 ;
-        let key_arr = invs.slice(offset, offset + 32);
-        let pkey = new web3.PublicKey(key_arr);
+        let offset = r * 80 ;
+        let key_arr = invs.slice(offset, offset + 80);
 
-        if ( pkey.toBase58() !== web3.PublicKey.default.toBase58()){
+        let inv_arr = key_arr.slice(0,32);
+        let addr_arr = key_arr.slice(32,64);
+        let tkc_arr = key_arr.slice(64, 72);
+        let date_arr = key_arr.slice(72,80);
+        
+        let inv = new web3.PublicKey(inv_arr);
+        let addr = new web3.PublicKey(addr_arr);
+        let tkc =  Buffer.from(tkc_arr).readUInt32LE(0);
+        let date = Buffer.from (date_arr).readUInt32LE(0);
 
-            validInvs.push(pkey);
+        if ( inv.toBase58() !== web3.PublicKey.default.toBase58()){
+
+            validInvs.push( new FundPoolInvestor({
+                investor : inv,
+                address : addr,
+                token_count : tkc,
+                date : date, 
+            }));
         }
     }
 
 
-    var validWds  : Array<web3.PublicKey> = [];
+    var validWds  : Array<FundPoolInvestor> = [];
 
     for (r =0; r < wds_len ; r++){
 
-        let offset = r * 32 ;
-        let key_arr = wds.slice(offset, offset + 32);
-        let pkey = new web3.PublicKey(key_arr);
+        let offset = r * 80 ;
+        let key_arr = invs.slice(offset, offset + 80);
 
-        if ( pkey.toBase58() !== web3.PublicKey.default.toBase58()){
+        let inv_arr = key_arr.slice(0,32);
+        let addr_arr = key_arr.slice(32,64);
+        let tkc_arr = key_arr.slice(64, 72);
+        let date_arr = key_arr.slice(72,80);
+        
+        let inv = new web3.PublicKey(inv_arr);
+        let addr = new web3.PublicKey(addr_arr);
+        let tkc =  Buffer.from(tkc_arr).readUInt32LE(0);
+        let date = Buffer.from (date_arr).readUInt32LE(0);
 
-            validWds.push(pkey);
+        if ( inv.toBase58() !== web3.PublicKey.default.toBase58()){
+
+            validWds.push( new FundPoolInvestor({
+                investor : inv,
+                address : addr,
+                token_count : tkc,
+                date : date, 
+            }));
         }
     }
 
@@ -432,9 +460,9 @@ export class FundPool {
 
     icon : number = 0;
 
-    investors : Array<web3.PublicKey> = [];
+    investors : Array<FundPoolInvestor> = [];
 
-    withdrawers : Array<web3.PublicKey> = [];
+    withdrawers : Array<FundPoolInvestor> = [];
     
 
     constructor ( pool : {
@@ -447,8 +475,8 @@ export class FundPool {
         token_to_sol_ratio : number, 
         is_finalized : boolean ,
         icon : number, 
-        investors : Array<web3.PublicKey>,
-        withdrawers : Array<web3.PublicKey>, 
+        investors : Array<FundPoolInvestor>,
+        withdrawers : Array<FundPoolInvestor>, 
 
     }) {
     
@@ -467,4 +495,37 @@ export class FundPool {
             this.withdrawers = pool.withdrawers; 
         }
     }
+}
+
+
+class FundPoolInvestor {
+
+
+    investor : web3.PublicKey = web3.PublicKey.default ;
+
+    address : web3.PublicKey = web3.PublicKey.default ;
+
+    token_count : number = 0 ;
+
+    date : number = 0; 
+
+
+    constructor ( investor : {
+        investor : web3.PublicKey,
+        address : web3.PublicKey,
+        token_count : number,
+        date : number,
+    }) {
+
+        if ( investor ){
+
+            this.investor = investor.investor;
+            this.address = investor.address;
+            this.token_count = investor.token_count;
+            this.date = investor.date;
+        }
+
+
+    }
+  
 }
