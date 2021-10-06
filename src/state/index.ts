@@ -4,20 +4,14 @@ import * as web3 from '@solana/web3.js';
 export const extract_market = (data : Uint8Array, 
     completionHandler : (result : Market | Error) => void ) => {
 
-    //let pool_market = new Market();
-
     let pool_size = data.slice(0 , 2);
     
     let a_pool_size = Buffer.from(pool_size).readUInt16LE(0);
 
-    //console.log("pool_size", a_pool_size);
-
+   
     let keys = data.slice(2);//,data.length);
     
-   // let no_of_keys = keys.length / 32 ;
-
-    //console.log("keys.len", keys.length);
-
+   
     var validPkeys : Array<web3.PublicKey> = [];
 
     for (var r =0; r < a_pool_size; r++){
@@ -93,30 +87,73 @@ export const extract_user_pool = (data : Uint8Array,
 export const extract_fund_pool = (data : Uint8Array, 
     completionHandler : (result : FundPool | Error) => void ) => {
 
-    // let (is_initialized,manager, address, lamports, 
-    //  token_count,is_finalized, icon, invs_len, wds_len, invs_flat,wds_flat) =
-
-    // let is_initialized = Buffer.from( data.slice(0 , 1) ).readUInt8(0) == 1 ? true : false ;
-
+    /**
+     * 
+     *  let (is_initialized,manager, address, token_address, lamports, 
+            token_count,rm_token_count, token_to_lamport_ratio,
+            is_finalized, icon, invs_len, wds_len, invs_flat,wds_flat)
+     */
     
+
     let manager = new web3.PublicKey( data.slice(1, 33) );
     let address = new web3.PublicKey (data.slice(33,65) );
     let token_address = new web3.PublicKey (data.slice(65,97) );
     let lamports = Buffer.from ( data.slice(97, 105)).readUInt32LE(0);
     let token_count = Buffer.from ( data.slice(105, 113)).readUInt32LE(0);
+    let rm_token_count =  Buffer.from ( data.slice(113, 121)).readUInt32LE(0);
+    let token_to_sol_ratio =  (Buffer.from ( data.slice(121, 129)).readUInt32LE(0)) / web3.LAMPORTS_PER_SOL;
+    
+    let is_finalized = Buffer.from( data.slice(129, 130) ).readUInt8(0) === 1 ? true : false ;
+    let icon = Buffer.from( data.slice(130 , 132) ).readUInt16LE(0);
+    
+    let invs_len = Buffer.from( data.slice(132 , 133) ).readUInt8(0);
+    let wds_len = Buffer.from( data.slice(133 , 134) ).readUInt8(0);
+    //console.log("icon", icon);
+    let e1 = (invs_len * 32) + 134;  
+    let invs = data.slice(134, e1 );
+    let wds = data.slice(e1 , e1 + (wds_len * 32) );
+    
 
-    let is_finalized = Buffer.from( data.slice(113, 114) ).readUInt8(0) === 1 ? true : false ;
-    let icon = Buffer.from( data.slice(114 , 116) ).readUInt8(0);
-    console.log("icon", icon);
+    var validInvs  : Array<web3.PublicKey> = [];
 
+    for (var r =0; r < invs_len ; r++){
+
+        let offset = r * 32 ;
+        let key_arr = invs.slice(offset, offset + 32);
+        let pkey = new web3.PublicKey(key_arr);
+
+        if ( pkey.toBase58() !== web3.PublicKey.default.toBase58()){
+
+            validInvs.push(pkey);
+        }
+    }
+
+
+    var validWds  : Array<web3.PublicKey> = [];
+
+    for (r =0; r < wds_len ; r++){
+
+        let offset = r * 32 ;
+        let key_arr = wds.slice(offset, offset + 32);
+        let pkey = new web3.PublicKey(key_arr);
+
+        if ( pkey.toBase58() !== web3.PublicKey.default.toBase58()){
+
+            validWds.push(pkey);
+        }
+    }
 
     let f =  new  FundPool( { manager : manager, 
         address: address,
         token_address : token_address, 
         lamports : Number(lamports),
         token_count : Number(token_count),
+        rm_token_count : Number(rm_token_count),
+        token_to_sol_ratio : Number(token_to_sol_ratio),
         is_finalized : is_finalized,
-        icon : Number(icon) 
+        icon : Number(icon) ,
+        investors : validInvs,
+        withdrawers : validWds, 
     } );
     completionHandler(f);
 
@@ -378,9 +415,18 @@ export class FundPool {
 
     token_count : number = 0; 
 
+    rm_token_count : number = 0;
+
+    token_to_sol_ratio : number = 0; 
+
     is_finalized : boolean = false ;
 
     icon : number = 0;
+
+    investors : Array<web3.PublicKey> = [];
+
+    withdrawers : Array<web3.PublicKey> = [];
+    
 
     constructor ( pool : {
         manager : web3.PublicKey, 
@@ -388,8 +434,13 @@ export class FundPool {
         token_address  : web3.PublicKey,
         lamports : number,
         token_count : number,
+        rm_token_count : number, 
+        token_to_sol_ratio : number, 
         is_finalized : boolean ,
         icon : number, 
+        investors : Array<web3.PublicKey>,
+        withdrawers : Array<web3.PublicKey>, 
+
     }) {
     
         if (pool) {
@@ -399,8 +450,12 @@ export class FundPool {
             this.token_address = pool.token_address; 
             this.lamports = pool.lamports;
             this.token_count = pool.token_count;
+            this.rm_token_count = pool.rm_token_count;
+            this.token_to_sol_ratio = pool.token_to_sol_ratio; 
             this.is_finalized = pool.is_finalized;
             this.icon = pool.icon;
+            this.investors = pool.investors;
+            this.withdrawers = pool.withdrawers; 
         }
     }
 }
