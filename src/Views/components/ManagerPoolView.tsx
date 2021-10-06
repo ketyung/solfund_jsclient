@@ -81,7 +81,12 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
         }
         else {
 
-            success("Success!", 5);
+            success("Success!", 3);
+            setTimeout(()=>{
+
+                readManagerPool();
+
+            },500);
 
         }
     }

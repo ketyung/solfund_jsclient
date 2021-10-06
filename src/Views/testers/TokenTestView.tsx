@@ -10,9 +10,11 @@ import * as web3 from '@solana/web3.js';
 export const TokenTestView : React.FC = () => {
 
 
-    const [, createAndMintTk2, tokenProcessing] = useToken();
+    const [createAndMintToken, createAndMintTk2, tokenProcessing] = useToken();
 
     const [modalPresented, setModalPresented] = useState(false);
+
+    const [modal2Presented, setModal2Presented] = useState(false);
 
     const [tokenCount, setTokenCount] = useState(0);
     
@@ -33,6 +35,18 @@ export const TokenTestView : React.FC = () => {
         setSeed(txt);
       
     };
+
+
+    const tokenForm =  <Form layout="vertical">
+    <Form.Item label="Seed" required tooltip="This is a required field">
+        <Input placeholder="seed"  onChange={seedOnChange}/>
+    </Form.Item>
+
+    <Form.Item label="Number of tokens" required tooltip="This is a required field">
+        <Input placeholder="number of tokens"  onChange={tokenCountOnChange}/>
+    </Form.Item>
+    </Form>
+
 
     const completion = (res : boolean | Error) =>  {
 
@@ -56,38 +70,53 @@ export const TokenTestView : React.FC = () => {
               
                 setModalPresented(true);
 
-          }} >Create And Mint Token</Button></p>
+          }} >Create And Mint Token 1</Button></p>
+
+
+        <p><Button className="commonButton" onClick={async ()=> {
+              
+              setModal2Presented(true);
+
+        }} >Create And Mint Token 2</Button></p>
 
        
-      
-       <Modal title="Create And Mint Token"
+       <Modal title="Create And Mint Token 1"
           style={{minWidth:"80%"}}
           visible={modalPresented}
           onOk={async ()=>{
                 setModalPresented(false);
       
-               //createAndMintToken(seed, tokenCount, completion);
+                createAndMintToken(seed, tokenCount, completion);
 
-               createAndMintTk2(seed, tokenCount, completion  );
+             //  createAndMintTk2(seed, tokenCount, completion  );
                
           }}
           onCancel={()=>{setModalPresented(false);}}
           okButtonProps={{ disabled: false }}
           okText = "Create"
           cancelButtonProps={{ disabled: false }}>
-       
-       <Form layout="vertical">
+          {tokenForm}
+      
+       </Modal>
 
-            <Form.Item label="Seed" required tooltip="This is a required field">
-                <Input placeholder="seed"  onChange={seedOnChange}/>
-            </Form.Item>
+      
+       <Modal title="Create And Mint Token 2"
+          style={{minWidth:"80%"}}
+          visible={modal2Presented}
+          onOk={async ()=>{
+                setModal2Presented(false);
+      
+               //createAndMintToken(seed, tokenCount, completion);
 
-            <Form.Item label="Number of tokens" required tooltip="This is a required field">
-                <Input placeholder="number of tokens"  onChange={tokenCountOnChange}/>
-            </Form.Item>
-
-        </Form>
-
+               createAndMintTk2(seed, tokenCount, completion  );
+               
+          }}
+          onCancel={()=>{setModal2Presented(false);}}
+          okButtonProps={{ disabled: false }}
+          okText = "Create"
+          cancelButtonProps={{ disabled: false }}>
+          {tokenForm}
+      
        </Modal>
 
       
