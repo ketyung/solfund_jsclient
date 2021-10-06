@@ -2,7 +2,7 @@ import './App.css';
 //import {FundPoolTestView} from './Views/testers/FundPoolTestView';
 
 import { HomePageView } from './Views/components/HomePageView';
-import {PoolMarketTestView} from './Views/testers/PoolMarketTestView';
+import {PoolMarketPageView} from './Views/components/PoolMarketPageView';
 import {Route, useRoute} from 'wouter';
 import {useMemo, useEffect} from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
@@ -82,7 +82,7 @@ function App() {
         <HomePageView/>
       </Route>
       <Route path="/poolmarket">
-        <PoolMarketTestView/>
+        <PoolMarketPageView/>
       </Route>
       <Route path="/fundpool/:address">
         {(params) => 

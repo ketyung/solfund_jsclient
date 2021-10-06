@@ -87,6 +87,9 @@ export const InvestorPoolView : React.FC = () => {
 
                     setFundPools(tmpFundPools);
 
+                    tmpFundPools.splice(0,tmpFundPools.length);
+                   
+
                     setTimeout(()=>{
                         forceUpdate();
                         setFundPoolLoading(false);

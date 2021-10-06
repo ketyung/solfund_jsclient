@@ -5,11 +5,11 @@ import { success,error } from '../../utils/Mesg';
 import useMarket from '../../Hooks/useMarket';
 import '../css/common.css';
 import { POOL_MARKET_KEY } from '../../Hooks/useMarket';
-import { MarketFundPoolsView } from '../components/MarketFundPoolsView';
+import { MarketFundPoolsView } from './MarketFundPoolsView';
 import {FileAddOutlined} from '@ant-design/icons';
 
 
-export const PoolMarketTestView : React.FC = () =>{
+export const PoolMarketPageView : React.FC = () =>{
 
     const [createMarketAccount, , loading] = useMarket();
 
@@ -33,7 +33,7 @@ export const PoolMarketTestView : React.FC = () =>{
           <div style={{display: loading ? "block" : "none", margin : "10px"}}><Spin size="large"/></div>
 
 
-          <Button shape="circle" style={{position:"fixed", top:"100px",left:"40px", zIndex:1000}} onClick={async ()=> {    
+          <Button shape="circle" style={{position:"fixed", display:"none", top:"100px",left:"40px", zIndex:1000}} onClick={async ()=> {    
               createMarketAccount(completion2);
           }} ><FileAddOutlined/></Button>
           

@@ -34,10 +34,12 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     const [selectedAddress, setSelectedAddress] = useState<web3.PublicKey>();
 
-    const [tokenCount, setTokenCount] = useState(0);
+    const [,setTokenCount] = useState(0);
     
-    const [amount, setAmount] = useState(0);
+    const [,setAmount] = useState(0);
    
+    const [loaded, setLoaded] = useState(false);
+
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
 
     const setValuesOf = (token_count : number, amount : 
@@ -64,7 +66,6 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     async function readData(pubkey : web3.PublicKey){
 
-        
         let fpAcc = await connection.getAccountInfo(pubkey);
 
         if (fpAcc != null){
@@ -89,7 +90,11 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     }
 
 
-    const fundPoolsView = fundPools?.map(  (fundPool, index) => {
+    const fundPoolsView = 
+    
+    (fundPools?.map.length ?? 0) > 0 ? 
+
+    fundPools?.map(  (fundPool, index) => {
 
         return <FundPoolCardView address={fundPool.address.toBase58()}
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
@@ -98,7 +103,13 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
         setAddressPresented={setAddressPresented} setShareView={setShareView}
         />
 
-    });
+    })
+
+    :
+
+    <div style={{color:"white",fontSize: "20pt", marginTop:"20px", padding:"10px", display : loaded ? "block" : "none"}}>
+        Nothing here...
+    </div>
 
 
 
@@ -115,6 +126,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
                     if (res instanceof Error){
             
                         error(res.message);
+                        setLoaded(true);
                     }
                     else {
             
@@ -125,9 +137,15 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
                         setFundPools(tmpFundPools);
 
+                        tmpFundPools.splice(0,tmpFundPools.length);
+                        
                         setTimeout(()=>{
                             forceUpdate();
                             setFundPoolLoading(false);   
+                            setLoaded(true);
+
+                         //   alert(fundPools?.map.length );
+
                         }, 500);
 
                        
@@ -146,9 +164,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
    
     {
-
         fundPoolsView
-  
     }
    
     <Modal title={ selectedAddress?.toBase58() ?? ""}

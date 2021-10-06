@@ -137,6 +137,9 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
                     setFundPools(tmpFundPools);
 
+                    tmpFundPools.splice(0,tmpFundPools.length);
+                   
+
                     setTimeout(()=>{
                         forceUpdate();
                         setFundPoolLoading(false);
