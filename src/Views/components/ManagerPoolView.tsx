@@ -144,6 +144,11 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
                     }, 500);
 
                 }
+                else {
+
+                    forceUpdate();
+                    setLoaded(true);
+                }
             
             }) 
 
@@ -181,7 +186,10 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     address ?
 
-    <div style={{color:'white'}}>Pools By {address}
+    <div style={{color:'white'}}>
+     <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+       
+     <div style={{display:"inline"}}>Pools By {address}</div>
     
     <Button shape="circle" className="shareButton" onClick={async ()=> {
               
@@ -190,11 +198,15 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
         <ShareAltOutlined />
     </Button>
    
+   
     </div>
 
     :
 
     <div>
+
+    <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+    
     <span className="title">Fund Pools Managed By You</span>
     <Button className="addNewButton"  onClick={async ()=> {
             setModalPresented(true);
@@ -213,14 +225,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
 
     return <div className="homeFundPoolDiv">
-    <p>
-
-    <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
-   
-    {topTitle}
-    
-      
-    </p>
+    <p>{topTitle}</p>
 
     {fundPoolsView}
 
