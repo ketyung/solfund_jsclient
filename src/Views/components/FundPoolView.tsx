@@ -56,7 +56,18 @@ export const FundPoolView : React.FC <FundPoolViewProps> = ({address}) => {
         setAddressPresented={setAddressPresented}
         setShareView={setShareView}
         />
-  
-      </div>;
+    <div className="investorDiv">
+    <div className="investorTitle">Investors</div>
+    {
+        fundPool?.investors.map(( inv, idx ) =>{
+
+            return <div className="investorRow">
+            {idx+1}. {inv.toBase58()} 
+            </div>
+
+        })
+    }
+    </div>
+    </div>;
 
 }

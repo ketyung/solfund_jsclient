@@ -112,7 +112,7 @@ export const InvestorPoolView : React.FC = () => {
 
     const fundPoolsView =
     (fundPools?.map.length ?? 0) > 0 ?
-    fundPools?.map(  (fundPool, index) => {
+    fundPools?.map(  (fundPool ) => {
 
         return <FundPoolCardView address={fundPool.address.toBase58()}
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
