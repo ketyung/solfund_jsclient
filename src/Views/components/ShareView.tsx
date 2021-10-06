@@ -98,7 +98,7 @@ export const ShareView   : React.FC<ShareViewProps> = ({address, quote, hashtag}
                
                copyURL();
                
-          }}>{copied ? "Copied" : "Copy URL"}</Button>
+          }}>{copied ? "Copied" : "Copy Link"}</Button>
 
 
     </div>
