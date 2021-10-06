@@ -29,7 +29,7 @@ function App() {
 
    const [matchHome] = useRoute("/");
 
-   const [matchPoolMarket] = useRoute("/poolmarket");
+   const [matchPoolMarket] = useRoute("/market");
 
    const [matchFundPool] = useRoute("/fundpool/:address");
 
@@ -81,7 +81,7 @@ function App() {
       <Route path="/">
         <HomePageView/>
       </Route>
-      <Route path="/poolmarket">
+      <Route path="/market">
         <PoolMarketPageView/>
       </Route>
       <Route path="/fundpool/:address">
