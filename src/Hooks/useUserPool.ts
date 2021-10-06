@@ -8,7 +8,7 @@ export default function useUserPool(){
 
     const [connection, publicKey, , createAccount, loading, setLoading] = useSolana();
 
-    const UserPoolID : string = "__MGR_POOL";
+    const UserPoolID : string = "__MGR_USR_POOL";
 
     async function userPoolIdPubKey(id : string | null) : Promise<web3.PublicKey> {
 

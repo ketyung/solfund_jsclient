@@ -5,7 +5,7 @@ import { SolUtil } from '../utils/SolUtil';
 import { createFundPoolBytes, FundPool, extract_fund_pool } from '../state';
 import { POOL_MARKET_KEY } from './useMarket';
 import useuserPool from'./useUserPool';
-import * as splToken from "@solana/spl-token";
+// import * as splToken from "@solana/spl-token";
    
 export default function useFundPool(){
 
@@ -181,7 +181,7 @@ export default function useFundPool(){
 
         let fundPoolAccKey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
     
-        let accDataSize : number  = 116 + (80 * 100) + (80 *100) + 2; // hard-coded first 
+        let accDataSize : number  = 132 + (80 * 100) + (80 *100) + 2; // hard-coded first 
  
         const acLp = await connection.getMinimumBalanceForRentExemption(accDataSize) ;
 

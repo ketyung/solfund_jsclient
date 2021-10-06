@@ -4,7 +4,7 @@ import useSolana from './useSolana';
 import { extract_market, Market} from '../state';
 import { SolUtil } from '../utils/SolUtil';
 
-export const POOL_MARKET_KEY = "9jGazEpw8agjChuRE5LPKv3HACtsm8fFcrgBcNquoTsz";
+export const POOL_MARKET_KEY = "7wJhA8QwrU8BKLS3LNv4mgX8JCidS2wEEVTz3yt6ZUSL";
 
 
 export default function useMarket(){
@@ -40,6 +40,8 @@ export default function useMarket(){
         let size : number  = (32 * 100) + 2 + 32 ; // hard-coded first 
 
         let marketPkey = await poolMarketIdPubKey();
+
+       // console.log("marketKey", marketPkey.toBase58());
 
         let acc = await connection.getAccountInfo(marketPkey);
         // create only when it's null
