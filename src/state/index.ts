@@ -111,8 +111,8 @@ export const extract_fund_pool = (data : Uint8Array,
     let invs_len = Buffer.from( data.slice(132 , 133) ).readUInt8(0);
     let wds_len = Buffer.from( data.slice(133 , 134) ).readUInt8(0);
     
-    console.log("icon", icon);
-    console.log("is_final", is_finalized);
+    //console.log("icon", icon);
+    //console.log("is_final", is_finalized);
     
     let e1 = (invs_len * 32) + 134;  
     let invs = data.slice(134, e1 );

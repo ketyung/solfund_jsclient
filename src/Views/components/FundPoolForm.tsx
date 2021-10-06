@@ -67,7 +67,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
         
     };
 
-
+    /** // may need in the future
     const finalizedOnChange = (e: RadioChangeEvent): void => {
 
         let txt = e.target.value;
@@ -77,14 +77,16 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
         setFinalized(b);
         setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
        
-    };
+    }; */
 
 
     const setSelected = (selected : number) => {
 
+        //console.log("selected.val", selected);
+
         setSelectedIcon(selected);
         setIconModalPresented(false);
-        setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
+        setValuesOf(tokenCount, tokenToSol, finalized, selected);
     
     }
 

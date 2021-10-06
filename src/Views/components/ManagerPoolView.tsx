@@ -40,7 +40,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     
     const [tokenToSol, setTokenToSol] = useState(0);
     
-    const [finalized, setFinalized] = useState(true);
+    const [, setFinalized] = useState(true);
  
     const [loaded, setLoaded] = useState(false);
 
@@ -58,6 +58,9 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
         setTokenToSol(token_to_sol);
         setSelectedIcon(icon);
         setFinalized(is_finalized); 
+
+        //console.log("selectedIcon", icon);
+
     }
 
     const setShareView = ( presented : boolean) => {
