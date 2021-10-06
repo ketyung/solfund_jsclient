@@ -106,11 +106,14 @@ export const extract_fund_pool = (data : Uint8Array,
     let token_to_sol_ratio =  (Buffer.from ( data.slice(121, 129)).readUInt32LE(0)) / web3.LAMPORTS_PER_SOL;
     
     let is_finalized = Buffer.from( data.slice(129, 130) ).readUInt8(0) === 1 ? true : false ;
-    let icon = Buffer.from( data.slice(130 , 132) ).readUInt16LE(0);
+    let icon = Buffer.from( data.slice(130 , 132) ).readUInt8(0);
     
     let invs_len = Buffer.from( data.slice(132 , 133) ).readUInt8(0);
     let wds_len = Buffer.from( data.slice(133 , 134) ).readUInt8(0);
-    //console.log("icon", icon);
+    
+    console.log("icon", icon);
+    console.log("is_final", is_finalized);
+    
     let e1 = (invs_len * 32) + 134;  
     let invs = data.slice(134, e1 );
     let wds = data.slice(e1 , e1 + (wds_len * 32) );
