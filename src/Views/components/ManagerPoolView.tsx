@@ -40,7 +40,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     
     const [tokenToSol, setTokenToSol] = useState(0);
     
-    const [finalized, setFinalized] = useState(false);
+    const [finalized, setFinalized] = useState(true);
  
     const [loaded, setLoaded] = useState(false);
 
@@ -170,6 +170,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
         return <FundPoolCardView address={fundPool.address.toBase58()}
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
+        valueInSol = {fundPool.token_count * fundPool.token_to_sol_ratio}
         className="fundPoolNorm"
         setAddressPresented={setAddressPresented}
         setShareView={setIndvShareView}
@@ -250,7 +251,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
                 setModalPresented(false);
                 
                 let ratioLp = tokenToSol * web3.LAMPORTS_PER_SOL;
-                createFundPool(0,tokenCount,ratioLp, finalized,
+                createFundPool(0,tokenCount,ratioLp, true,
                 selectedIcon, completion);
                 
           }}

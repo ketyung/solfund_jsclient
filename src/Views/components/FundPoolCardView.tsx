@@ -18,6 +18,8 @@ interface FundPoolCardViewProps {
 
     lamports : number, 
 
+    valueInSol : number, 
+
     icon : number,
 
     className : string, 
@@ -30,7 +32,7 @@ interface FundPoolCardViewProps {
 }
 
 export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, manager, 
-    tokenCount, lamports, icon, className, setAddressPresented, setShareView}) => {
+    tokenCount, lamports, valueInSol, icon, className, setAddressPresented, setShareView}) => {
 
     return <div className={className}>
     
@@ -60,7 +62,7 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
 
         <div className="item">Token : {tokenCount}</div>
 
-        <div className="item">Amount : {(lamports / web3.LAMPORTS_PER_SOL).toFixed(9)}</div>
+        <div className="item">Value In Sol : {valueInSol.toFixed(9)}</div>
 
        
 

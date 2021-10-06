@@ -120,6 +120,7 @@ export const InvestorPoolView : React.FC = () => {
         return <FundPoolCardView address={fundPool.address.toBase58()}
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
+        valueInSol = {fundPool.token_count * fundPool.token_to_sol_ratio}
         className="fundPoolNorm"
         setAddressPresented={setAddressPresented}
         setShareView={setShareView}

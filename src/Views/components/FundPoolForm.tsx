@@ -135,13 +135,17 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     </Modal>
     </Form.Item>
   
+    {
+    /** // may need this in the future 
     <Form.Item label="Is Finalized?">
     <Radio.Group onChange={finalizedOnChange} value="yes">
       <Radio.Button value="no">No</Radio.Button>
       <Radio.Button value="yes">Yes</Radio.Button>
     </Radio.Group>
     </Form.Item>
-
+     */
+    }
+   
   
 
 </Form>
