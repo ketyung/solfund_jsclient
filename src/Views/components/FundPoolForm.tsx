@@ -23,7 +23,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
     const [tokenCount, setTokenCount] = useState(0);
     
-    const [amount, setAmount] = useState(0);
+    const [tokenToSol, setTokenToSol] = useState(0);
     
     const [finalized, setFinalized] = useState(false);
  
@@ -33,17 +33,17 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
         let txt = e.currentTarget.value;
 
         setTokenCount(parseInt(txt)); 
-        setValuesOf(tokenCount, amount, finalized, selectedIcon);
+        setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
       
     };
 
 
-    const amountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    const tokenToSolOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
 
         let txt = e.currentTarget.value;
 
-        setAmount(parseInt(txt));   
-        setValuesOf(tokenCount, amount, finalized, selectedIcon);
+        setTokenToSol(parseFloat(txt));   
+        setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
           
     };
 
@@ -55,7 +55,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
         let b = txt === "yes" ? true : false ;
 
         setFinalized(b);
-        setValuesOf(tokenCount, amount, finalized, selectedIcon);
+        setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
        
     };
 
@@ -64,7 +64,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
         setSelectedIcon(selected);
         setIconModalPresented(false);
-        setValuesOf(tokenCount, amount, finalized, selectedIcon);
+        setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
     
     }
 
@@ -72,11 +72,11 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     <Form layout="vertical" style={{color:"white"}}>
 
     <Form.Item style={{color:"white"}} label="Number of tokens" required tooltip="This is a required field">
-        <Input placeholder="number of tokens"  onChange={tokenCountOnChange}/>
+        <Input placeholder="10000" value="10000"  onChange={tokenCountOnChange}/>
     </Form.Item>
 
-    <Form.Item label="Amount In SOL" required tooltip="This is a required field">
-        <Input placeholder="amount in SOL" onChange={amountOnChange}/>
+    <Form.Item label="Token To SOL Ratio" required tooltip="This is a required field">
+        <Input placeholder="0.0001" value="0.0001" onChange={tokenToSolOnChange}/>
     </Form.Item>
 
     <Form.Item>
@@ -98,7 +98,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
     </span>
 
-    <Modal title="Choose An Icon" className="roundModal"
+    <Modal title="Choose An Icon To Identify Your Pool, So It Won't Appear Too Boring!!" className="roundModal"
             style={{minWidth:"60%"}}
             visible={iconModalPresented}
             onCancel={()=>{setIconModalPresented(false);}}
@@ -111,7 +111,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     </Form.Item>
   
     <Form.Item label="Is Finalized?">
-    <Radio.Group onChange={finalizedOnChange} value="no">
+    <Radio.Group onChange={finalizedOnChange} value="yes">
       <Radio.Button value="no">No</Radio.Button>
       <Radio.Button value="yes">Yes</Radio.Button>
     </Radio.Group>
