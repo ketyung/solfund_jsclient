@@ -176,9 +176,19 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     
     :
 
-    <div style={{color:"white", marginTop:"20px", display: loaded ? "block" : "none" }}>
-        You have NOT created any fund pool yet, please click on "Create Fund Pool" 
-        to start creating and invite your investors</div>
+    <div style={{color:"white", marginTop:"20px", display: loaded ? "block" : "none" }}>{
+
+        address ?
+
+        "No pool available, the fund manager has not created any pool in this address"
+        :
+
+        "You have NOT created any fund pool yet, please click on \"Create Fund Pool\" "+ 
+        "to start creating and invite your investors"
+        
+        }
+        
+        </div>
     ;
 
 
