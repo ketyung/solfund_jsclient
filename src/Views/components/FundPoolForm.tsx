@@ -26,6 +26,8 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     const SUGGESTED_TOKEN_COUNT : number = 100000;
 
     const [tokenToSol, setTokenToSol] = useState(1/SUGGESTED_TOKEN_COUNT);
+
+    const [valueInSol, setValueInSol] = useState(0);
     
     const [finalized, setFinalized] = useState(false);
  
@@ -38,6 +40,15 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
         setTokenCount(v); 
       
         setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
+
+        let ts = parseFloat(""+tokenToSol);
+
+        if (isNaN(ts)){
+            ts = 1/SUGGESTED_TOKEN_COUNT;
+        }
+        
+        setValueInSol ( tokenCount * ts );
+
       
     };
 
@@ -51,7 +62,9 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
         }
         setTokenToSol(ts);   
         setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
-          
+        
+        setValueInSol ( tokenCount * ts);
+        
     };
 
 
@@ -86,6 +99,11 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
         <Input placeholder={""+ (1/SUGGESTED_TOKEN_COUNT)} onChange={tokenToSolOnChange}/>
     </Form.Item>
 
+    <Form.Item label="Value in SOL" style={{display:"inline-block"}}>
+        <span style={{backgroundColor:"#800", color:"white",
+        padding:"10px", borderRadius:"20px"}}>{valueInSol}</span>
+    </Form.Item>
+
     <Form.Item>
     <span>
   
@@ -105,7 +123,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
     </span>
 
-    <Modal title="Choose An Icon To Identify Your Pool, So It Won't Appear Too Boring!!" className="roundModal"
+    <Modal title="Choose An Icon" className="roundModal"
             style={{minWidth:"60%"}}
             visible={iconModalPresented}
             onCancel={()=>{setIconModalPresented(false);}}

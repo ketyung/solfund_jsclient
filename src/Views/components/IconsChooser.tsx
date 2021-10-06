@@ -40,6 +40,10 @@ interface IconChooserProps{
 export const IconChooser : React.FC<IconChooserProps> = ({selectedIcon, setSelected}) => {
 
     return <div className="iconChooser">
+    <div style={{color:"white",margin:"10px",fontWeight:"bolder"}}>
+    Pick An Icon To Represent Your Pool, So It Won't Appear Too Boring!!
+    </div>    
+
     {
 
         ICONS.map (( img , index) => {
