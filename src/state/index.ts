@@ -4,10 +4,12 @@ import * as web3 from '@solana/web3.js';
 export const extract_market = (data : Uint8Array, 
     completionHandler : (result : Market | Error) => void ) => {
 
+    
     let pool_size = data.slice(0 , 2);
     
     let a_pool_size = Buffer.from(pool_size).readUInt16LE(0);
 
+    console.log("pool_size", a_pool_size);
    
     let keys = data.slice(2);//,data.length);
     
@@ -30,7 +32,7 @@ export const extract_market = (data : Uint8Array,
     let creator = keys.slice(lastOffset , lastOffset + 32 );
     let creatorPkey = new web3.PublicKey(creator);
 
-    console.log("creatrPk", creatorPkey.toBase58());
+    //console.log("creatrPk", creatorPkey.toBase58());
 
     let num =  Buffer.from(pool_size).readUInt16LE(0);
 
@@ -277,7 +279,7 @@ export const createFundPoolBytes = (manager : web3.PublicKey,
     is_finalized : boolean, icon : number) => {
 
         // manager,lamports, token_count,is_finalized
-        const newInsArray : Uint8Array = new Uint8Array(115);
+        const newInsArray : Uint8Array = new Uint8Array(123);
        
         const pkbytes = manager.toBytes();
 

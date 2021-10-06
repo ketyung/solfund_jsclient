@@ -144,8 +144,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
                             setFundPoolLoading(false);   
                             setLoaded(true);
 
-                         //   alert(fundPools?.map.length );
-
+                           // console.log("markets.fp", fundPools?.map);
                         }, 500);
 
                        

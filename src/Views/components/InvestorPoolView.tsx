@@ -33,7 +33,7 @@ export const InvestorPoolView : React.FC = () => {
 
     const setShareView = ( presented : boolean) => {
 
-        setShareModalPresented(true);
+        setShareModalPresented(presented);
     }
 
     const [shareModalPresented, setShareModalPresented] = useState(false);

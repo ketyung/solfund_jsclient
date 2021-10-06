@@ -5,9 +5,10 @@ import { extract_market, Market} from '../state';
 import { SolUtil } from '../utils/SolUtil';
 
 export const POOL_MARKET_KEY =
-// "7wJhA8QwrU8BKLS3LNv4mgX8JCidS2wEEVTz3yt6ZUSL";
+ "7wJhA8QwrU8BKLS3LNv4mgX8JCidS2wEEVTz3yt6ZUSL";
 
- "9jGazEpw8agjChuRE5LPKv3HACtsm8fFcrgBcNquoTsz";
+ // old 
+// "9jGazEpw8agjChuRE5LPKv3HACtsm8fFcrgBcNquoTsz";
 
 
 
@@ -126,7 +127,7 @@ export default function useMarket(){
         
         let marketPkey = pubkey ? new web3.PublicKey(pubkey) : await poolMarketIdPubKey();
         
-        console.log("mKey", marketPkey.toBase58());
+      //  console.log("mKey", marketPkey.toBase58());
         
         try {
             let acc = await connection.getAccountInfo(marketPkey);
