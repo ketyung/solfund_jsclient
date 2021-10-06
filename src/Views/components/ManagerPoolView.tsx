@@ -5,7 +5,7 @@ import { UserPool, FundPool, extract_fund_pool } from '../../state';
 import * as web3 from '@solana/web3.js';
 import { FundPoolCardView } from './FundPoolCardView';
 import { Button, Modal, Spin } from 'antd';
-import {FileAddOutlined, ShareAltOutlined} from '@ant-design/icons';
+import {FileAddOutlined, ShareAltOutlined, ReloadOutlined} from '@ant-design/icons';
 import { FundPoolForm } from './FundPoolForm';
 import useFundPool from '../../Hooks/useFundPool';
 import { success,error } from '../../utils/Mesg';
@@ -114,48 +114,48 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     }
 
+    async function readManagerPool(){
+
+        setFundPoolLoading(true);
+
+        let addr =  address ? address : (await managerPoolKey(null)).toBase58();
+        setPoolPageAddress(addr);
+
+        read(addr ,
+        
+        (res : UserPool | Error) =>  {
+
+            if (!(res instanceof Error)){
+                
+                for ( var r=0; r < res.addresses.length; r++){
+
+                    readData(res.addresses[r]);
+                }
+
+                setFundPools(tmpFundPools);
+
+                tmpFundPools.splice(0,tmpFundPools.length);
+               
+
+                setTimeout(()=>{
+                    forceUpdate();
+                    setFundPoolLoading(false);
+                    setLoaded(true);
+                }, 500);
+
+            }
+            else {
+
+                forceUpdate();
+                setLoaded(true);
+            }
+        
+        }) 
+
+    }
+
 
     useEffect(() => {
-
-        async function readManagerPool(){
-
-            setFundPoolLoading(true);
-
-            let addr =  address ? address : (await managerPoolKey(null)).toBase58();
-            setPoolPageAddress(addr);
-
-            read(addr ,
-            
-            (res : UserPool | Error) =>  {
-    
-                if (!(res instanceof Error)){
-                    
-                    for ( var r=0; r < res.addresses.length; r++){
-
-                        readData(res.addresses[r]);
-                    }
-
-                    setFundPools(tmpFundPools);
-
-                    tmpFundPools.splice(0,tmpFundPools.length);
-                   
-
-                    setTimeout(()=>{
-                        forceUpdate();
-                        setFundPoolLoading(false);
-                        setLoaded(true);
-                    }, 500);
-
-                }
-                else {
-
-                    forceUpdate();
-                    setLoaded(true);
-                }
-            
-            }) 
-
-        }
 
         readManagerPool();
 
@@ -205,12 +205,21 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
        
      <div style={{display:"inline"}}>Pools By {address}</div>
     
+     <Button shape="circle" className="shareButton" onClick={async ()=> {
+              
+            await readManagerPool();
+        }}>
+        <ReloadOutlined />
+     </Button>
+   
+
     <Button shape="circle" className="shareButton" onClick={async ()=> {
               
               setShareModalPresented(true);
           }}>
         <ShareAltOutlined />
     </Button>
+   
    
    
     </div>
@@ -228,6 +237,14 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
         <FileAddOutlined/> Create Fund Pool
     </Button>
     
+    <Button shape="circle" className="reloadButton" onClick={async ()=> {
+            
+            await readManagerPool();
+        }}>
+        <ReloadOutlined />
+    </Button>
+    
+
     <Button shape="circle" className="shareButton" onClick={async ()=> {
             setShareModalPresented(true);
         }}>

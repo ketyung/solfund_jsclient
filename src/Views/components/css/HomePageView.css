@@ -50,6 +50,12 @@
     margin:10px;
 }
 
+.homeFundPoolDiv .reloadButton {
+    
+    float:right;
+    margin:10px;
+}
+
 .emptyPortfolio {
 
     background-color: #900;
