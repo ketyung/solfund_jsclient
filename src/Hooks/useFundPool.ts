@@ -226,7 +226,7 @@ export default function useFundPool(){
         let upAcc = await connection.getAccountInfo(userPoolPKey);
         if (upAcc == null ){
 
-            let upDataSize = 32 + 1 + (32 * 10);
+            let upDataSize = 32 + 1 + (32 * 50);
        
             const upLp = await connection.getMinimumBalanceForRentExemption(upDataSize);
             const createMpAccTx = new web3.Transaction().add (
