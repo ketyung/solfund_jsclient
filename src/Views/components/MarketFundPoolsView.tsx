@@ -49,7 +49,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
 
-    const [addInvestor] = useInvestor();
+    const [addInvestor,,investorLoading] = useInvestor();
 
     const completion = (res : boolean | Error) =>  {
 
@@ -264,7 +264,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
           okButtonProps={{ disabled: false }}
           cancelButtonProps={{ disabled: false }}>
          <InvestorForm setValuesOf={setValuesOf} 
-         tokenToSol={selectedTokenToSol} remainingToken={selectedRemainingToken} />
+         tokenToSol={selectedTokenToSol} remainingToken={selectedRemainingToken}
+         loading={investorLoading}
+         />
         
     </Modal>
 

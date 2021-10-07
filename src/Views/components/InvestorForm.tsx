@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, Spin } from 'antd';
 import { error } from '../../utils/Mesg';
 
 interface FundPoolFormProps {
@@ -9,13 +9,15 @@ interface FundPoolFormProps {
 
     remainingToken : number, 
     
+    loading : boolean, 
+
     setValuesOf : (token_count : number, amount : number, errorMessage : string | null )=>void,
 
 }
 
 
 export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol, 
-    remainingToken, setValuesOf}) =>{
+    remainingToken, loading, setValuesOf}) =>{
   
     const [tokenCount, setTokenCount] = useState(0);
     
@@ -40,11 +42,9 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol,
         }
         else {
 
-    
             let errorMessage  = "Your purchased amount has exceeded the available tokens :"+ remainingToken;
             setValuesOf(0, 0, errorMessage);
             error(errorMessage);
-
         }
          
     };
@@ -53,7 +53,9 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol,
     <Form layout="vertical">
 
         <div style={{minWidth:"200px",backgroundColor:"#334",marginBottom:"20px", padding:"10px",borderRadius:"20px", color:"wheat"}}>
-            Token To SOL Ratio : {tokenToSol} , Available Tokens : {remainingToken}
+            Token To SOL Ratio : {tokenToSol} , Available Tokens : {remainingToken} 
+            <div style={{display: loading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+   
         </div>
    
         <Form.Item label="Amount In SOL" required tooltip="This is a required field">
