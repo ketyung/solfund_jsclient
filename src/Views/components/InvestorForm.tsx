@@ -22,14 +22,14 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol, setVal
 
         let txt = e.currentTarget.value;
 
-        let am = parseInt(txt); 
+        let am = parseFloat(txt); 
 
         let amval = isNaN(am) ? 0 : am ;
         setAmount(amval);
         
         let tkCount = amval / (tokenToSol > 0 ? tokenToSol : 1);
 
-        setTokenCount(tkCount);
+        setTokenCount(Math.floor(tkCount));
 
         setValuesOf(tokenCount, amount);
          
@@ -43,7 +43,7 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol, setVal
         </Form.Item>
 
         <Form.Item label="Number of tokens you'll get" required tooltip="This is a required field">
-            <div style={{minWidth:"100px",padding:"10px",backgroundColor:"#238", 
+            <div style={{maxWidth:"200px",padding:"10px",backgroundColor:"#238", 
             color:"white", borderRadius:"20px"}}>
                 {tokenCount}
             </div>

@@ -34,6 +34,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     const [selectedAddress, setSelectedAddress] = useState<web3.PublicKey>();
 
+    const [selectedTokenToSol, setSelectedTokenToSol] = useState(0);
+
+
     const [,setTokenCount] = useState(0);
     
     const [,setAmount] = useState(0);
@@ -60,19 +63,31 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
         setSelectedAddress(address);
 
+        let tkToSol = getSelectedFundPool(address)?.token_to_sol_ratio ?? 0 ;
+
+        console.log(".matched.sel.addr::", 
+        address.toBase58(), "ratio::",
+        tkToSol);
+
+        setSelectedTokenToSol( tkToSol);
+
         setModalPresented(true);
     }
 
 
-    function getSelectedFundPool () : FundPool | null {
+    function getSelectedFundPool (address : web3.PublicKey) : FundPool | null {
 
-        fundPools?.map( (fundPool) => {
+        let fps = fundPools ?? [];
 
-            if (fundPool.address.toBase58() === selectedAddress?.toBase58()){
+        for (var r=0; r < fps.length; r++){
 
-                return fundPool; 
+            let fp = fps[r];
+
+            if ( fp.address.toBase58() === address.toBase58()){
+
+                return fp ;
             }
-        })
+        } 
 
         return null; 
     }
@@ -181,7 +196,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
         fundPoolsView
     }
    
-    <Modal title={ selectedAddress?.toBase58() ?? ""}
+    <Modal title={ (selectedAddress?.toBase58() ?? "") + "  (Token To SOL ratio: "+selectedTokenToSol+")"}
         className="roundModal"
          visible={modalPresented}
           onCancel={()=>{
@@ -195,7 +210,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
           okButtonProps={{ disabled: false }}
           cancelButtonProps={{ disabled: false }}>
          <InvestorForm setValuesOf={setValuesOf} 
-         tokenToSol={getSelectedFundPool()?.token_to_sol_ratio ?? 0} />
+         tokenToSol={selectedTokenToSol} />
         
     </Modal>
 
