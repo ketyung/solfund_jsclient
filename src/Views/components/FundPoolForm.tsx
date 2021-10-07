@@ -101,8 +101,8 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
         <Input placeholder={""+ (1/SUGGESTED_TOKEN_COUNT)} onChange={tokenToSolOnChange}/>
     </Form.Item>
 
-    <Form.Item label="Value in SOL" style={{display:"inline-block"}}>
-        <span style={{backgroundColor:"#800", color:"white",
+    <Form.Item label="Equivalent Value in SOL" style={{display:"inline-block"}}>
+        <span style={{backgroundColor:"#008", color:"white",minWidth:"100px",
         padding:"10px", borderRadius:"20px"}}>{valueInSol}</span>
     </Form.Item>
 
