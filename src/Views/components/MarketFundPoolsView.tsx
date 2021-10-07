@@ -61,6 +61,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
         else {
 
             success("Success!", 3);
+            setModalPresented(false);
         }
     }
   
