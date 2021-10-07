@@ -117,14 +117,6 @@ export default function useInvestor(){
        
         let data = SolUtil.createBuffer(investor_data,ACTION_CREATE,MODULE_INVESTOR);
 
-        /** In Rust the order is : 
-         let investor_account = next_account_info(account_info_iter)?;
-         let investor_pool_account = next_account_info(account_info_iter)?;
-         let fund_pool_account = next_account_info(account_info_iter)?;
-         let signer_account = next_account_info(account_info_iter)?;
-         let system_program = next_account_info(account_info_iter)?;
-        */
-
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: investorAccKey, isSigner: false, isWritable: true },
             { pubkey: investorPoolKey, isSigner: false, isWritable: true },

@@ -64,6 +64,20 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     }
 
 
+    function getSelectedFundPool () : FundPool | null {
+
+        fundPools?.map( (fundPool) => {
+
+            if (fundPool.address.toBase58() === selectedAddress?.toBase58()){
+
+                return fundPool; 
+            }
+        })
+
+        return null; 
+    }
+
+
     async function readData(pubkey : web3.PublicKey){
 
         let fpAcc = await connection.getAccountInfo(pubkey);
@@ -180,7 +194,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
           okButtonProps={{ disabled: false }}
           cancelButtonProps={{ disabled: false }}>
-         <InvestorForm setValuesOf={setValuesOf} />
+         <InvestorForm setValuesOf={setValuesOf} 
+         tokenToSol={getSelectedFundPool()?.token_to_sol_ratio ?? 0} />
         
     </Modal>
 

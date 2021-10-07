@@ -1,57 +1,55 @@
 import React, {useState} from 'react';
-import { Image, RadioChangeEvent } from 'antd';
 import { Form, Input, Radio, Button, Modal } from 'antd';
-import { IconChooser, ICONS } from './IconsChooser';
-import {PublicKey} from '@solana/web3.js';
 
 interface FundPoolFormProps {
 
 
+    tokenToSol : number, 
     
     setValuesOf : (token_count : number, amount : number )=>void,
-
 
 }
 
 
-export const InvestorForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
+export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol, setValuesOf}) =>{
   
     const [tokenCount, setTokenCount] = useState(0);
     
     const [amount, setAmount] = useState(0);
     
 
-    const tokenCountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
-
-        let txt = e.currentTarget.value;
-
-        setTokenCount(parseInt(txt)); 
-        setValuesOf(tokenCount, amount);
-    
-    };
-
-
     const amountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
 
         let txt = e.currentTarget.value;
 
-        setAmount(parseInt(txt));   
+        let am = parseInt(txt); 
+
+        let amval = isNaN(am) ? 0 : am ;
+        setAmount(amval);
+        
+        let tkCount = amval / (tokenToSol > 0 ? tokenToSol : 1);
+
+        setTokenCount(tkCount);
+
         setValuesOf(tokenCount, amount);
          
     };
 
     return <div>
     <Form layout="vertical">
-    <Form.Item label="Number of tokens" required tooltip="This is a required field">
-        <Input placeholder="number of tokens"  onChange={tokenCountOnChange}/>
-    </Form.Item>
+   
+        <Form.Item label="Amount In SOL" required tooltip="This is a required field">
+            <Input placeholder="amount in SOL" onChange={amountOnChange}/>
+        </Form.Item>
 
-    <Form.Item label="Amount In SOL" required tooltip="This is a required field">
-        <Input placeholder="amount in SOL" onChange={amountOnChange}/>
-    </Form.Item>
+        <Form.Item label="Number of tokens you'll get" required tooltip="This is a required field">
+            <div style={{minWidth:"100px",padding:"10px",backgroundColor:"#238", 
+            color:"white", borderRadius:"20px"}}>
+                {tokenCount}
+            </div>
+        </Form.Item>
 
-  
-</Form>
+    </Form>
 </div>
 
 }
