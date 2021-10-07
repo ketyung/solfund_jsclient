@@ -36,20 +36,24 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
     const [selectedTokenToSol, setSelectedTokenToSol] = useState(0);
 
+    const [selectedRemainingToken, setSelectedRemainingToken] = useState(0);
 
     const [,setTokenCount] = useState(0);
     
     const [,setAmount] = useState(0);
-   
+
+   const [errorMessage,setErrorMessage] = useState<string|null>();
+    
     const [loaded, setLoaded] = useState(false);
 
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
 
     const setValuesOf = (token_count : number, amount : 
-        number ) => {
+        number, errorMessage : string | null  ) => {
 
         setTokenCount(token_count);
         setAmount(amount);
+        setErrorMessage(errorMessage);
     }
 
     const setShareView = ( presented : boolean, address : web3.PublicKey) => {
@@ -63,13 +67,14 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
         setSelectedAddress(address);
 
-        let tkToSol = getSelectedFundPool(address)?.token_to_sol_ratio ?? 0 ;
+        let fp = getSelectedFundPool(address);
+        let tkToSol = fp?.token_to_sol_ratio ?? 0 ;
 
-        console.log(".matched.sel.addr::", 
-        address.toBase58(), "ratio::",
-        tkToSol);
+       // console.log("rmT", fp?.rm_token_count);
 
         setSelectedTokenToSol( tkToSol);
+
+        setSelectedRemainingToken(fp?.rm_token_count ?? 0);
 
         setModalPresented(true);
     }
@@ -196,7 +201,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
         fundPoolsView
     }
    
-    <Modal title={ (selectedAddress?.toBase58() ?? "") + "  (Token To SOL ratio: "+selectedTokenToSol+")"}
+    <Modal title={ (selectedAddress?.toBase58() ?? "") }
         className="roundModal"
          visible={modalPresented}
           onCancel={()=>{
@@ -205,12 +210,22 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
             
           }}
 
+          onOk={()=>{
+
+               if ( errorMessage != null){
+                   error(errorMessage);
+               }
+               else {
+                   
+               }
+          }}
+
           okText="Sign & Invest"
 
           okButtonProps={{ disabled: false }}
           cancelButtonProps={{ disabled: false }}>
          <InvestorForm setValuesOf={setValuesOf} 
-         tokenToSol={selectedTokenToSol} />
+         tokenToSol={selectedTokenToSol} remainingToken={selectedRemainingToken} />
         
     </Modal>
 

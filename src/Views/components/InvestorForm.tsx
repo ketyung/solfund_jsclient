@@ -1,23 +1,27 @@
 import React, {useState} from 'react';
-import { Form, Input, Radio, Button, Modal } from 'antd';
+import { Form, Input } from 'antd';
+import { error } from '../../utils/Mesg';
 
 interface FundPoolFormProps {
 
 
     tokenToSol : number, 
+
+    remainingToken : number, 
     
-    setValuesOf : (token_count : number, amount : number )=>void,
+    setValuesOf : (token_count : number, amount : number, errorMessage : string | null )=>void,
 
 }
 
 
-export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol, setValuesOf}) =>{
+export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol, 
+    remainingToken, setValuesOf}) =>{
   
     const [tokenCount, setTokenCount] = useState(0);
     
     const [amount, setAmount] = useState(0);
     
-
+   
     const amountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
 
         let txt = e.currentTarget.value;
@@ -25,18 +29,36 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol, setVal
         let am = parseFloat(txt); 
 
         let amval = isNaN(am) ? 0 : am ;
-        setAmount(amval);
         
         let tkCount = amval / (tokenToSol > 0 ? tokenToSol : 1);
 
-        setTokenCount(Math.floor(tkCount));
+        if (tkCount < remainingToken){
 
-        setValuesOf(tokenCount, amount);
+            setAmount(amval);
+        
+            setTokenCount(Math.floor(tkCount));
+    
+            setValuesOf(tokenCount, amount, null );
+
+        
+        }
+        else {
+
+    
+            let errorMessage  = "Your purchased amount has exceeded the available tokens :"+ remainingToken;
+            setValuesOf(0, 0, errorMessage);
+            error(errorMessage);
+
+        }
          
     };
 
     return <div>
     <Form layout="vertical">
+
+        <div style={{minWidth:"200px",backgroundColor:"#334",marginBottom:"20px", padding:"10px",borderRadius:"20px", color:"wheat"}}>
+            Token To SOL Ratio : {tokenToSol} , Available Tokens : {remainingToken}
+        </div>
    
         <Form.Item label="Amount In SOL" required tooltip="This is a required field">
             <Input placeholder="amount in SOL" onChange={amountOnChange}/>
