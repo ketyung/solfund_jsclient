@@ -8,7 +8,7 @@ export default function useInvestor(){
 
     const [connection, publicKey, , , loading, setLoading, sendTxs] = useSolana();
 
-    const INVESTOR_POOL_ID : string = "INV_POOL";
+    const INVESTOR_POOL_ID : string = "INVESTOR_POOL";
 
     function genSeed() : string {
 
@@ -76,7 +76,8 @@ export default function useInvestor(){
         // create only when it's null
         if ( investorPoolAcc == null ){
 
-            let poolSize = 32 + 1 + (32 * 10);
+            let poolSize = 32 + 1 + (32 * 50);
+        
        
             const lp = await connection.getMinimumBalanceForRentExemption(poolSize) ;
 
