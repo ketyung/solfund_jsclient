@@ -30,14 +30,7 @@ export const InvestorPoolView : React.FC = () => {
 
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
 
-
-    const setShareView = ( presented : boolean) => {
-
-        setShareModalPresented(presented);
-    }
-
-    const [shareModalPresented, setShareModalPresented] = useState(false);
-
+    const setShareView = ( _presented : boolean) => { }
 
 
     async function readData(pubkey : web3.PublicKey){
