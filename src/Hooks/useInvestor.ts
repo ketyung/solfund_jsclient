@@ -55,19 +55,24 @@ export default function useInvestor(){
 
         setLoading(true);
 
-        let seed = genSeed();
 
-        let size : number  = (32 * 4) + (8 * 2) ; // hard-coded first 
+        // check if the fund pool address exists 
+        let fundPoolAcc = await connection.getAccountInfo(fundPoolAddress);
+        if ( fundPoolAcc == null){
 
-        let investorAccKey =  await web3.PublicKey.createWithSeed(publicKey,seed, programId);
- 
+            completionHandler(new Error("Invalid fund pool account"));
+            setLoading(false);
+            return; 
+
+        }
+
+
+        const allTxs = new web3.Transaction();
+        
         let investorPoolKey = await investorPoolPubkey();
 
         let investorPoolAcc = await connection.getAccountInfo(investorPoolKey);
 
-       
-        const allTxs = new web3.Transaction();
-      
         // create only when it's null
         if ( investorPoolAcc == null ){
 
@@ -88,6 +93,10 @@ export default function useInvestor(){
             allTxs.add(createInvPoolAccTx);
         }
 
+
+        let size : number  = (32 * 4) + (8 * 2) ; // hard-coded first 
+        let seed = genSeed();
+        let investorAccKey =  await web3.PublicKey.createWithSeed(publicKey,seed, programId);
         const lp = await connection.getMinimumBalanceForRentExemption(size) ;
 
         const createInvAccTx = new web3.Transaction().add(
@@ -95,7 +104,7 @@ export default function useInvestor(){
             fromPubkey: publicKey,
             basePubkey: publicKey,
             seed: seed,
-            newAccountPubkey: investorPoolKey,
+            newAccountPubkey: investorAccKey,
             lamports: lp, space: size ,programId,
             }),
         );
@@ -109,15 +118,20 @@ export default function useInvestor(){
         let data = SolUtil.createBuffer(investor_data,ACTION_CREATE,MODULE_INVESTOR);
 
         /** In Rust the order is : 
-        let investor_account = next_account_info(account_info_iter)?;
-        let fund_pool_account = next_account_info(account_info_iter)?;
-        let signer_account = next_account_info(account_info_iter)?;
+         let investor_account = next_account_info(account_info_iter)?;
+         let investor_pool_account = next_account_info(account_info_iter)?;
+         let fund_pool_account = next_account_info(account_info_iter)?;
+         let signer_account = next_account_info(account_info_iter)?;
+         let system_program = next_account_info(account_info_iter)?;
         */
 
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: investorAccKey, isSigner: false, isWritable: true },
             { pubkey: investorPoolKey, isSigner: false, isWritable: true },
+            { pubkey: fundPoolAddress , isSigner: false, isWritable: true },
             { pubkey: publicKey, isSigner: true, isWritable: false },
+            { pubkey: web3.SystemProgram.programId, isSigner: false, isWritable: false },
+            
         ];
 
         const addInvIx = new web3.TransactionInstruction({programId, 
