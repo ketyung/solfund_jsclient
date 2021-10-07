@@ -62,7 +62,7 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
 
         <div className="item">Token : {tokenCount}</div>
 
-        <div className="item">Fund In SOL : {(lamports/web3.LAMPORTS_PER_SOL).toFixed(5)}</div>
+        <div className="item">Fund : {(lamports/web3.LAMPORTS_PER_SOL).toFixed(5)} SOL</div>
 
        
 

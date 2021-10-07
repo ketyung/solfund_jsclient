@@ -14,10 +14,12 @@ import './css/modal.css';
 
 interface MarketFundPoolsProps {
 
-    address : string
+    address : string,
+
+    reload : boolean
 }
 
-export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address}) => {
+export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, reload}) => {
     
     const [connection] = useSolana();
 
@@ -43,7 +45,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
     
     const [amount,setAmount] = useState(0);
 
-   const [errorMessage,setErrorMessage] = useState<string|null>();
+    const [errorMessage,setErrorMessage] = useState<string|null>();
     
     const [loaded, setLoaded] = useState(false);
 
@@ -169,50 +171,51 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
 
 
 
+    async function readMarket (){
+
+        setFundPoolLoading(true);
+        
+        await read (address, 
+
+            (res : Market | Error) =>  {
+
+                if (res instanceof Error){
+        
+                    error(res.message);
+                    setLoaded(true);
+                }
+                else {
+        
+                    for ( var r=0; r < res.fund_pools.length; r++){
+
+                        readData(res.fund_pools[r]);
+                    }
+
+                    setFundPools(tmpFundPools);
+
+                    tmpFundPools.splice(0,tmpFundPools.length);
+                    
+                    setTimeout(()=>{
+                        forceUpdate();
+                        setFundPoolLoading(false);   
+                        setLoaded(true);
+
+                    // console.log("markets.fp", fundPools?.map);
+                    }, 500);
+
+                
+                }
+        
+            }
+        );
+    }
+
+
     useEffect(() => {
     
-        async function readAddr (){
-
-            setFundPoolLoading(true);
-            
-            await read (address, 
-        
-                (res : Market | Error) =>  {
-    
-                    if (res instanceof Error){
-            
-                        error(res.message);
-                        setLoaded(true);
-                    }
-                    else {
-            
-                        for ( var r=0; r < res.fund_pools.length; r++){
-
-                            readData(res.fund_pools[r]);
-                        }
-
-                        setFundPools(tmpFundPools);
-
-                        tmpFundPools.splice(0,tmpFundPools.length);
-                        
-                        setTimeout(()=>{
-                            forceUpdate();
-                            setFundPoolLoading(false);   
-                            setLoaded(true);
-
-                           // console.log("markets.fp", fundPools?.map);
-                        }, 500);
-
-                       
-                    }
-            
-                }
-            );
-        }
-        
-        readAddr();
+        readMarket();
      
-    }, [address])
+    }, [address,reload])
   
 
     return <div style={{display:"block",textAlign:"center",margin:"0px auto",padding:"auto"}}>
