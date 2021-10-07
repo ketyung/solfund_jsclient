@@ -80,7 +80,7 @@
 
 .investorRow .key {
 
-    max-width: 70%;
+    width: 65%;
     padding: 10px;
     color:white;
     font-weight: bolder;
@@ -90,13 +90,14 @@
 
 .investorRow .tokenCount {
 
-    max-width: 25%;
+    width: 15%;
     display: inline-block;
     color:#ff2;
     font-weight: 600;
     background-color: #112233;
     border-radius: 30px;
     padding: 10px;
+    text-align: center;
 }
 
 

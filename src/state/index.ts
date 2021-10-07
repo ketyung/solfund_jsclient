@@ -8,7 +8,7 @@ export const extract_market = (data : Uint8Array,
     
     let a_pool_size = Buffer.from(pool_size).readUInt16LE(0);
 
-    console.log("pool_size", a_pool_size);
+    //console.log("pool_size", a_pool_size);
    
     let keys = data.slice(2);//,data.length);
     
@@ -120,8 +120,8 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
     let wds = data.slice(e1 , e1 + (wds_len * 80) );
     
 
-    console.log("invs_len::", invs_len);
-    console.log("wds_len::", wds_len);
+  //  console.log("invs_len::", invs_len);
+   // console.log("wds_len::", wds_len);
     
     var validInvs  : Array<FundPoolInvestor> = [];
 
@@ -137,6 +137,9 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
         
         let inv = new web3.PublicKey(inv_arr);
         let addr = new web3.PublicKey(addr_arr);
+
+        //console.log("inv", inv.toBase58(), "addr", addr.toBase58());
+
         let tkc =  Buffer.from(tkc_arr).readUInt32LE(0);
         let date = Buffer.from (date_arr).readUInt32LE(0);
 
@@ -214,6 +217,9 @@ export const createInvestorBytes = (
     token_address : web3.PublicKey, 
     amount : number, 
     token_count : number) => {
+
+
+       // console.log("investor", investor.toBase58(), "address", address.toBase58());
 
         // manager,lamports, token_count,is_finalized
         const newInsArray : Uint8Array = new Uint8Array(size);
