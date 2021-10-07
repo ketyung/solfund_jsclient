@@ -5,11 +5,9 @@ export const AboutView : React.FC = () => {
 
         return <div>
             <div className="aboutDiv">
-                Idea By Marcus Yong 
-            </div>
-            <div className="aboutDiv">
-                Designed, Developed &amp; Expertised By Christopher K Y Chee for 
-                Solana Ignition Hackathon 
+                <p>Designed, Developed &amp; Expertised By Christopher K Y Chee for 
+                Solana Ignition Hackathon</p> 
+                <p>Original Idea By Marcus Yong</p>
             </div>
             
         </div>
