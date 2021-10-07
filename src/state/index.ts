@@ -115,11 +115,14 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
     //console.log("icon", icon);
     //console.log("is_final", is_finalized);
     
-    let e1 = (invs_len * 32) + 134;  
+    let e1 = (invs_len * 80) + 134;  
     let invs = data.slice(134, e1 );
-    let wds = data.slice(e1 , e1 + (wds_len * 32) );
+    let wds = data.slice(e1 , e1 + (wds_len * 80) );
     
 
+    console.log("invs_len::", invs_len);
+    console.log("wds_len::", wds_len);
+    
     var validInvs  : Array<FundPoolInvestor> = [];
 
     for (var r =0; r < invs_len ; r++){
@@ -154,7 +157,7 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
     for (r =0; r < wds_len ; r++){
 
         let offset = r * 80 ;
-        let key_arr = invs.slice(offset, offset + 80);
+        let key_arr = wds.slice(offset, offset + 80);
 
         let inv_arr = key_arr.slice(0,32);
         let addr_arr = key_arr.slice(32,64);

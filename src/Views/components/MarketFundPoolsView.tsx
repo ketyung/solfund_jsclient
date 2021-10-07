@@ -89,7 +89,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
         let fp = getSelectedFundPool(address);
         let tkToSol = fp?.token_to_sol_ratio ?? 0 ;
 
-       // console.log("rmT", fp?.rm_token_count);
+        // console.log("rmT", fp?.rm_token_count);
 
         setSelectedTokenToSol( tkToSol);
 

@@ -59,9 +59,10 @@ export default function useFundPool(){
                     acc.lamports, 
                     completionHandler);
 
+                /**
                 console.log("acc.lamp", acc.lamports,
-                
                 "in SOL", (acc.lamports / web3.LAMPORTS_PER_SOL).toFixed(5));
+                 */
 
                 setLoading(false);
         

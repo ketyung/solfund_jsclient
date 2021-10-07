@@ -48,14 +48,55 @@
 
 .investorRow {
 
-    background-color: #223356;
-    padding:10px;
+    background-color: #223396;
+    padding:10px 10px 30px 10px;
     border-radius: 30px;
     height: 50px;
     color:white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: bolder;
-    max-width: 90%;
-    margin-top: 30px;
-    text-align: center;
+    max-width: 100%;
+    margin-top: 20px;
+    text-align: left;
+    min-height:60px;
 }
+
+.investorRow:hover {
+    background-color: #666;
+}
+
+.investorRow .no {
+
+    width:5%;
+    padding:10px;
+    color:wheat;
+    font-weight: 100;
+    text-align: center;
+    border-radius: 80px;
+    background-color: #900;
+    display: inline-block;
+    margin-right:10px;
+}
+
+.investorRow .key {
+
+    max-width: 70%;
+    padding: 10px;
+    color:white;
+    font-weight: bolder;
+    display: inline-block; 
+    margin-right:20px;
+}
+
+.investorRow .tokenCount {
+
+    max-width: 25%;
+    display: inline-block;
+    color:#ff2;
+    font-weight: 600;
+    background-color: #112233;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+
