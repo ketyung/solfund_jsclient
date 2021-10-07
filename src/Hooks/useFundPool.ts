@@ -56,6 +56,11 @@ export default function useFundPool(){
             if ( acc != null ){
 
                 extract_fund_pool(acc.data, completionHandler);
+
+                console.log("acc.lamp", acc.lamports,
+                
+                "in SOL", (acc.lamports / web3.LAMPORTS_PER_SOL).toFixed(5));
+
                 setLoading(false);
         
             }
