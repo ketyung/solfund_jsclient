@@ -47,7 +47,7 @@ export const InvestorPoolView : React.FC = () => {
 
         if (fpAcc != null){
 
-            extract_fund_pool(fpAcc.data, (res : FundPool | Error) =>  {
+            extract_fund_pool(fpAcc.data, fpAcc.lamports, (res : FundPool | Error) =>  {
 
                 if (!(res instanceof Error)){
         

@@ -1,4 +1,3 @@
-import { throwStatement } from '@babel/types';
 import * as web3 from '@solana/web3.js';
 
 export const extract_market = (data : Uint8Array, 
@@ -86,7 +85,7 @@ export const extract_user_pool = (data : Uint8Array,
 }
 
 
-export const extract_fund_pool = (data : Uint8Array, 
+export const extract_fund_pool = (data : Uint8Array, accountLamports : number, 
     completionHandler : (result : FundPool | Error) => void ) => {
 
     /**
@@ -100,7 +99,9 @@ export const extract_fund_pool = (data : Uint8Array,
     let manager = new web3.PublicKey( data.slice(1, 33) );
     let address = new web3.PublicKey (data.slice(33,65) );
     let token_address = new web3.PublicKey (data.slice(65,97) );
-    let lamports = Buffer.from ( data.slice(97, 105)).readUInt32LE(0);
+    let lamports = accountLamports;
+
+    //Buffer.from ( data.slice(97, 105)).readUInt32LE(0);
     let token_count = Buffer.from ( data.slice(105, 113)).readUInt32LE(0);
     let rm_token_count =  Buffer.from ( data.slice(113, 121)).readUInt32LE(0);
     let token_to_sol_ratio =  (Buffer.from ( data.slice(121, 129)).readUInt32LE(0)) / web3.LAMPORTS_PER_SOL;

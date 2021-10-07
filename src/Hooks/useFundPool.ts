@@ -55,7 +55,9 @@ export default function useFundPool(){
             
             if ( acc != null ){
 
-                extract_fund_pool(acc.data, completionHandler);
+                extract_fund_pool(acc.data, 
+                    acc.lamports, 
+                    completionHandler);
 
                 console.log("acc.lamp", acc.lamports,
                 
