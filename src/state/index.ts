@@ -203,6 +203,7 @@ export const extract_fund_pool = (data : Uint8Array,
     
    
 export const createInvestorBytes = (
+    size : number, 
     investor : web3.PublicKey, 
     pool_address : web3.PublicKey, 
     address : web3.PublicKey, 
@@ -211,18 +212,18 @@ export const createInvestorBytes = (
     token_count : number) => {
 
         // manager,lamports, token_count,is_finalized
-        const newInsArray : Uint8Array = new Uint8Array(115);
+        const newInsArray : Uint8Array = new Uint8Array(size);
        
-        const pkbytes = investor.toBytes();
+        const ivbytes = investor.toBytes();
 
         var offset = 0; 
 
-        for (var r=0; r < pkbytes.length; r++){
+        for (var r=0; r < ivbytes.length; r++){
 
-            newInsArray[offset+r] = pkbytes[r];
+            newInsArray[offset+r] = ivbytes[r];
         }
 
-        offset += pkbytes.length; 
+        offset += ivbytes.length; 
 
 
         const abytes = pool_address.toBytes();

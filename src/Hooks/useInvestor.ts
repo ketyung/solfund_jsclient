@@ -111,7 +111,7 @@ export default function useInvestor(){
 
         allTxs.add(createInvAccTx);
        
-        let investor_data : Uint8Array = createInvestorBytes( 
+        let investor_data : Uint8Array = createInvestorBytes( size, 
             publicKey, fundPoolAddress, investorAccKey, 
             web3.PublicKey.default, amount, tokenCount);
        
