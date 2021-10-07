@@ -19,7 +19,6 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol,
   
     const [tokenCount, setTokenCount] = useState(0);
     
-    const [amount, setAmount] = useState(0);
     
    
     const amountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -30,17 +29,14 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol,
 
         let amval = isNaN(am) ? 0 : am ;
         
-        let tkCount = amval / (tokenToSol > 0 ? tokenToSol : 1);
+        let tkCount = Math.floor(amval / (tokenToSol > 0 ? tokenToSol : 1));
 
         if (tkCount < remainingToken){
-
-            setAmount(amval);
-        
-            setTokenCount(Math.floor(tkCount));
+      
+            setTokenCount(tkCount);
     
-            setValuesOf(tokenCount, amount, null );
+            setValuesOf(tkCount, amval, null );
 
-        
         }
         else {
 

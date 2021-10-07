@@ -235,13 +235,13 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address})
                }
                else {
 
-                    if ( amount == 0 ){
+                    if ( amount === 0 ){
 
                         error("Invalid amount");
                         return;
                     }
 
-                    if ( tokenCount == 0 ){
+                    if ( tokenCount === 0 ){
 
                         error("Invalid token count");
                         return;
