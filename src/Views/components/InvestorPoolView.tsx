@@ -107,8 +107,11 @@ export const InvestorPoolView : React.FC = () => {
 
     useEffect(() => {
 
-        readInvestorPool();
+        if (!loaded ){
 
+            readInvestorPool();
+        }
+       
     }, []);
 
     const investorPoolsView =

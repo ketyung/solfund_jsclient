@@ -165,7 +165,11 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     useEffect(() => {
 
-        readManagerPool();
+        if ( !loaded ){
+
+            readManagerPool();
+        }
+        
 
     }, []);
 
