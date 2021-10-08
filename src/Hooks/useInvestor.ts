@@ -166,7 +166,7 @@ export default function useInvestor(){
             { pubkey: fundPoolAddress , isSigner: false, isWritable: true },
             { pubkey: publicKey, isSigner: true, isWritable: false },
             { pubkey: web3.SystemProgram.programId, isSigner: false, isWritable: false },
-            { pubkey : poolManager, isSigner : false, isWritable: false},
+            { pubkey : poolManager, isSigner : false, isWritable: true},
 
         ];
 
