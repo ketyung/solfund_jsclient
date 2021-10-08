@@ -52,7 +52,7 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol,
     return <div>
     <Form layout="vertical">
 
-        <div style={{minWidth:"200px",backgroundColor:"#232",marginBottom:"20px", padding:"10px",borderRadius:"20px", color:"wheat"}}>
+        <div style={{minWidth:"200px",backgroundColor:"#254",marginBottom:"20px", padding:"10px",borderRadius:"20px", color:"wheat"}}>
             Token To SOL Ratio : {tokenToSol} , Available Tokens : {remainingToken} 
             <div style={{display: loading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
    
