@@ -63,7 +63,8 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
     {
         fundPool?.investors.map(( inv, idx ) =>{
 
-            return <div className="investorRow" title={inv.address.toBase58()}>
+            return <div className="investorRow" key={"invRow" + idx} 
+            title={inv.address.toBase58()}>
             <span className="no">{idx+1}</span> 
             <span className="key">{inv.investor.toBase58()}</span>  
             <span className="tokenCount">{inv.token_count} Tokens</span>  
