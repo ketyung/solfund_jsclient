@@ -94,7 +94,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     <Form layout="vertical" style={{color:"white"}}>
 
     <Form.Item style={{color:"white"}} label="Number of tokens" required tooltip="This is a required field">
-        <Input placeholder={""+SUGGESTED_TOKEN_COUNT}  onChange={tokenCountOnChange}/>
+        <Input placeholder={""+SUGGESTED_TOKEN_COUNT}  style={{maxWidth:"600px"}} onChange={tokenCountOnChange}/>
     </Form.Item>
 
     <Form.Item label="Token To SOL Ratio" required tooltip="This is a required field">
