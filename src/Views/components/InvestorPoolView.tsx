@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import useUserPool from '../../Hooks/useUserPool';
 import { UserPool, FundPool, FundPoolInvestor } from '../../state';
 import * as web3 from '@solana/web3.js';
-import { Spin } from 'antd';
+import { Button, Spin } from 'antd';
 import useInvestor from '../../Hooks/useInvestor';
 import useFundPool from '../../Hooks/useFundPool';
-import {AlertOutlined} from '@ant-design/icons';
+import {AlertOutlined,ReloadOutlined} from '@ant-design/icons';
 import { InvestorFundCardViewProps, InvestorFundCardView } from './InvestorFundCardView';
 import './css/InvestorFundCardView.css';
 
@@ -64,51 +64,50 @@ export const InvestorPoolView : React.FC = () => {
        
     }
 
+    async function readInvestorPool(){
+
+        setInvestorPoolLoading(true);
+
+        read( (await investorPoolKey()).toBase58(),
+        
+        (res : UserPool | Error) =>  {
+
+            if (!(res instanceof Error)){
+    
+            
+                for ( var r=0; r < res.addresses.length; r++){
+
+                    readData(res.addresses[r]);
+
+                }
+
+                setInvestorPools(tmpInvestorPools);
+
+                tmpInvestorPools.splice(0,tmpInvestorPools.length);
+               
+
+                setTimeout(()=>{
+                    forceUpdate();
+                    setInvestorPoolLoading(false);
+                    setLoaded(true);
+                
+                }, 500);
+
+            }
+            else {
+
+                setInvestorPoolLoading(false);
+                setLoaded(true);
+
+            }
+        
+        }) 
+
+    }
 
     useEffect(() => {
 
-        async function readUserPool(){
-
-            setInvestorPoolLoading(true);
-
-            read( (await investorPoolKey()).toBase58(),
-            
-            (res : UserPool | Error) =>  {
-    
-                if (!(res instanceof Error)){
-        
-                
-                    for ( var r=0; r < res.addresses.length; r++){
-
-                        readData(res.addresses[r]);
-
-                    }
-
-                    setInvestorPools(tmpInvestorPools);
-
-                    tmpInvestorPools.splice(0,tmpInvestorPools.length);
-                   
-
-                    setTimeout(()=>{
-                        forceUpdate();
-                        setInvestorPoolLoading(false);
-                        setLoaded(true);
-                    
-                    }, 500);
-
-                }
-                else {
-
-                    setInvestorPoolLoading(false);
-                    setLoaded(true);
-
-                }
-            
-            }) 
-
-        }
-
-        readUserPool();
+        readInvestorPool();
 
     }, []);
 
@@ -137,6 +136,12 @@ export const InvestorPoolView : React.FC = () => {
     return <div className="homeFundPoolDiv">
     <p><div style={{display: investorPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
     <span className="title">Your Portfolio</span>   
+
+    <Button shape="circle" style={{marginLeft:"10px"}} onClick={async ()=> {
+            await readInvestorPool();}}>
+        <ReloadOutlined />
+    </Button>
+    
     </p>
 
     {investorPoolsView}
