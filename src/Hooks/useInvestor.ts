@@ -84,6 +84,7 @@ export default function useInvestor(){
 
     async function addInvestor( 
         fundPoolAddress : web3.PublicKey,
+        poolManager : web3.PublicKey, 
         amount : number, 
         tokenCount : number,  
         completionHandler : (result : boolean | Error) => void){
@@ -165,7 +166,8 @@ export default function useInvestor(){
             { pubkey: fundPoolAddress , isSigner: false, isWritable: true },
             { pubkey: publicKey, isSigner: true, isWritable: false },
             { pubkey: web3.SystemProgram.programId, isSigner: false, isWritable: false },
-            
+            { pubkey : poolManager, isSigner : false, isWritable: false},
+
         ];
 
         const addInvIx = new web3.TransactionInstruction({programId, 

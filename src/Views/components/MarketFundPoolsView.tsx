@@ -41,6 +41,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     const [selectedRemainingToken, setSelectedRemainingToken] = useState(0);
 
+    const [selectedPoolManager, setSelectedPoolManager] = useState<web3.PublicKey>();
+
+
     const [tokenCount ,setTokenCount] = useState(0);
     
     const [amount,setAmount] = useState(0);
@@ -96,6 +99,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
         setSelectedTokenToSol( tkToSol);
 
         setSelectedRemainingToken(fp?.rm_token_count ?? 0);
+
+        setSelectedPoolManager(fp?.manager);
 
         setModalPresented(true);
     }
@@ -266,7 +271,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
                     
                     if (selectedAddress) {
 
-                        await addInvestor(selectedAddress, amount, tokenCount, completion);
+                        await addInvestor(selectedAddress, 
+                            selectedPoolManager ?? web3.PublicKey.default, 
+                            amount, tokenCount, completion);
                     }
                     else {
 
