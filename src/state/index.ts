@@ -94,13 +94,6 @@ export const extract_fund_pool_investor = (data : Uint8Array,
     let pool_address = new web3.PublicKey( data.slice (32, 64));
     let address = new web3.PublicKey( data.slice(64, 96));
 
-    console.log("data", data);
-    
-    console.log("inv", investor.toBase58());
-    
-    console.log("paddr", pool_address.toBase58());
-    console.log("addr", address.toBase58());
-    
     // skip 8
     // skip token address 
     let token_count = Buffer.from ( data.slice(136, 144)).readUInt32LE(0);
