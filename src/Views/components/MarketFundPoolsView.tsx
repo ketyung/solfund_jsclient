@@ -215,7 +215,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
                         forceUpdate();
                         setFundPoolLoading(false);   
                         setLoaded(true);
-                    }, 500);
+                    }, 120);
 
                 
                 }

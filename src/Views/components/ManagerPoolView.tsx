@@ -149,7 +149,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
                     forceUpdate();
                     setFundPoolLoading(false);
                     setLoaded(true);
-                }, 500);
+                }, 120);
 
             }
             else {
