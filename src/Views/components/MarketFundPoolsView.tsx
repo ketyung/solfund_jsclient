@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import useMarket from '../../Hooks/useMarket';
-import useSolana from '../../Hooks/useSolana';
 import useInvestor from '../../Hooks/useInvestor';
 import { FundPool, Market } from '../../state';
 import { error, success } from '../../utils/Mesg';
-import { extract_fund_pool } from '../../state';
 import * as web3 from '@solana/web3.js';
-import {FundPoolCardView} from './FundPoolCardView';
+import { FundPoolCardView2 } from './FundPoolCardView2';
 import {Modal,Spin} from 'antd';
 import {InvestorForm} from './InvestorForm';
 import { ShareView } from './ShareView';
@@ -21,27 +19,16 @@ interface MarketFundPoolsProps {
 
 export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, reload}) => {
     
-    const [connection] = useSolana();
-
+   
     const [,read] = useMarket();
 
-    const tmpFundPools : Array<FundPool> = [];
-
-    const [fundPools, setFundPools] = useState<Array<FundPool>>();
-
-    const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void
+    const [fundPoolAddresses, setFundPoolAddresses] = useState<Array<web3.PublicKey>>();
 
     const [modalPresented, setModalPresented] = useState(false);
 
     const [shareModalPresented, setShareModalPresented] = useState(false);
 
-    const [selectedAddress, setSelectedAddress] = useState<web3.PublicKey>();
-
-    const [selectedTokenToSol, setSelectedTokenToSol] = useState(0);
-
-    const [selectedRemainingToken, setSelectedRemainingToken] = useState(0);
-
-    const [selectedPoolManager, setSelectedPoolManager] = useState<web3.PublicKey>();
+    const [selectedFundPool, setSelectedFundPool] = useState<FundPool>();
 
     const [tokenCount ,setTokenCount] = useState(0);
     
@@ -81,91 +68,31 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     const setShareView = ( presented : boolean, address : web3.PublicKey) => {
 
-        setSelectedAddress( address );
+      //  setSelectedAddress( address );
         setShareModalPresented(presented);
     }
 
 
-    const setAddressPresented = ( address : web3.PublicKey) => {
+    const setFundPoolPresented = ( fundPool : FundPool) => {
 
-        setSelectedAddress(address);
-
-        let fp = getSelectedFundPool(address);
-        let tkToSol = fp?.token_to_sol_ratio ?? 0 ;
-
-        // console.log("rmT", fp?.rm_token_count);
-
-        setSelectedTokenToSol( tkToSol);
-
-        setSelectedRemainingToken(fp?.rm_token_count ?? 0);
-
-        setSelectedPoolManager(fp?.manager);
+        setSelectedFundPool(fundPool);
 
         setModalPresented(true);
     }
 
 
-    function getSelectedFundPool (address : web3.PublicKey) : FundPool | null {
-
-        let fps = fundPools ?? [];
-
-        for (var r=0; r < fps.length; r++){
-
-            let fp = fps[r];
-
-            if ( fp.address.toBase58() === address.toBase58()){
-
-                return fp ;
-            }
-        } 
-
-        return null; 
-    }
-
-
-    async function readData(pubkey : web3.PublicKey){
-
-        let fpAcc = await connection.getAccountInfo(pubkey);
-
-        if (fpAcc != null){
-
-            extract_fund_pool(fpAcc.data, 
-                fpAcc.lamports, 
-                (res : FundPool | Error) =>  {
-
-                if (!(res instanceof Error)){
-        
-                    if ( res.address.toBase58() !== web3.PublicKey.default.toBase58()){
-
-                        if (tmpFundPools.indexOf(res) === -1 ){
-
-                            tmpFundPools.push(res);
-                        }
-                    }
-                   
-                }
-            });
-
-        }
-
-    }
-
+    
 
     const fundPoolsView = 
     
-    (fundPools?.map.length ?? 0) > 0 ? 
+    (fundPoolAddresses?.map.length ?? 0) > 0 ? 
 
-    fundPools?.map(  (fundPool, index) => {
+    fundPoolAddresses?.map(  (address, index) => {
 
-        return <FundPoolCardView address={fundPool.address.toBase58()}
-        manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
-        tokenCount={fundPool.token_count} icon={fundPool.icon} 
-        valueInSol = {fundPool.token_count * fundPool.token_to_sol_ratio}
+        return <FundPoolCardView2 address={address}  
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
-        feeInLamports = {fundPool.fee_in_lamports}  key={"fundPool"+index}
-        setAddressPresented={setAddressPresented} setShareView={setShareView}
-        />
-
+       
+        setFundPoolPresented={setFundPoolPresented} setShareView={setShareView}/>
     })
 
     :
@@ -182,7 +109,6 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
         
         await read (address, 
 
-            /**async */
              (res : Market | Error) =>  {
 
                 if (res instanceof Error){
@@ -192,42 +118,11 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
                 }
                 else {
         
-                    for ( var r=0; r < res.fund_pools.length; r++){
 
-                        /**await */
-                         readData(res.fund_pools[r]);
-                         
-                    }
+                    setFundPoolAddresses(res.fund_pools);
 
-                  
-                    setTimeout(()=>{
-                  
-                        tmpFundPools.sort(function(a, b) {
-                            return  b.lamports - a.lamports ;
-                        });
-    
-                       // console.log("tmpFundPools.len", tmpFundPools.length, res.fund_pools.length);
-    
-                        setFundPools(tmpFundPools);
-    
-                        forceUpdate();
-                        setFundPoolLoading(false);   
-                        setLoaded(true);
-
-                        
-                    }, 500);
-                    
-                    
-                    /**
-                    while (tmpFundPools.length > 0){
-                        tmpFundPools.pop();
-                    } */
-                    
-                  //  setFundPoolLoading(false);   
-                    //setLoaded(true);
-
-                  
-                
+                    setFundPoolLoading(false);
+  
                 }
         
             }
@@ -235,12 +130,11 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
     }
 
 
+    
     useEffect(() => {
-        if (!loaded){
-
-            readMarket();
-        }
-       
+        
+        readMarket();
+              
     }, [address,reload])
   
 
@@ -252,7 +146,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
     }
    
     <Modal 
-    title={<label style={{ color: "white" }}>{ (selectedAddress?.toBase58() ?? "") }</label>}
+    title={<label style={{ color: "white" }}>{ (selectedFundPool?.address?.toBase58() ?? "") }</label>}
         className="roundModal"
          visible={modalPresented}
           onCancel={()=>{
@@ -280,10 +174,10 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
                         return;
                     }
                     
-                    if (selectedAddress) {
+                    if (selectedFundPool?.address) {
 
-                        await addInvestor(selectedAddress, 
-                            selectedPoolManager ?? web3.PublicKey.default, 
+                        await addInvestor(selectedFundPool.address, 
+                            selectedFundPool.manager ?? web3.PublicKey.default, 
                             amount, tokenCount, completion);
                     }
                     else {
@@ -298,14 +192,15 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
           okButtonProps={{ disabled: false }}
           cancelButtonProps={{ disabled: false }}>
          <InvestorForm setValuesOf={setValuesOf} 
-         tokenToSol={selectedTokenToSol} remainingToken={selectedRemainingToken}
+         tokenToSol={selectedFundPool?.token_to_sol_ratio ?? 0} 
+         remainingToken={selectedFundPool?.rm_token_count ?? 0}
          loading={investorLoading}
          />
         
     </Modal>
 
 
-    <Modal title={ "Share " + selectedAddress?.toBase58() ?? ""}
+    <Modal title={ "Share " + selectedFundPool?.address?.toBase58() ?? ""}
         className="shareViewModal"
          visible={shareModalPresented}
           onCancel={()=>{
@@ -318,7 +213,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
           okButtonProps={{ disabled: true  }}
           cancelButtonProps={{ disabled: false }}>
-          <ShareView address={"fundpool/"+ selectedAddress?.toBase58() ?? ""} quote="Solafund Fund Pool"
+          <ShareView address={"fundpool/"+ selectedFundPool?.address?.toBase58() ?? ""} quote="Solafund Fund Pool"
             hashtag="#solafund #solana #blockchain #mutual fund"
           />
     </Modal>
