@@ -215,6 +215,7 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
         }
     }
 
+   
     let f =  new  FundPool( { manager : manager, 
         address: address,
         token_address : token_address, 
@@ -359,6 +360,8 @@ export const createFundPoolBytes = (manager : web3.PublicKey,
 
         offset += tkbytes.length; 
 
+
+        //console.log("fee_in_lp", fee_in_lamports);
 
         let lbytes = num_to_u64(fee_in_lamports);
 

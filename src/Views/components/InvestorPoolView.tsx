@@ -120,6 +120,7 @@ export const InvestorPoolView : React.FC = () => {
 
         return <InvestorFundCardView  tokenCount={invPool.tokenCount} poolTokenCount={invPool.poolTokenCount}
         poolAddress={invPool.poolAddress} poolManager={invPool.poolManager} 
+        key={"InvPool"+index}
         className={(index % 3 === 0) ? "investorPoolNorm" : "investorPoolBrk"} icon={invPool.icon} />
 
     })

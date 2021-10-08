@@ -151,7 +151,7 @@ export default function useFundPool(){
     }
     
 
-    async function createFundPool(lamports : number, token_count : number, 
+    async function createFundPool(fee_in_lamports : number, token_count : number, 
         token_to_sol_ratio : number, is_finalized : boolean, icon : number, 
          completionHandler : (result : boolean | Error) => void) {
 
@@ -218,7 +218,7 @@ export default function useFundPool(){
         
     
         let fund_pool_data : Uint8Array = createFundPoolBytes( 
-            publicKey, fundPoolAccKey, tokenKey,  lamports, token_count, 
+            publicKey, fundPoolAccKey, tokenKey,  fee_in_lamports, token_count, 
             token_to_sol_ratio, is_finalized, icon);
         let data = SolUtil.createBuffer(fund_pool_data,ACTION_CREATE,MODULE_FUND_POOL);
 

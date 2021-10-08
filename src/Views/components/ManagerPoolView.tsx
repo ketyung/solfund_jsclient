@@ -178,14 +178,14 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     
     (fundPools?.map.length ?? 0) > 0 ? 
 
-    fundPools?.map(  (fundPool) => {
+    fundPools?.map(  (fundPool, index) => {
 
         return <FundPoolCardView address={fundPool.address.toBase58()}
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
         valueInSol = {fundPool.token_count * fundPool.token_to_sol_ratio}
         feeInLamports = {fundPool.fee_in_lamports}
-        className="fundPoolNorm"
+        className="fundPoolNorm" key={"fundPool"+index}
         setAddressPresented={setAddressPresented}
         setShareView={setIndvShareView}
         />
@@ -305,6 +305,9 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
                 let ratioLp = tokenToSol * web3.LAMPORTS_PER_SOL;
 
                 let commInLp = commissionInSol * web3.LAMPORTS_PER_SOL;
+
+
+                //console.log("commInLP", commInLp);
 
                 createFundPool(commInLp,tokenCount,ratioLp, true,
                 selectedIcon, completion);
