@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import useUserPool from '../../Hooks/useUserPool';
 import useSolana from '../../Hooks/useSolana';
-import { UserPool, FundPool, extract_fund_pool } from '../../state';
+import { UserPool, FundPool, extract_fund_pool, FundPoolInvestor } from '../../state';
 import * as web3 from '@solana/web3.js';
 import { FundPoolCardView } from './FundPoolCardView';
 import { Spin } from 'antd';
@@ -12,7 +12,7 @@ export const InvestorPoolView : React.FC = () => {
 
     const [,,read] = useUserPool();
 
-    const[,investorPoolKey] = useInvestor();
+    const[,investorPoolKey,,readInvestor] = useInvestor();
 
     const [connection] = useSolana();
 
@@ -36,27 +36,18 @@ export const InvestorPoolView : React.FC = () => {
     async function readData(pubkey : web3.PublicKey){
 
         
-        let fpAcc = await connection.getAccountInfo(pubkey);
+        readInvestor(pubkey.toBase58(), (res : FundPoolInvestor | Error) =>{
 
-        if (fpAcc != null){
+            if ( !(res instanceof Error)){
 
-            extract_fund_pool(fpAcc.data, fpAcc.lamports, (res : FundPool | Error) =>  {
+                console.log("res::", res);
+            }
+            else {
 
-                if (!(res instanceof Error)){
-        
-                    if ( res.address.toBase58() !== web3.PublicKey.default.toBase58()){
-
-                        if (tmpFundPools.indexOf(res) === -1 ){
-
-                            tmpFundPools.push(res);
-                        }
-                    }
-                   
-                }
-            });
-
-        }
-
+                console.log("err.x", res);
+            }
+        })
+       
     }
 
 
@@ -77,7 +68,7 @@ export const InvestorPoolView : React.FC = () => {
 
                         readData(res.addresses[r]);
 
-                        //console.log("addr.x:", res.addresses[r].toBase58());
+                        console.log("addr.x:", res.addresses[r].toBase58());
                     }
 
                     setFundPools(tmpFundPools);

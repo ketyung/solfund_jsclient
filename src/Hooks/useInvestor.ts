@@ -56,7 +56,7 @@ export default function useInvestor(){
             if ( acc != null ){
 
                 extract_fund_pool_investor(acc.data, completionHandler);
-                
+
                 setLoading(false);
         
             }
@@ -198,6 +198,6 @@ export default function useInvestor(){
     
 
 
-    return [addInvestor,  investorPoolPubkey, loading] as const;
+    return [addInvestor,  investorPoolPubkey, loading, read] as const;
    
 }
