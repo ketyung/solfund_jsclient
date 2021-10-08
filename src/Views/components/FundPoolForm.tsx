@@ -111,7 +111,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
         Commission : 
     </div> 
     <div style={{display:"inline-block"}}>
-        <Input placeholder="0.001" style={{display:"inline",maxWidth:"100px",margin:"10px"}} /> SOL
+        <Input placeholder="0.001" style={{display:"inline",maxWidth:"80px",margin:"10px"}} /> SOL
     </div>
 
 
