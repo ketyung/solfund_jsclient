@@ -1,7 +1,7 @@
 import React from 'react';
-import './css/AboutView.css';
+import './css/AboutPage.css';
 
-export const AboutView : React.FC = () => {
+export const AboutPage : React.FC = () => {
 
         return <div>
             <div className="aboutDiv">

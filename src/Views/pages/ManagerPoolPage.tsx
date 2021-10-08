@@ -1,5 +1,5 @@
 import React from 'react';
-import {ManagerPoolView} from './ManagerPoolView'
+import {ManagerPoolView} from '../components/ManagerPoolView'
 
 interface ManagerPoolPageProp {
 

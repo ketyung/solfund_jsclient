@@ -1,18 +1,18 @@
 import './App.css';
 //import {FundPoolTestView} from './Views/testers/FundPoolTestView';
 
-import { HomePageView } from './Views/components/HomePageView';
-import {PoolMarketPageView} from './Views/components/PoolMarketPageView';
+import { HomePage } from './Views/pages/HomePage';
+import { MarketPage} from './Views/pages/MarketPage';
 import {Route, useRoute} from 'wouter';
 import {useMemo, useEffect} from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {getPhantomWallet,getSolflareWallet,getSolletWallet} from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
-import {FundPoolView} from './Views/components/FundPoolView';
-import { ManagerPoolPage } from './Views/components/ManagerPoolPage';
+import {FundPoolPage} from './Views/pages/FundPoolPage';
+import { ManagerPoolPage } from './Views/pages/ManagerPoolPage';
 import { TokenTestView } from './Views/testers/TokenTestView';
-import { AboutView } from './Views/components/AboutView';
+import { AboutPage } from './Views/pages/AboutPage';
 import {Wallet} from './Views/components/Wallet';
 
 function App() {
@@ -79,14 +79,14 @@ function App() {
           <br/>
           <br/>
       <Route path="/">
-        <HomePageView/>
+        <HomePage/>
       </Route>
       <Route path="/market">
-        <PoolMarketPageView/>
+        <MarketPage/>
       </Route>
       <Route path="/fundpool/:address">
         {(params) => 
-          <FundPoolView address={params.address}/>
+          <FundPoolPage address={params.address}/>
         }
       </Route>
 
@@ -97,7 +97,7 @@ function App() {
       </Route>
 
       <Route path="/about">
-       <AboutView/>
+       <AboutPage/>
       </Route>
 
       <Route path="/tokentest">

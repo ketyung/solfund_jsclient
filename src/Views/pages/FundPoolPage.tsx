@@ -3,15 +3,15 @@ import useFundPool from '../../Hooks/useFundPool';
 import {FundPool} from '../../state';
 import { error } from '../../utils/Mesg';
 import * as web3 from '@solana/web3.js';
-import {FundPoolCardView} from './FundPoolCardView';
-import './css/FundPoolView.css';
+import {FundPoolCardView} from '../components/FundPoolCardView';
+import './css/FundPoolPage.css';
 
 interface FundPoolViewProps {
 
     address : string
 }
 
-export const FundPoolView : React.FC <FundPoolViewProps> = ({address}) => {
+export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
 
     const [,,read] = useFundPool();
 

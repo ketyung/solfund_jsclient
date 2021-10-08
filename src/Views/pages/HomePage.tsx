@@ -1,11 +1,11 @@
 import React from 'react';
-import './css/HomePageView.css';
-import { ManagerPoolView } from './ManagerPoolView';
-import { InvestorPoolView } from './InvestorPoolView';
+import './css/HomePage.css';
+import { ManagerPoolView } from '../components/ManagerPoolView';
+import { InvestorPoolView } from '../components/InvestorPoolView';
 import useSolana from '../../Hooks/useSolana';
 import {WalletOutlined} from '@ant-design/icons';
 
-export const HomePageView : React.FC = () => {
+export const HomePage : React.FC = () => {
 
    
     const [,publicKey] = useSolana();

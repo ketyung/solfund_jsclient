@@ -5,11 +5,11 @@ import { success,error } from '../../utils/Mesg';
 import useMarket from '../../Hooks/useMarket';
 import '../css/common.css';
 import { POOL_MARKET_KEY } from '../../Hooks/useMarket';
-import { MarketFundPoolsView } from './MarketFundPoolsView';
+import { MarketFundPoolsView } from '../components/MarketFundPoolsView';
 import {ReloadOutlined} from '@ant-design/icons';
 
 
-export const PoolMarketPageView : React.FC = () =>{
+export const MarketPage : React.FC = () =>{
 
     const [, , loading] = useMarket();
 
