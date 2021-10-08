@@ -1,0 +1,42 @@
+.investorPoolNorm{
+
+    display:inline-block;
+    width:26%;
+    border: 1px solid #aab;
+    padding:10px 10px 10px 50px;
+    margin:10px;
+    border-radius: 20px;
+    background-color: #315723;
+    max-height:200px;
+    color:white;
+    text-align: justify;
+}
+
+.investorPoolNorm:hover{
+
+    background-color: #347;
+    color:white;
+}
+
+
+.investorPoolBrk{
+    display:inline-block;
+    width:26%;
+    border: 1px solid #aab;
+    padding:10px 10px 10px 50px;
+    margin:10px;
+    border-radius: 20px;
+    background-color: #315723;
+    clear:both;
+    color:white;
+    max-height:200px;
+    text-align: justify;   
+}
+
+
+.investorPoolBrk:hover {
+
+    background-color: #347;
+    color:white;
+    
+}

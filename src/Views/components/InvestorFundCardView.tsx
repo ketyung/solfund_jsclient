@@ -5,27 +5,20 @@ import {ICONS} from './IconsChooser';
 import './css/FundPoolCardView.css';
 import {format_pub_key_shorter} from '../../state/';
 import {Tooltip,Button} from 'antd';
-import {UserAddOutlined, ShareAltOutlined, InfoOutlined} from '@ant-design/icons';
-import {Link} from 'wouter';
 
-interface InvestorFundCardViewProps {
+export interface InvestorFundCardViewProps {
 
     tokenCount : number ,
     
     poolTokenCount : number ,
     
-    poolAddress : web3.PublicKey, 
+    poolAddress : string, 
 
-    poolManager : web3.PublicKey, 
+    poolManager : string, 
     
     icon : number,
 
     className : string, 
-
-    setAddressPresented : ( address : web3.PublicKey) => void ,
-
-    setShareView: (presented : boolean, address : web3.PublicKey) => void ,
-
 
 }
 
@@ -43,12 +36,12 @@ export const InvestorFundCardView : React.FC <InvestorFundCardViewProps> =
         </span>
         <Tooltip overlayStyle={{maxWidth: '500px'}} placement="top" title={poolAddress} arrowPointAtCenter>
         <span style={{fontWeight: "bolder",margin:"10px 10px 50px 10px",height:"40px",padding:"5px 5px 30px 5px"}}>
-        {format_pub_key_shorter(poolAddress.toBase58())}
+        {format_pub_key_shorter(poolAddress)}
         </span>
         </Tooltip>
         </div>
-        <Tooltip placement="bottom" overlayStyle={{maxWidth: '500px'}} title={poolManager.toBase58()} arrowPointAtCenter>
-        {format_pub_key_shorter(poolAddress.toBase58())}
+        <Tooltip placement="bottom" overlayStyle={{maxWidth: '500px'}} title={poolManager} arrowPointAtCenter>
+        {format_pub_key_shorter(poolAddress)}
         </Tooltip>
 
         <div className="item">Token : {poolTokenCount}</div>

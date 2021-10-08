@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import useUserPool from '../../Hooks/useUserPool';
-import useSolana from '../../Hooks/useSolana';
-import { UserPool, FundPool, extract_fund_pool, FundPoolInvestor } from '../../state';
+import { UserPool, FundPool, FundPoolInvestor } from '../../state';
 import * as web3 from '@solana/web3.js';
-import { FundPoolCardView } from './FundPoolCardView';
 import { Spin } from 'antd';
 import useInvestor from '../../Hooks/useInvestor';
+import useFundPool from '../../Hooks/useFundPool';
 import {AlertOutlined} from '@ant-design/icons';
+import { InvestorFundCardViewProps, InvestorFundCardView } from './InvestorFundCardView';
+import './css/InvestorFundCardView.css';
 
 export const InvestorPoolView : React.FC = () => {
 
@@ -14,33 +15,46 @@ export const InvestorPoolView : React.FC = () => {
 
     const[,investorPoolKey,,readInvestor] = useInvestor();
 
-    const [connection] = useSolana();
+    const[,,readFundPool] = useFundPool();
 
-    var tmpFundPools : Array<FundPool> = [];
+    var tmpInvestorPools : Array<InvestorFundCardViewProps> = [];
 
-    const [fundPools, setFundPools] = useState<Array<FundPool>>();
+    const [investorPools, setInvestorPools] = useState<Array<InvestorFundCardViewProps>>();
 
     const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void
 
     const [loaded, setLoaded] = useState(false);
 
-    const setAddressPresented = ( address : web3.PublicKey) => {
-
-    }
-
-    const [fundPoolLoading, setFundPoolLoading] = useState(false);
-
-    const setShareView = ( _presented : boolean) => { }
+    const [investorPoolLoading, setInvestorPoolLoading] = useState(false);
 
 
     async function readData(pubkey : web3.PublicKey){
 
-        
         readInvestor(pubkey.toBase58(), (res : FundPoolInvestor | Error) =>{
 
             if ( !(res instanceof Error)){
+                //tokenCount, poolTokenCount, poolAddress, poolManager,  icon, className
+               
+                readFundPool(res.pool_address.toBase58(), (fp : FundPool |Error)=>{
 
-                console.log("res::", res);
+                    if ( !(fp instanceof Error)){
+
+                        let invPool : InvestorFundCardViewProps = {
+
+                            tokenCount : res.token_count, 
+                            poolTokenCount : fp?.token_count,
+                            poolAddress : fp.address.toBase58(), 
+                            poolManager : fp.manager.toBase58(),
+                            icon : fp.icon, 
+                            className: "",
+    
+                        };
+
+                        tmpInvestorPools.push(invPool);
+                    }
+
+                    
+                })
             }
             else {
 
@@ -55,7 +69,7 @@ export const InvestorPoolView : React.FC = () => {
 
         async function readUserPool(){
 
-            setFundPoolLoading(true);
+            setInvestorPoolLoading(true);
 
             read( (await investorPoolKey()).toBase58(),
             
@@ -68,17 +82,16 @@ export const InvestorPoolView : React.FC = () => {
 
                         readData(res.addresses[r]);
 
-                        console.log("addr.x:", res.addresses[r].toBase58());
                     }
 
-                    setFundPools(tmpFundPools);
+                    setInvestorPools(tmpInvestorPools);
 
-                    tmpFundPools.splice(0,tmpFundPools.length);
+                    tmpInvestorPools.splice(0,tmpInvestorPools.length);
                    
 
                     setTimeout(()=>{
                         forceUpdate();
-                        setFundPoolLoading(false);
+                        setInvestorPoolLoading(false);
                         setLoaded(true);
                     
                     }, 500);
@@ -86,7 +99,7 @@ export const InvestorPoolView : React.FC = () => {
                 }
                 else {
 
-                    setFundPoolLoading(false);
+                    setInvestorPoolLoading(false);
                     setLoaded(true);
 
                 }
@@ -99,18 +112,13 @@ export const InvestorPoolView : React.FC = () => {
 
     }, []);
 
-    const fundPoolsView =
-    (fundPools?.map.length ?? 0) > 0 ?
-    fundPools?.map(  (fundPool ) => {
+    const investorPoolsView =
+    (investorPools?.map.length ?? 0) > 0 ?
+    investorPools?.map(  (invPool, index ) => {
 
-        return <FundPoolCardView address={fundPool.address.toBase58()}
-        manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
-        tokenCount={fundPool.token_count} icon={fundPool.icon} 
-        valueInSol = {fundPool.token_count * fundPool.token_to_sol_ratio}
-        className="fundPoolNorm"
-        setAddressPresented={setAddressPresented}
-        setShareView={setShareView}
-        />
+        return <InvestorFundCardView  tokenCount={invPool.tokenCount} poolTokenCount={invPool.poolTokenCount}
+        poolAddress={invPool.poolAddress} poolManager={invPool.poolManager} 
+        className={(index % 3 === 0) ? "investorPoolNorm" : "investorPoolBrk"} icon={invPool.icon} />
 
     })
     
@@ -127,11 +135,11 @@ export const InvestorPoolView : React.FC = () => {
 
 
     return <div className="homeFundPoolDiv">
-    <p><div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+    <p><div style={{display: investorPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
     <span className="title">Your Portfolio</span>   
     </p>
 
-    {fundPoolsView}
+    {investorPoolsView}
 
     </div>
 }
