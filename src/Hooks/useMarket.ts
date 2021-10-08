@@ -146,7 +146,6 @@ export default function useMarket(){
                         }
                         else {
                 
-                            console.log("Completed!", res);
                             setLoading(false);     
                             completionHandler(res);   
                         }

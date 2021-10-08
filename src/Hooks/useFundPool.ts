@@ -134,7 +134,6 @@ export default function useFundPool(){
                 }
                 else {
         
-                    console.log("Completed!", res);
                     completionHandler(true);
                     setLoading(false);        
                 }

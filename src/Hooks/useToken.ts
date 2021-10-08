@@ -204,7 +204,6 @@ export default function useToken(){
             }
             else {
     
-                console.log("Completed!", res);
                 completionHandler(true);
                 setLoading(false);        
             }

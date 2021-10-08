@@ -185,7 +185,6 @@ export default function useInvestor(){
             }
             else {
     
-                console.log("Completed!", res);
                 completionHandler(true);
                 setLoading(false);        
             }

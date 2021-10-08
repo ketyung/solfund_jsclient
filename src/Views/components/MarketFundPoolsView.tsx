@@ -43,7 +43,6 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     const [selectedPoolManager, setSelectedPoolManager] = useState<web3.PublicKey>();
 
-
     const [tokenCount ,setTokenCount] = useState(0);
     
     const [amount,setAmount] = useState(0);
