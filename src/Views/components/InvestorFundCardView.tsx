@@ -41,12 +41,12 @@ export const InvestorFundCardView : React.FC <InvestorFundCardViewProps> =
         </Tooltip>
         </div>
         <Tooltip placement="bottom" overlayStyle={{maxWidth: '500px'}} title={poolManager} arrowPointAtCenter>
-        {format_pub_key_shorter(poolAddress)}
+        {format_pub_key_shorter(poolManager)}
         </Tooltip>
 
         <div className="item">Token : {poolTokenCount}</div>
 
-        <div className="item">Your Share : {tokenCount} Tokens</div>
+        <div className="item">Your Share : {tokenCount} Tokens ({((tokenCount/poolTokenCount) * 100).toFixed(2)}%)</div>
      
     </div>;
 

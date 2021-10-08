@@ -6,7 +6,7 @@
     padding:10px 10px 10px 50px;
     margin:10px;
     border-radius: 20px;
-    background-color: #315723;
+    background-color: #317377;
     max-height:200px;
     color:white;
     text-align: justify;
@@ -14,7 +14,7 @@
 
 .investorPoolNorm:hover{
 
-    background-color: #347;
+    background-color: #952;
     color:white;
 }
 
@@ -26,7 +26,7 @@
     padding:10px 10px 10px 50px;
     margin:10px;
     border-radius: 20px;
-    background-color: #315723;
+    background-color: #317377;
     clear:both;
     color:white;
     max-height:200px;
@@ -36,7 +36,7 @@
 
 .investorPoolBrk:hover {
 
-    background-color: #347;
+    background-color: #952;
     color:white;
     
 }
