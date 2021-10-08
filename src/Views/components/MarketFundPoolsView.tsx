@@ -25,7 +25,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     const [,read] = useMarket();
 
-    var tmpFundPools : Array<FundPool> = [];
+    const tmpFundPools : Array<FundPool> = [];
 
     const [fundPools, setFundPools] = useState<Array<FundPool>>();
 
@@ -182,7 +182,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
         
         await read (address, 
 
-            (res : Market | Error) =>  {
+            /**async */
+             (res : Market | Error) =>  {
 
                 if (res instanceof Error){
         
@@ -193,30 +194,39 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
         
                     for ( var r=0; r < res.fund_pools.length; r++){
 
-                        readData(res.fund_pools[r]);
+                        /**await */
+                         readData(res.fund_pools[r]);
+                         
                     }
 
-                    tmpFundPools.sort(function(a, b) {
-                        console.log("a",a);
-                        return  b.lamports - a.lamports ;
-                    });
-
-
-                    setFundPools(tmpFundPools);
-
-                    while (tmpFundPools.length > 0){
-                        tmpFundPools.pop();
-                    }
-                    
-                    
-                    
-                    
+                  
                     setTimeout(()=>{
+                  
+                        tmpFundPools.sort(function(a, b) {
+                            return  b.lamports - a.lamports ;
+                        });
+    
+                       // console.log("tmpFundPools.len", tmpFundPools.length, res.fund_pools.length);
+    
+                        setFundPools(tmpFundPools);
+    
                         forceUpdate();
                         setFundPoolLoading(false);   
                         setLoaded(true);
-                    }, 120);
 
+                        
+                    }, 500);
+                    
+                    
+                    /**
+                    while (tmpFundPools.length > 0){
+                        tmpFundPools.pop();
+                    } */
+                    
+                  //  setFundPoolLoading(false);   
+                    //setLoaded(true);
+
+                  
                 
                 }
         

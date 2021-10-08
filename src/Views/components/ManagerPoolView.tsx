@@ -141,16 +141,16 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
                     readData(res.addresses[r]);
                 }
 
-                setFundPools(tmpFundPools);
-
-                tmpFundPools.splice(0,tmpFundPools.length);
-               
-
+                
                 setTimeout(()=>{
+
+                    setFundPools(tmpFundPools);
+                    // tmpFundPools.splice(0,tmpFundPools.length);
+               
                     forceUpdate();
                     setFundPoolLoading(false);
                     setLoaded(true);
-                }, 120);
+                }, 500);
 
             }
             else {
@@ -172,7 +172,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
         }
         
 
-    }, []);
+    }, [loaded]);
 
     const fundPoolsView = 
     

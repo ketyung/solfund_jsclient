@@ -81,17 +81,15 @@ export const InvestorPoolView : React.FC = () => {
 
                 }
 
-                setInvestorPools(tmpInvestorPools);
-
-                tmpInvestorPools.splice(0,tmpInvestorPools.length);
-               
-
                 setTimeout(()=>{
+                    setInvestorPools(tmpInvestorPools);
+               //     tmpInvestorPools.splice(0,tmpInvestorPools.length);
+                   
                     forceUpdate();
                     setInvestorPoolLoading(false);
                     setLoaded(true);
                 
-                }, 120);
+                }, 500);
 
             }
             else {
@@ -112,7 +110,7 @@ export const InvestorPoolView : React.FC = () => {
             readInvestorPool();
         }
        
-    }, []);
+    }, [loaded]);
 
     const investorPoolsView =
     (investorPools?.map.length ?? 0) > 0 ?
