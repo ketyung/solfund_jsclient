@@ -162,6 +162,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
         valueInSol = {fundPool.token_count * fundPool.token_to_sol_ratio}
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
+        feeInLamports = {fundPool.fee_in_lamports}
         setAddressPresented={setAddressPresented} setShareView={setShareView}
         />
 

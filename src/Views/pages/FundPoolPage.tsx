@@ -54,7 +54,7 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
         tokenCount={fundPool?.token_count ?? 0} 
         valueInSol ={(fundPool?.token_to_sol_ratio ?? 0) * (fundPool?.token_count ?? 0)  }
         icon={fundPool?.icon ?? 0} 
-        className="fundPool"
+        className="fundPool" feeInLamports={fundPool?.fee_in_lamports ?? 0}
         setAddressPresented={setAddressPresented}
         setShareView={setShareView}
         />

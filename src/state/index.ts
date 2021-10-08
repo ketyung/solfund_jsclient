@@ -131,7 +131,7 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
     let token_address = new web3.PublicKey (data.slice(65,97) );
     let lamports = accountLamports;
 
-    //Buffer.from ( data.slice(97, 105)).readUInt32LE(0);
+    let fee_in_lamports = Buffer.from ( data.slice(97, 105)).readUInt32LE(0);
     let token_count = Buffer.from ( data.slice(105, 113)).readUInt32LE(0);
     let rm_token_count =  Buffer.from ( data.slice(113, 121)).readUInt32LE(0);
     let token_to_sol_ratio =  (Buffer.from ( data.slice(121, 129)).readUInt32LE(0)) / web3.LAMPORTS_PER_SOL;
@@ -219,6 +219,7 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
         address: address,
         token_address : token_address, 
         lamports : Number(lamports),
+        fee_in_lamports : Number(fee_in_lamports),
         token_count : Number(token_count),
         rm_token_count : Number(rm_token_count),
         token_to_sol_ratio : Number(token_to_sol_ratio),
@@ -498,6 +499,8 @@ export class FundPool {
 
     lamports : number = 0;
 
+    fee_in_lamports : number = 0;
+
     token_count : number = 0; 
 
     rm_token_count : number = 0;
@@ -518,6 +521,7 @@ export class FundPool {
         address  : web3.PublicKey,
         token_address  : web3.PublicKey,
         lamports : number,
+        fee_in_lamports : number , 
         token_count : number,
         rm_token_count : number, 
         token_to_sol_ratio : number, 
@@ -534,6 +538,7 @@ export class FundPool {
             this.address = pool.address;
             this.token_address = pool.token_address; 
             this.lamports = pool.lamports;
+            this.fee_in_lamports = this.fee_in_lamports; 
             this.token_count = pool.token_count;
             this.rm_token_count = pool.rm_token_count;
             this.token_to_sol_ratio = pool.token_to_sol_ratio; 

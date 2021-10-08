@@ -39,6 +39,8 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     const [tokenCount, setTokenCount] = useState(0);
     
     const [tokenToSol, setTokenToSol] = useState(0);
+
+    const [commissionInSol, setCommissionInSol] = useState(0);
     
     const [, setFinalized] = useState(true);
  
@@ -52,21 +54,20 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
 
     const setValuesOf = (token_count : number, token_to_sol : 
-        number, is_finalized : boolean, icon : number ) => {
+        number, is_finalized : boolean, icon : number, commission_in_sol : number  ) => {
 
         setTokenCount(token_count);
         setTokenToSol(token_to_sol);
         setSelectedIcon(icon);
         setFinalized(is_finalized); 
-
-        //console.log("selectedIcon", icon);
-
+        setCommissionInSol(commission_in_sol);
     }
 
+    /**
     const setShareView = ( presented : boolean) => {
 
         setShareModalPresented(true);
-    }
+    } */
 
     const setIndvShareView = ( presented : boolean) => {
 
@@ -183,6 +184,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
         manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
         tokenCount={fundPool.token_count} icon={fundPool.icon} 
         valueInSol = {fundPool.token_count * fundPool.token_to_sol_ratio}
+        feeInLamports = {fundPool.fee_in_lamports}
         className="fundPoolNorm"
         setAddressPresented={setAddressPresented}
         setShareView={setIndvShareView}
@@ -278,10 +280,33 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
           style={{minWidth:"80%"}}
           visible={modalPresented}
           onOk={async ()=>{
+
+                if ( tokenCount <= 0){
+
+                    error("Invalid Token count!");
+                    return; 
+                }
+
+                if (tokenToSol > 1){
+
+                    error("Invalid token to SOL ratio, must be less than 1");
+                    return; 
+                }
+
+
+                if (commissionInSol > 1){
+
+                    error("Invalid commission value, must be less than 1");
+                    return; 
+                }
+
                 setModalPresented(false);
                 
                 let ratioLp = tokenToSol * web3.LAMPORTS_PER_SOL;
-                createFundPool(0,tokenCount,ratioLp, true,
+
+                let commInLp = commissionInSol * web3.LAMPORTS_PER_SOL;
+
+                createFundPool(commInLp,tokenCount,ratioLp, true,
                 selectedIcon, completion);
                 
           }}

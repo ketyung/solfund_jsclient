@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { Image, RadioChangeEvent } from 'antd';
-import { Form, Input, Radio, Button, Modal } from 'antd';
+import { Form, Input, Image, Button, Modal } from 'antd';
 import { IconChooser, ICONS } from './IconsChooser';
 
 
@@ -8,7 +7,8 @@ interface FundPoolFormProps {
 
 
     setValuesOf : (token_count : number, amount : 
-        number, is_finalized : boolean, icon : number )=>void,
+        number, is_finalized : boolean, icon : number,
+        commission_in_sol : number )=>void,
 
 
 }
@@ -31,7 +31,8 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     
     const [finalized, setFinalized] = useState(false);
  
-  
+    const [commissionInSol, setCommissionInSol] = useState(0);
+    
     const tokenCountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
 
         let txt = e.currentTarget.value;
@@ -39,7 +40,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
       
         setTokenCount(v); 
       
-        setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
+        setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon, commissionInSol);
 
         let ts = parseFloat(""+tokenToSol);
 
@@ -61,9 +62,22 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
             ts = 1/SUGGESTED_TOKEN_COUNT;
         }
         setTokenToSol(ts);   
-        setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon);
+        setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon, commissionInSol);
         
         setValueInSol ( tokenCount * ts);
+        
+    };
+
+
+    const commissionOnChange  = (e: React.FormEvent<HTMLInputElement>): void => {
+
+        let txt = e.currentTarget.value;
+        let v = parseFloat(txt);
+        if (isNaN(v)){
+            v = 0.00001;
+        }
+        setCommissionInSol(v);   
+        setValuesOf(tokenCount, tokenToSol, finalized, selectedIcon, v);
         
     };
 
@@ -86,7 +100,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
         setSelectedIcon(selected);
         setIconModalPresented(false);
-        setValuesOf(tokenCount, tokenToSol, finalized, selected);
+        setValuesOf(tokenCount, tokenToSol, finalized, selected, commissionInSol);
     
     }
 
@@ -113,7 +127,9 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
         Commission : 
     </div> 
     <div style={{display:"inline-block"}}>
-        <Input placeholder="0.001" style={{display:"inline",maxWidth:"80px",margin:"10px"}} /> 
+        <Input placeholder="0.001" style={{display:"inline",maxWidth:"80px",margin:"10px"}} 
+        onChange={commissionOnChange}
+        /> 
         <label style={{color:"white", fontWeight:"bolder"}}>SOL</label>
     </div>
 
