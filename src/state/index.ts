@@ -55,7 +55,7 @@ export const extract_user_pool = (data : Uint8Array,
 
     let anum =  Buffer.from(num).readUInt8(0);
 
-    console.log("anum", anum);
+  //  console.log("anum", anum);
 
     let keys = data.slice(33, data.length);
     
@@ -84,6 +84,35 @@ export const extract_user_pool = (data : Uint8Array,
 
 }
 
+
+export const extract_fund_pool_investor = (data : Uint8Array,   
+    completionHandler : (result : FundPoolInvestor | Error) => void) =>{
+
+    //let (investor,pool_address, address, amount,token_address,token_count, date)
+
+    let investor = new web3.PublicKey( data.slice(0,32));
+    let pool_address = new web3.PublicKey( data.slice (32, 64));
+    let address = new web3.PublicKey( data.slice(64, 96));
+    // skip 8
+    // skip token address 
+    let token_count = Buffer.from ( data.slice(136, 144)).readUInt32LE(0);
+
+    let date = Buffer.from ( data.slice(144, 152)).readUInt32LE(0);
+    
+    let poolInvestor = new FundPoolInvestor(
+
+        {
+            investor : investor,
+            address : address,
+            token_count : token_count, 
+            date : date, 
+            pool_address : pool_address, 
+
+        }
+    )
+
+    completionHandler(poolInvestor);
+}
 
 export const extract_fund_pool = (data : Uint8Array, accountLamports : number, 
     completionHandler : (result : FundPool | Error) => void ) => {
@@ -150,6 +179,7 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
                 address : addr,
                 token_count : tkc,
                 date : date, 
+                pool_address : address, 
             }));
         }
     }
@@ -179,6 +209,7 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
                 address : addr,
                 token_count : tkc,
                 date : date, 
+                pool_address : address, 
             }));
         }
     }
@@ -514,7 +545,7 @@ export class FundPool {
 }
 
 
-class FundPoolInvestor {
+export class FundPoolInvestor {
 
 
     investor : web3.PublicKey = web3.PublicKey.default ;
@@ -525,12 +556,15 @@ class FundPoolInvestor {
 
     date : number = 0; 
 
+    pool_address : web3.PublicKey = web3.PublicKey.default;
+
 
     constructor ( investor : {
         investor : web3.PublicKey,
         address : web3.PublicKey,
         token_count : number,
         date : number,
+        pool_address : web3.PublicKey, 
     }) {
 
         if ( investor ){
@@ -539,6 +573,7 @@ class FundPoolInvestor {
             this.address = investor.address;
             this.token_count = investor.token_count;
             this.date = investor.date;
+            this.pool_address = investor.pool_address;
         }
 
 

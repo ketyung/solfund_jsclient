@@ -2,7 +2,8 @@ import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId, MODULE_INVESTOR, ACTION_CREATE} from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
-import { createInvestorBytes } from '../state';
+import { createInvestorBytes, extract_fund_pool_investor } from '../state';
+import { FundPoolInvestor } from '../state';
 
 export default function useInvestor(){
 
@@ -38,6 +39,46 @@ export default function useInvestor(){
 
         return await web3.PublicKey.createWithSeed(publicKey, INVESTOR_POOL_ID, programId);
 
+    }
+
+
+    async function read(pubkey : string,
+        completionHandler : (result : FundPoolInvestor | Error) => void  ){
+
+        setLoading(true);
+        
+        let fundPkey = new web3.PublicKey(pubkey) ;
+        
+        try {
+
+            let acc = await connection.getAccountInfo(fundPkey);
+            
+            if ( acc != null ){
+
+                extract_fund_pool_investor(acc.data, completionHandler);
+                
+                setLoading(false);
+        
+            }
+            else {
+
+                completionHandler(new Error("Account not found"));
+                setLoading(false);
+            }
+        }
+        catch( e  ){
+
+            if (e instanceof Error){
+
+                completionHandler(e);
+          
+            }
+            
+            setLoading(false);
+        }
+        
+        
+    
     }
 
 

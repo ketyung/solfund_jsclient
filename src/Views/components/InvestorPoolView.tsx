@@ -62,7 +62,7 @@ export const InvestorPoolView : React.FC = () => {
 
     useEffect(() => {
 
-        async function readManagerPool(){
+        async function readUserPool(){
 
             setFundPoolLoading(true);
 
@@ -72,10 +72,12 @@ export const InvestorPoolView : React.FC = () => {
     
                 if (!(res instanceof Error)){
         
-                    
+                
                     for ( var r=0; r < res.addresses.length; r++){
 
                         readData(res.addresses[r]);
+
+                        //console.log("addr.x:", res.addresses[r].toBase58());
                     }
 
                     setFundPools(tmpFundPools);
@@ -102,7 +104,7 @@ export const InvestorPoolView : React.FC = () => {
 
         }
 
-        readManagerPool();
+        readUserPool();
 
     }, []);
 
