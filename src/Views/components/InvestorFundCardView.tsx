@@ -1,10 +1,11 @@
 import React from 'react';
-import * as web3 from '@solana/web3.js';
 import {Image} from 'antd';
 import {ICONS} from './IconsChooser';
 import './css/FundPoolCardView.css';
 import {format_pub_key_shorter} from '../../state/';
 import {Tooltip,Button} from 'antd';
+import {InfoOutlined} from '@ant-design/icons';
+import {Link} from 'wouter';
 
 export interface InvestorFundCardViewProps {
 
@@ -28,6 +29,11 @@ export const InvestorFundCardView : React.FC <InvestorFundCardViewProps> =
     return <div className={className}>
     
         <div>
+        <Link href={"/fundpool/"+poolAddress}>
+        <Button shape="circle" style={{float:"right"}}>
+        <InfoOutlined />
+        </Button>
+        </Link>
         <span>
         <Image width={50} title="Icon" alt="Icon" style={{ verticalAlign: 'middle' }}
         height={50} preview={false}

@@ -192,10 +192,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
                     }
 
                     tmpFundPools.sort(function(a, b) {
-                        let d = (b.token_count * b.token_to_sol_ratio);
-                        let c = (a.token_count * a.token_to_sol_ratio);
-    
-                        return  c - d ;
+                        console.log("a",a);
+                        return  b.lamports - a.lamports ;
                     });
 
 
