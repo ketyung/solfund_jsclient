@@ -136,7 +136,7 @@ export default function useInvestor(){
         }
 
 
-        let size : number  = (32 * 4) + (8 * 2) ; // hard-coded first 
+        let size : number  = (32 * 4) + (8 * 3) ; // hard-coded first 
         let seed = genSeed();
         let investorAccKey =  await web3.PublicKey.createWithSeed(publicKey,seed, programId);
         const lp = await connection.getMinimumBalanceForRentExemption(size) ;
