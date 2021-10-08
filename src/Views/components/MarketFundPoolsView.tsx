@@ -22,7 +22,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
    
     const [,read] = useMarket();
 
-    const [fundPoolAddresses, setFundPoolAddresses] = useState<Array<web3.PublicKey>>();
+    const [fundPoolAddresses, setFundPoolAddresses] = useState<Array<web3.PublicKey>>([]);
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -85,9 +85,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     const fundPoolsView = 
     
-    (fundPoolAddresses?.map.length ?? 0) > 0 ? 
+    (fundPoolAddresses.map.length ?? 0) > 0 ? 
 
-    fundPoolAddresses?.map(  (address, index) => {
+    fundPoolAddresses.map(  (address, index) => {
 
         return <FundPoolCardView2 address={address}  
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
@@ -120,7 +120,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
         
 
                     setFundPoolAddresses(res.fund_pools);
-
+                    setLoaded(true);
                     setFundPoolLoading(false);
   
                 }
