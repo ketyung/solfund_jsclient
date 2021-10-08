@@ -91,7 +91,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
         return <FundPoolCardView2 address={address}  
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
-       
+        key ={"fundPool2_" + index }
         setFundPoolPresented={setFundPoolPresented} setShareView={setShareView}/>
     })
 
