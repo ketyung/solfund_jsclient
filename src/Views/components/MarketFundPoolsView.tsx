@@ -241,7 +241,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
         fundPoolsView
     }
    
-    <Modal title={ (selectedAddress?.toBase58() ?? "") }
+    <Modal 
+    title={<label style={{ color: "white" }}>{ (selectedAddress?.toBase58() ?? "") }</label>}
         className="roundModal"
          visible={modalPresented}
           onCancel={()=>{

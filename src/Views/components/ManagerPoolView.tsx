@@ -272,8 +272,9 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     {fundPoolsView}
 
-    <Modal title="Create Fund Pool"   
-         className="roundModal"
+    <Modal title={<label style={{ color: "white" }}>Create Fund Pool</label>}
+
+          className="roundModal"
           style={{minWidth:"80%"}}
           visible={modalPresented}
           onOk={async ()=>{
@@ -287,13 +288,14 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
           onCancel={()=>{setModalPresented(false);}}
           okButtonProps={{ disabled: false }}
           okText = "Sign &amp; Create"
-          cancelButtonProps={{ disabled: false }}>
+          cancelButtonProps={{ disabled: false}}>
        
           <FundPoolForm setValuesOf={setValuesOf}/>
 
     </Modal>
 
-    <Modal title={ "Share All Pools Of " + poolPageAddress }
+    <Modal 
+    title={<label style={{ color: "white" }}>Share All Pools Of {poolPageAddress}</label>}
         className="shareViewModal"
          visible={shareModalPresented}
           onCancel={()=>{

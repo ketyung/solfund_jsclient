@@ -93,25 +93,28 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
     return <div className="fundPoolForm">
     <Form layout="vertical" style={{color:"white"}}>
 
-    <Form.Item style={{color:"white"}} label="Number of tokens" required tooltip="This is a required field">
+    <Form.Item label={<label style={{ color: "white" }}>Number Of Tokens</label>} 
+        required tooltip="This is a required field">
         <Input placeholder={""+SUGGESTED_TOKEN_COUNT}  style={{maxWidth:"600px"}} onChange={tokenCountOnChange}/>
     </Form.Item>
 
-    <Form.Item label="Token To SOL Ratio" required tooltip="This is a required field">
+    <Form.Item label={<label style={{ color: "white" }}>Token to SOL ratio</label>} 
+        required tooltip="This is a required field">
         <Input placeholder={""+ (1/SUGGESTED_TOKEN_COUNT)} style={{maxWidth:"200px"}} onChange={tokenToSolOnChange}/>
 
-        <div style={{display:"inline-block",marginLeft:"20px"}}>Equivalent Value In SOL:</div>
+        <div style={{display:"inline-block",marginLeft:"20px", color:"white"}}>Equivalent Value In SOL:</div>
         <div style={{backgroundColor:"#008", color:"white",minWidth:"60px",textAlign:"center",
         padding:"10px", borderRadius:"20px",marginLeft:"10px", display:"inline-block"}}>{valueInSol}</div>
     </Form.Item>
 
     <Form.Item>
 
-    <div style={{marginLeft:"10px", display:"inline-block"}}>
+    <div style={{marginLeft:"10px", display:"inline-block", color:"white"}}>
         Commission : 
     </div> 
     <div style={{display:"inline-block"}}>
-        <Input placeholder="0.001" style={{display:"inline",maxWidth:"80px",margin:"10px"}} /> SOL
+        <Input placeholder="0.001" style={{display:"inline",maxWidth:"80px",margin:"10px"}} /> 
+        <label style={{color:"white", fontWeight:"bolder"}}>SOL</label>
     </div>
 
 
@@ -133,7 +136,8 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
     </div>
 
-    <Modal title="Choose An Icon" className="roundModal"
+    <Modal title={<label style={{ color: "white" }}>Choose An Icon</label>}
+    className="roundModal"
             style={{minWidth:"60%"}}
             visible={iconModalPresented}
             onCancel={()=>{setIconModalPresented(false);}}
