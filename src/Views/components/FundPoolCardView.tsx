@@ -41,7 +41,7 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
 
             setAddressPresented(new web3.PublicKey(address));
 
-        }}  >
+        }} title="Invest In This Fund" >
         <UserAddOutlined />
         </Button>
         <span>
