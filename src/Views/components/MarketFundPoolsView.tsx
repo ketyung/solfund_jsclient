@@ -191,16 +191,27 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
                         readData(res.fund_pools[r]);
                     }
 
+                    tmpFundPools.sort(function(a, b) {
+                        let d = (b.token_count * b.token_to_sol_ratio);
+                        let c = (a.token_count * a.token_to_sol_ratio);
+    
+                        return  c - d ;
+                    });
+
+
                     setFundPools(tmpFundPools);
 
-                    tmpFundPools.splice(0,tmpFundPools.length);
+                    while (tmpFundPools.length > 0){
+                        tmpFundPools.pop();
+                    }
+                    
+                    
+                    
                     
                     setTimeout(()=>{
                         forceUpdate();
                         setFundPoolLoading(false);   
                         setLoaded(true);
-
-                    // console.log("markets.fp", fundPools?.map);
                     }, 500);
 
                 
