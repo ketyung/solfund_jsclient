@@ -66,7 +66,7 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
 
         <div className="item">Fund : {(lamports/web3.LAMPORTS_PER_SOL).toFixed(5)} SOL</div>
 
-        <div className="item">Commission: {feeInLamports} SOL</div>
+        <div className="item">Commission: {(feeInLamports/web3.LAMPORTS_PER_SOL).toFixed(5)} SOL</div>
  
 
         <Button shape="circle" style={{float:"right", marginLeft:"20px"}}

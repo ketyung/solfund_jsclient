@@ -541,7 +541,7 @@ export class FundPool {
             this.address = pool.address;
             this.token_address = pool.token_address; 
             this.lamports = pool.lamports;
-            this.fee_in_lamports = this.fee_in_lamports; 
+            this.fee_in_lamports = pool.fee_in_lamports; 
             this.token_count = pool.token_count;
             this.rm_token_count = pool.rm_token_count;
             this.token_to_sol_ratio = pool.token_to_sol_ratio; 
