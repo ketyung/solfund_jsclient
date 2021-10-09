@@ -30,7 +30,7 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
     const cluster = "devnet"; // temporary hard coded here first
 
     const menu = (
-        <Menu theme="dark" style={{borderRadius:"20px"}}>
+        <Menu theme="dark" style={{borderRadius:"10px",minWidth:"160px", textAlign:"center"}}>
           <Menu.Item>
             <a target="_blank" rel="noopener noreferrer" 
             href={"https://explorer.solana.com/address/"+address+"?cluster="+cluster}>

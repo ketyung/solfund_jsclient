@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import useUserPool from '../../Hooks/useUserPool';
-import { UserPool, FundPool, FundPoolInvestor } from '../../state';
+import { UserPool } from '../../state';
 import * as web3 from '@solana/web3.js';
 import { Button, Spin } from 'antd';
 import useInvestor from '../../Hooks/useInvestor';
@@ -19,7 +19,6 @@ export const InvestorPoolView : React.FC = () => {
     const [loaded, setLoaded] = useState(false);
 
     const [investorPoolLoading, setInvestorPoolLoading] = useState(false);
-
 
     async function readInvestorPool(){
 
