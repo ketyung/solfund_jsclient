@@ -5,9 +5,7 @@ import './css/PoolManageView.css';
 export const PoolManageView : React.FC  = () => {
 
     return <div>
-        <div style={{margin:"10px",fontWeight:"bolder", color:"white"}}>
-            Manage Your Fund Pool
-        </div>
+       
         <div style={{margin:"10px",fontWeight:"bolder", color:"white"}}>
         <Button className="manageButton" onClick={async ()=> {
               

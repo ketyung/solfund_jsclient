@@ -33,7 +33,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
         if ((wallet?.toBase58() ?? "") === fundPool.manager.toBase58() ){
 
-
+            setManageViewPresented(true);
         }
 
     }
@@ -55,6 +55,9 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     const [selectedIcon, setSelectedIcon] = useState(0);
 
     const [modalPresented, setModalPresented] = useState(false);
+    
+    const [manageViewPresented, setManageViewPresented] = useState(false);
+    
 
     const [poolPageAddress , setPoolPageAddress] = useState("");
 
@@ -95,10 +98,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
         }
     }
-  
-
-
-    
+      
     async function readManagerPool(){
 
         setFundPoolLoading(true);
@@ -301,10 +301,10 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     <Modal 
     title={<label style={{ color: "white" }}>Manage This Pool {poolPageAddress}</label>}
         className="shareViewModal"
-         visible={shareModalPresented}
+         visible={manageViewPresented}
           onCancel={()=>{
 
-              setShareModalPresented(false);
+              setManageViewPresented(false);
             
           }}
 
