@@ -1,6 +1,4 @@
 import './App.css';
-//import {FundPoolTestView} from './Views/testers/FundPoolTestView';
-
 import { HomePage } from './Views/pages/HomePage';
 import { MarketPage} from './Views/pages/MarketPage';
 import {Route, useRoute} from 'wouter';
