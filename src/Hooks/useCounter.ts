@@ -1,6 +1,10 @@
 import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId} from './useSolana';
+/**
+ * This is not needed anymore, will remove in the future
+ * ketyung@techchee.com
+ */
 
 export default function useCounter(){
 
