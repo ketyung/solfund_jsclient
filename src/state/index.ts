@@ -160,8 +160,8 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
         let offset = r * 80 ;
         let key_arr = invs.slice(offset, offset + 80);
 
-        let inv_arr = key_arr.slice(0,32);
-        let addr_arr = key_arr.slice(32,64);
+        let addr_arr = key_arr.slice(0,32);
+        let inv_arr = key_arr.slice(32,64);
         let tkc_arr = key_arr.slice(64, 72);
         let date_arr = key_arr.slice(72,80);
         
