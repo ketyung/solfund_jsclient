@@ -6,13 +6,13 @@ export const PoolManageView : React.FC  = () => {
 
     return <div>
        
-        <div style={{margin:"10px",fontWeight:"bolder", color:"white"}}>
+        <div style={{marginBottom:"20px",fontWeight:"bolder", color:"white"}}>
         <Button className="manageButton" onClick={async ()=> {
               
           }}>Remove This Pool From Market</Button>
         </div>
 
-        <div style={{margin:"10px",fontWeight:"bolder", color:"white"}}>
+        <div style={{marginBottom:"20px",fontWeight:"bolder", color:"white"}}>
         <Button className="manageButton" onClick={async ()=> {
               
           }}>Invest In DEX
