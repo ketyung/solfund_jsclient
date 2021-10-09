@@ -315,7 +315,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
       <label style={{ color: "white" , marginLeft:"10px"}}>Manage This Pool { (selectedFundPool?.address?.toBase58() ?? "") }</label>
       </div>
      }
-        className="shareViewModal"
+        className="manageViewModal"
         visible={manageViewPresented}
           onCancel={()=>{
 

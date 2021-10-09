@@ -43,3 +43,27 @@
     margin:0 auto;
 
 }
+
+
+.manageViewModal {
+    max-width: 85%;
+    color:white;
+    max-height:100px;
+}
+
+.manageViewModal .ant-modal-content {
+
+    border-radius: 30px;    
+    background-color: #235;
+    color:white;
+}
+
+.manageViewModal .ant-modal-header{
+
+    border-radius: 30px 30px;    
+    background-color:transparent;
+    color: white;
+    font-size: 30pt;
+    margin:0 auto;
+
+}
