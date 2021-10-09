@@ -18,7 +18,8 @@ export const AboutPage : React.FC = () => {
 
                 </p>
 
-                <p>Designed, Developed &amp; Expertised By Christopher K Y Chee for 
+                <p>Designed, Developed &amp; Expertised By Christopher K Y Chee (ketyung@techchee.com 
+                    &nbsp;<a target="_blank" href="https://github.com/ketyung/">https://github.com/ketyung/</a>) for 
                 Solana Ignition Hackathon</p> 
                 <p>Original Idea By Marcus Yong</p>
             </div>
