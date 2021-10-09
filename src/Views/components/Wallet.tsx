@@ -54,12 +54,17 @@ export const Wallet : React.FC = () => {
                 <a className="link">About <InfoCircleOutlined /></a>
                 </Link>
             </div>
+            {
+            /* 
             <div className={matchTokenTest ? "topLinkSel" : "topLink"}>
                 <Link href="/tokentest">
                 <a className="link">Token</a>
                 </Link>
             </div>
+            */
 
+            }
+            
            
            
             <WalletMultiButton className="walletButton" />
