@@ -31,12 +31,16 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
         //setModalPresented(true);
 
+        setSelectedAddress(fundPool.address);
+
         if ((wallet?.toBase58() ?? "") === fundPool.manager.toBase58() ){
 
             setManageViewPresented(true);
         }
 
     }
+
+    const [selectedAddress, setSelectedAddress] = useState<web3.PublicKey>();
 
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
 
@@ -299,7 +303,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
 
     <Modal 
-    title={<label style={{ color: "white" }}>Manage This Pool {poolPageAddress}</label>}
+    title={<label style={{ color: "white" }}>Manage This Pool {selectedAddress?.toBase58() ?? ""}</label>}
         className="shareViewModal"
          visible={manageViewPresented}
           onCancel={()=>{
