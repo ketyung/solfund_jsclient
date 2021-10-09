@@ -28,7 +28,7 @@ export const HomePage : React.FC = () => {
         <WalletOutlined style={{marginRight:"20px"}}/> Connect your wallet, be a fund manager or invest in any fund pools!
         </div>
         <div className="tempInfo">
-        Currently works on the DevNet only !
+        Currently it works on the DevNet only !
         </div>
         </div>
     
