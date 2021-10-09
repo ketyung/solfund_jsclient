@@ -106,6 +106,10 @@ function App() {
 
         </WalletProvider>
         </ConnectionProvider>
+
+        <div className="footer">
+          CopyRight 2021 - Solfund
+        </div>
     </div>
   );
 }

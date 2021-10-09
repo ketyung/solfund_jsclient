@@ -90,6 +90,17 @@
     
 }
 
+.footer {
+
+    height:40px;
+    padding:10px;
+    background-color: teal;
+    font-weight: 500;
+    color:white;
+    font-size: 10pt;
+    margin-top:500px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 
 @keyframes shine {
     0% {opacity: 30%;}
