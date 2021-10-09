@@ -242,7 +242,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
           okButtonProps={{ disabled: true  }}
           cancelButtonProps={{ disabled: false }}>
           <ShareView address={"fundpool/"+ selectedFundPool?.address?.toBase58() ?? ""} 
-          quote="Solafund Fund Pool" hashtag="#solafund #solana #blockchain #mutual fund"
+          quote="Solfund Fund Pool" hashtag="#Solfund #solana #blockchain #mutual fund"
           />
     </Modal>
 

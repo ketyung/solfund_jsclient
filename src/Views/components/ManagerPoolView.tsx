@@ -287,8 +287,8 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
           okButtonProps={{ disabled: true  }}
           cancelButtonProps={{ disabled: false }}>
-          <ShareView address={"poolby/"+ poolPageAddress} quote="Solafund Fund Pool"
-            hashtag="#solafund #solana #blockchain #mutual fund"
+          <ShareView address={"poolby/"+ poolPageAddress} quote="Solfund Fund Pool"
+            hashtag="#Solfund #solana #blockchain #mutual fund"
           />
     </Modal>
     </div>

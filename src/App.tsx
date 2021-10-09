@@ -40,27 +40,27 @@ function App() {
    const theTitle = () => {
 
       if (matchHome){
-        return "Solafund - Mutual Fund On the Solana Blockchain";
+        return "Solfund - Mutual Fund On the Solana Blockchain";
       }
       else if (matchPoolMarket){
 
-        return "Market - Solafund";
+        return "Market - Solfund";
       }
       else if (matchFundPool){
 
-        return "Fund Pool - Solafund";
+        return "Fund Pool - Solfund";
       }
       else if (matchManagerPool){
 
-        return "Fund Pools - Solafund";
+        return "Fund Pools - Solfund";
       }
       else if (matchAbout){
 
-        return "About Us - Solafund";
+        return "About Us - Solfund";
       }
       
       else {
-        return "Solafund - Mutual Fund On the Solana Blockchain";
+        return "Solfund - Mutual Fund On the Solana Blockchain";
       }
 
   }
