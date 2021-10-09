@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import useUserPool from '../../Hooks/useUserPool';
+import useSolana from '../../Hooks/useSolana';
 import { UserPool, FundPool } from '../../state';
 import * as web3 from '@solana/web3.js';
 import { FundPoolCardView2 } from './FundPoolCardView2';
@@ -19,12 +20,20 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     const [,,read, managerPoolKey] = useUserPool();
 
+    const [,wallet] = useSolana();
+
     const [fundPoolAddresses, setFundPoolAddresses] = useState<Array<web3.PublicKey>>([]);
 
     
-    const setFundPoolPresented = ( fundPool : FundPool) => {
+    const setFundPoolPresented = ( fundPool : FundPool, managedByManager : boolean ) => {
 
-        setModalPresented(true);
+        //setModalPresented(true);
+
+        if ((wallet?.toBase58() ?? "") === fundPool.manager.toBase58() ){
+
+            
+        }
+
     }
 
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
@@ -138,7 +147,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
         return <FundPoolCardView2 address={address}  
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
-        key ={"fundPool" + index }
+        key ={"fundPool" + index } managedByManager={true}
         setFundPoolPresented={setFundPoolPresented} setShareView={setShareView}/>
 
     })

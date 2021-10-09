@@ -1,0 +1,9 @@
+.manageButton {
+
+    padding:10px;
+    background:teal;
+    color:white;
+    border-radius: 30px;
+    height:40px;
+    min-width: 160px;
+}

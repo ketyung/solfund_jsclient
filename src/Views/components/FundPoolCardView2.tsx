@@ -16,14 +16,17 @@ interface FundPoolCardView2Props {
 
     className : string,
 
-    setFundPoolPresented : ( fundPool : FundPool) => void ,
+    managedByManager : boolean, 
+
+    setFundPoolPresented : ( fundPool : FundPool, managedByManager : boolean) => void ,
 
     setShareView: (presented : boolean, address : web3.PublicKey) => void ,
 
+    
 }
 
 export const FundPoolCardView2 : React.FC <FundPoolCardView2Props> = ({address, 
-    className, setFundPoolPresented, setShareView}) => {
+    className, managedByManager, setFundPoolPresented, setShareView}) => {
 
     const [fundPool, setFundPool] = useState<FundPool>();
 
@@ -69,7 +72,7 @@ export const FundPoolCardView2 : React.FC <FundPoolCardView2Props> = ({address,
 
             if ( fundPool ){
 
-                setFundPoolPresented(fundPool);
+                setFundPoolPresented(fundPool, managedByManager);
 
             }
         

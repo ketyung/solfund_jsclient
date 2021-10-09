@@ -76,7 +76,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
     }
 
 
-    const setFundPoolPresented = ( fundPool : FundPool) => {
+    const setFundPoolPresented = ( fundPool : FundPool, managedByManager: boolean) => {
 
         setSelectedFundPool(fundPool);
 
@@ -127,7 +127,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
         return <FundPoolCardView2 address={address}  
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
-        key ={"fundPool2_" + index }
+        key ={"fundPool2_" + index } managedByManager={false} 
         setFundPoolPresented={setFundPoolPresented} setShareView={setShareView}/>
     })
 
