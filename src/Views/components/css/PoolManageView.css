@@ -1,10 +1,22 @@
 .manageButton {
 
     padding:10px;
-    background:teal;
+    background:#153;
     color:white;
     border-radius: 30px;
     height:50px;
     font-weight: 500;
+    min-width: 160px;
+}
+
+.fundAmount {
+
+    padding:10px 10px 10px 20px;
+    background:#930;
+    color:white;
+    border-radius: 30px;
+    height:50px;
+    font-weight: 500;
+    font-size:14pt;
     min-width: 160px;
 }
