@@ -24,7 +24,7 @@ export interface InvestorFundCardViewProps {
 export const InvestorFundCardView : React.FC <InvestorFundCardViewProps> = 
 ({  address, className}) => {
 
-    const[,investorPoolKey,,readInvestor] = useInvestor();
+    const[,,,readInvestor] = useInvestor();
 
     const[,,readFundPool] = useFundPool();
 

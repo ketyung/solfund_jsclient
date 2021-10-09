@@ -10,7 +10,7 @@
     min-height: 50px;
     margin: auto;
     animation: 1.5s shake infinite;
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
 .homeFundPoolDiv {
@@ -87,6 +87,13 @@
     min-height: 50px;
     animation: 2.5s shake infinite;
     font-weight:bolder;
+    
+}
+
+.tempCenterLogo {
+
+    margin-top: 10px;
+    animation: 3s shake infinite;
     
 }
 

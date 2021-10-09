@@ -4,6 +4,7 @@ import { ManagerPoolView } from '../components/ManagerPoolView';
 import { InvestorPoolView } from '../components/InvestorPoolView';
 import useSolana from '../../Hooks/useSolana';
 import {WalletOutlined} from '@ant-design/icons';
+import {logo} from '../components/Wallet';
 
 export const HomePage : React.FC = () => {
 
@@ -24,6 +25,11 @@ export const HomePage : React.FC = () => {
   
         :
         <div>
+        
+        <div className="tempCenterLogo">
+        {logo(200,200, {margin:"auto"})}
+        </div>
+       
        <div className="connectWallet">
         <WalletOutlined style={{marginRight:"20px"}}/> Connect your wallet, be a fund manager or invest in any fund pools!
         </div>
