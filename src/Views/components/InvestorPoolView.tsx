@@ -32,18 +32,9 @@ export const InvestorPoolView : React.FC = () => {
             if (!(res instanceof Error)){
             
 
-                var tmpAddrs : Array<web3.PublicKey> = []
+                let addrs = res.addresses.reverse();
 
-                for (var r =0; r < res.addresses.length ; r++){
-
-                    let t = res.addresses[r];
-                    if ( t.toBase58() !== web3.PublicKey.default.toBase58()){
-
-                        tmpAddrs.push(t);
-                    }
-                }
-
-                setAddresses(tmpAddrs);
+                setAddresses(addrs);
                 setInvestorPoolLoading(false);
                 setLoaded(true);
          

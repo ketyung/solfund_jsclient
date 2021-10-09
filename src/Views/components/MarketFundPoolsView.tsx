@@ -120,8 +120,9 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
                 }
                 else {
         
+                    let addrs = res.fund_pools.reverse();
 
-                    setFundPoolAddresses(res.fund_pools);
+                    setFundPoolAddresses(addrs);
                     setLoaded(true);
                     setFundPoolLoading(false);
   

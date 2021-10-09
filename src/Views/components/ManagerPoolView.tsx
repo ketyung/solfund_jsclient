@@ -101,8 +101,9 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
             if (!(res instanceof Error)){
                 
-              
-                setFundPoolAddresses( res.addresses);
+                let addrs = res.addresses.reverse();
+
+                setFundPoolAddresses(addrs);
                 
                 setFundPoolLoading(false);
                 setLoaded(true);
