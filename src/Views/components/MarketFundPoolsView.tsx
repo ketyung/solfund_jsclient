@@ -169,6 +169,11 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     
     useEffect(() => {
+
+        if ( reload ){
+
+            setFundPoolAddresses([]);
+        }
         
         readMarket();
               
