@@ -4,7 +4,7 @@ import {Image} from 'antd';
 import {ICONS} from './IconsChooser';
 import './css/FundPoolCardView.css';
 import {format_pub_key_shorter} from '../../state/';
-import {Tooltip,Button} from 'antd';
+import {Button} from 'antd';
 import {UserAddOutlined, ShareAltOutlined, InfoOutlined} from '@ant-design/icons';
 import {Link} from 'wouter';
 import {extract_fund_pool, FundPool} from '../../state';

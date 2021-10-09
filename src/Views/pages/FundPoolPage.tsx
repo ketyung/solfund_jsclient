@@ -94,7 +94,7 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
     </div>
     {
 
-        fundPool?.investors.reverse().map(( inv, idx ) =>{
+        fundPool?.investors.map(( inv, idx ) =>{
 
             return <div className="investorRow" key={"invRow" + idx} 
             title={inv.address.toBase58()}>
