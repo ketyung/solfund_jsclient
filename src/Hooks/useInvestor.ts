@@ -156,8 +156,10 @@ export default function useInvestor(){
        
         let investor_data : Uint8Array = createInvestorBytes( size, 
             publicKey, fundPoolAddress, investorAccKey, 
-            web3.PublicKey.default, amount, tokenCount);
+            web3.PublicKey.default, (amount * web3.LAMPORTS_PER_SOL), tokenCount);
        
+       // console.log("amount", amount);
+
         let data = SolUtil.createBuffer(investor_data,ACTION_CREATE,MODULE_INVESTOR);
 
         let accounts : Array<web3.AccountMeta> = [
