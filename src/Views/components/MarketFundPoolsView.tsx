@@ -30,6 +30,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     const [selectedFundPool, setSelectedFundPool] = useState<FundPool>();
 
+    const [selectedAddress , setSelectedAddress] = useState<web3.PublicKey>();
+    
     const [tokenCount ,setTokenCount] = useState(0);
     
     const [amount,setAmount] = useState(0);
@@ -68,7 +70,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     const setShareView = ( presented : boolean, address : web3.PublicKey) => {
 
-      //  setSelectedAddress( address );
+        setSelectedAddress( address );
         setShareModalPresented(presented);
     }
 
@@ -85,7 +87,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     const fundPoolsView = 
     
-    (fundPoolAddresses.map.length ?? 0) > 0 ? 
+    fundPoolAddresses.map.length > 0 ? 
 
     fundPoolAddresses.map(  (address, index) => {
 
@@ -201,7 +203,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
     </Modal>
 
 
-    <Modal title={ "Share " + selectedFundPool?.address?.toBase58() ?? ""}
+    <Modal 
+    title={<label style={{ color: "white" }}>{ "Share " + selectedAddress?.toBase58() ?? ""}</label>}
         className="shareViewModal"
          visible={shareModalPresented}
           onCancel={()=>{
@@ -214,8 +217,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
           okButtonProps={{ disabled: true  }}
           cancelButtonProps={{ disabled: false }}>
-          <ShareView address={"fundpool/"+ selectedFundPool?.address?.toBase58() ?? ""} quote="Solafund Fund Pool"
-            hashtag="#solafund #solana #blockchain #mutual fund"
+          <ShareView address={"fundpool/"+ selectedFundPool?.address?.toBase58() ?? ""} 
+          quote="Solafund Fund Pool" hashtag="#solafund #solana #blockchain #mutual fund"
           />
     </Modal>
 
