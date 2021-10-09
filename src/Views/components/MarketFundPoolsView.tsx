@@ -139,7 +139,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
   
 
     return <div style={{display:"block",textAlign:"center",margin:"0px auto",padding:"auto"}}>
-    <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+    <div style={{display: fundPoolLoading ? "block" : "none", clear:"both",margin : "10px"}}>
+    <Spin size="default"/></div>
    
     {
         fundPoolsView

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Image} from 'antd';
 import {ICONS} from './IconsChooser';
 import './css/FundPoolCardView.css';
@@ -6,25 +6,76 @@ import {format_pub_key_shorter} from '../../state/';
 import {Tooltip,Button} from 'antd';
 import {InfoOutlined} from '@ant-design/icons';
 import {Link} from 'wouter';
+import * as web3 from '@solana/web3.js';
+import useInvestor from '../../Hooks/useInvestor';
+import useFundPool from '../../Hooks/useFundPool';
+import { FundPoolInvestor, FundPool } from '../../state/';
+
 
 export interface InvestorFundCardViewProps {
 
-    tokenCount : number ,
     
-    poolTokenCount : number ,
-    
-    poolAddress : string, 
-
-    poolManager : string, 
-    
-    icon : number,
+    address : web3.PublicKey,
 
     className : string, 
 
 }
 
 export const InvestorFundCardView : React.FC <InvestorFundCardViewProps> = 
-({    tokenCount, poolTokenCount, poolAddress, poolManager,  icon, className}) => {
+({  address, className}) => {
+
+    const[,investorPoolKey,,readInvestor] = useInvestor();
+
+    const[,,readFundPool] = useFundPool();
+
+    const [tokenCount, setTokenCount] = useState(0);
+    
+    const [poolTokenCount, setPoolTokenCount] = useState(0);
+
+    const [poolAddress, setPoolAddress] = useState("...");
+
+    const [poolManager, setPoolManager] = useState("...");
+
+    const [icon, setIcon] = useState(0);
+    
+
+    async function readData(pubkey : web3.PublicKey){
+
+        readInvestor(pubkey.toBase58(), (res : FundPoolInvestor | Error) =>{
+
+            if ( !(res instanceof Error)){
+                //tokenCount, poolTokenCount, poolAddress, poolManager,  icon, className
+               
+                readFundPool(res.pool_address.toBase58(), (fp : FundPool |Error)=>{
+
+                    if ( !(fp instanceof Error)){
+
+
+                        setTokenCount(res.token_count);
+                        setPoolTokenCount( fp.token_count);
+                        setPoolAddress (fp.address.toBase58());
+                        setPoolManager ( fp.manager.toBase58());
+                        setIcon(fp.icon);
+
+                    }
+
+                    
+                })
+            }
+            else {
+
+                console.log("err.x", res);
+            }
+        })
+       
+    }
+
+
+    useEffect(() => {
+
+        readData(address);
+       
+    }, []);
 
     return <div className={className}>
     

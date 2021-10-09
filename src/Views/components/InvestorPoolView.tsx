@@ -4,65 +4,22 @@ import { UserPool, FundPool, FundPoolInvestor } from '../../state';
 import * as web3 from '@solana/web3.js';
 import { Button, Spin } from 'antd';
 import useInvestor from '../../Hooks/useInvestor';
-import useFundPool from '../../Hooks/useFundPool';
 import {AlertOutlined,ReloadOutlined} from '@ant-design/icons';
-import { InvestorFundCardViewProps, InvestorFundCardView } from './InvestorFundCardView';
+import { InvestorFundCardView } from './InvestorFundCardView';
 import './css/InvestorFundCardView.css';
 
 export const InvestorPoolView : React.FC = () => {
 
     const [,,read] = useUserPool();
 
-    const[,investorPoolKey,,readInvestor] = useInvestor();
+    const[,investorPoolKey] = useInvestor();
 
-    const[,,readFundPool] = useFundPool();
-
-    var tmpInvestorPools : Array<InvestorFundCardViewProps> = [];
-
-    const [investorPools, setInvestorPools] = useState<Array<InvestorFundCardViewProps>>();
-
-    const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void
+    const [addresses, setAddresses] = useState<Array<web3.PublicKey>>([]);
 
     const [loaded, setLoaded] = useState(false);
 
     const [investorPoolLoading, setInvestorPoolLoading] = useState(false);
 
-
-    async function readData(pubkey : web3.PublicKey){
-
-        readInvestor(pubkey.toBase58(), (res : FundPoolInvestor | Error) =>{
-
-            if ( !(res instanceof Error)){
-                //tokenCount, poolTokenCount, poolAddress, poolManager,  icon, className
-               
-                readFundPool(res.pool_address.toBase58(), (fp : FundPool |Error)=>{
-
-                    if ( !(fp instanceof Error)){
-
-                        let invPool : InvestorFundCardViewProps = {
-
-                            tokenCount : res.token_count, 
-                            poolTokenCount : fp?.token_count,
-                            poolAddress : fp.address.toBase58(), 
-                            poolManager : fp.manager.toBase58(),
-                            icon : fp.icon, 
-                            className: "",
-    
-                        };
-
-                        tmpInvestorPools.push(invPool);
-                    }
-
-                    
-                })
-            }
-            else {
-
-                console.log("err.x", res);
-            }
-        })
-       
-    }
 
     async function readInvestorPool(){
 
@@ -73,30 +30,28 @@ export const InvestorPoolView : React.FC = () => {
         (res : UserPool | Error) =>  {
 
             if (!(res instanceof Error)){
-    
             
-                for ( var r=0; r < res.addresses.length; r++){
 
-                    readData(res.addresses[r]);
+                var tmpAddrs : Array<web3.PublicKey> = []
 
+                for (var r =0; r < res.addresses.length ; r++){
+
+                    let t = res.addresses[r];
+                    if ( t.toBase58() !== web3.PublicKey.default.toBase58()){
+
+                        tmpAddrs.push(t);
+                    }
                 }
 
-                setTimeout(()=>{
-                    setInvestorPools(tmpInvestorPools);
-               //     tmpInvestorPools.splice(0,tmpInvestorPools.length);
-                   
-                    forceUpdate();
-                    setInvestorPoolLoading(false);
-                    setLoaded(true);
-                
-                }, 500);
-
+                setAddresses(tmpAddrs);
+                setInvestorPoolLoading(false);
+                setLoaded(true);
+         
             }
             else {
 
                 setInvestorPoolLoading(false);
                 setLoaded(true);
-
             }
         
         }) 
@@ -105,21 +60,16 @@ export const InvestorPoolView : React.FC = () => {
 
     useEffect(() => {
 
-        if (!loaded ){
-
-            readInvestorPool();
-        }
+        readInvestorPool();
        
-    }, [loaded]);
+    }, []);
 
     const investorPoolsView =
-    (investorPools?.map.length ?? 0) > 0 ?
-    investorPools?.map(  (invPool, index ) => {
+    (addresses.map.length ?? 0) > 0 ?
+    addresses.map(  (address, index ) => {
 
-        return <InvestorFundCardView  tokenCount={invPool.tokenCount} poolTokenCount={invPool.poolTokenCount}
-        poolAddress={invPool.poolAddress} poolManager={invPool.poolManager} 
-        key={"InvPool"+index}
-        className={(index % 3 === 0) ? "investorPoolNorm" : "investorPoolBrk"} icon={invPool.icon} />
+        return <InvestorFundCardView  address={address} 
+        key={"InvPool"+index} className={(index % 3 === 0) ? "investorPoolNorm" : "investorPoolBrk"} />
 
     })
     
