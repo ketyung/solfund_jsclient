@@ -74,6 +74,21 @@
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
+.tempInfo {
+
+    background-color: #8a0;
+    padding:20px 10px;
+    border-radius: 30px;
+    width: 30%;
+    font-size:15pt;
+    color:white;
+    margin: auto;
+    margin-top: 40px;
+    min-height: 50px;
+    animation: 2.5s shake infinite;
+    
+}
+
 
 @keyframes shine {
     0% {opacity: 30%;}
