@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import useUserPool from '../../Hooks/useUserPool';
-import useSolana from '../../Hooks/useSolana';
-import { UserPool, FundPool, extract_fund_pool } from '../../state';
+import { UserPool, FundPool } from '../../state';
 import * as web3 from '@solana/web3.js';
-import { FundPoolCardView } from './FundPoolCardView';
+import { FundPoolCardView2 } from './FundPoolCardView2';
 import { Button, Modal, Spin } from 'antd';
 import {FileAddOutlined, ShareAltOutlined, ReloadOutlined} from '@ant-design/icons';
 import { FundPoolForm } from './FundPoolForm';
@@ -20,16 +19,12 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     const [,,read, managerPoolKey] = useUserPool();
 
-    const [connection] = useSolana();
+    const [fundPoolAddresses, setFundPoolAddresses] = useState<Array<web3.PublicKey>>([]);
 
-    var tmpFundPools : Array<FundPool> = [];
+    
+    const setFundPoolPresented = ( fundPool : FundPool) => {
 
-    const [fundPools, setFundPools] = useState<Array<FundPool>>();
-
-    const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void
-
-    const setAddressPresented = ( address : web3.PublicKey) => {
-
+        setModalPresented(true);
     }
 
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
@@ -63,15 +58,10 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
         setCommissionInSol(commission_in_sol);
     }
 
-    /**
     const setShareView = ( presented : boolean) => {
 
-        setShareModalPresented(true);
-    } */
-
-    const setIndvShareView = ( presented : boolean) => {
-
-    }
+        
+    } 
 
     const [shareModalPresented, setShareModalPresented] = useState(false);
 
@@ -97,32 +87,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
   
 
 
-    async function readData(pubkey : web3.PublicKey){
-
-        
-        let fpAcc = await connection.getAccountInfo(pubkey);
-
-        if (fpAcc != null){
-
-            extract_fund_pool(fpAcc.data, fpAcc.lamports, (res : FundPool | Error) =>  {
-
-                if (!(res instanceof Error)){
-        
-                    if ( res.address.toBase58() !== web3.PublicKey.default.toBase58()){
-
-                        if (tmpFundPools.indexOf(res) === -1 ){
-
-                            tmpFundPools.push(res);
-                        }
-                    }
-                   
-                }
-            });
-
-        }
-
-    }
-
+    
     async function readManagerPool(){
 
         setFundPoolLoading(true);
@@ -136,26 +101,16 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
             if (!(res instanceof Error)){
                 
-                for ( var r=0; r < res.addresses.length; r++){
-
-                    readData(res.addresses[r]);
-                }
-
+              
+                setFundPoolAddresses( res.addresses);
                 
-                setTimeout(()=>{
-
-                    setFundPools(tmpFundPools);
-                    // tmpFundPools.splice(0,tmpFundPools.length);
-               
-                    forceUpdate();
-                    setFundPoolLoading(false);
-                    setLoaded(true);
-                }, 500);
-
+                setFundPoolLoading(false);
+                setLoaded(true);
+                
             }
             else {
 
-                forceUpdate();
+                setFundPoolLoading(false);
                 setLoaded(true);
             }
         
@@ -176,19 +131,14 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     const fundPoolsView = 
     
-    (fundPools?.map.length ?? 0) > 0 ? 
+    (fundPoolAddresses.map.length ?? 0) > 0 ? 
 
-    fundPools?.map(  (fundPool, index) => {
+    fundPoolAddresses.map(  (address, index) => {
 
-        return <FundPoolCardView address={fundPool.address.toBase58()}
-        manager={fundPool.manager.toBase58()} lamports={fundPool.lamports}
-        tokenCount={fundPool.token_count} icon={fundPool.icon} 
-        valueInSol = {fundPool.token_count * fundPool.token_to_sol_ratio}
-        feeInLamports = {fundPool.fee_in_lamports}
-        className="fundPoolNorm" key={"fundPool"+index}
-        setAddressPresented={setAddressPresented}
-        setShareView={setIndvShareView}
-        />
+        return <FundPoolCardView2 address={address}  
+        className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
+        key ={"fundPool" + index }
+        setFundPoolPresented={setFundPoolPresented} setShareView={setShareView}/>
 
     })
     
