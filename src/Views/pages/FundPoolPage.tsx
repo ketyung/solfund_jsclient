@@ -5,6 +5,8 @@ import { error } from '../../utils/Mesg';
 import * as web3 from '@solana/web3.js';
 import {FundPoolCardView} from '../components/FundPoolCardView';
 import './css/FundPoolPage.css';
+import {Menu, Dropdown, Button} from 'antd';
+
 
 interface FundPoolViewProps {
 
@@ -25,6 +27,25 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
 
     }
 
+    const cluster = "devnet"; // temporary hard coded here first
+
+    const menu = (
+        <Menu theme="dark" style={{borderRadius:"20px"}}>
+          <Menu.Item>
+            <a target="_blank" rel="noopener noreferrer" 
+            href={"https://explorer.solana.com/address/"+address+"?cluster="+cluster}>
+              View On Explorer
+            </a>
+          </Menu.Item>
+          <Menu.Item>
+            <a target="_blank" rel="noopener noreferrer" href={
+                "https://solscan.io/account/"+address+"?cluster="+cluster
+            }>
+              View On Solscan 
+            </a>
+          </Menu.Item>
+        </Menu>
+      );
     
     useEffect(() => {
     
@@ -59,9 +80,21 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
         setShareView={setShareView}
         />
     <div className="investorDiv">
-    <div className="investorTitle">Investors</div>
+    <div className="topBar">
+    <div className="barItem">Investors ({fundPool?.investors.length ?? 0})</div>
+    <div className="barItem">
+
+    <Dropdown overlay={menu} placement="bottomCenter">
+      <Button style={{color:"white", background:"transparent", 
+      border:"0px", marginTop:"0px", fontWeight:"bolder", 
+      paddingTop:"0px", paddingBottom:"10px"}}>Transactions</Button>
+    </Dropdown>
+
+    </div>
+    </div>
     {
-        fundPool?.investors.map(( inv, idx ) =>{
+
+        fundPool?.investors.reverse().map(( inv, idx ) =>{
 
             return <div className="investorRow" key={"invRow" + idx} 
             title={inv.address.toBase58()}>
