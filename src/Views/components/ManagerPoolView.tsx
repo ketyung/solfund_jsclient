@@ -10,6 +10,8 @@ import { FundPoolForm } from './FundPoolForm';
 import useFundPool from '../../Hooks/useFundPool';
 import { success,error } from '../../utils/Mesg';
 import {ShareView} from './ShareView';
+import {PoolManageView} from './PoolManageView';
+
 
 interface ManagerPoolViewProp {
 
@@ -31,7 +33,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
         if ((wallet?.toBase58() ?? "") === fundPool.manager.toBase58() ){
 
-            
+
         }
 
     }
@@ -193,9 +195,6 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
           }}>
         <ShareAltOutlined />
     </Button>
-   
-   
-   
     </div>
 
     :
@@ -266,9 +265,6 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
                 let commInLp = commissionInSol * web3.LAMPORTS_PER_SOL;
 
-
-                //console.log("commInLP", commInLp);
-
                 createFundPool(commInLp,tokenCount,ratioLp, true,
                 selectedIcon, completion);
                 
@@ -300,5 +296,24 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
             hashtag="#Solfund #solana #blockchain #mutual fund"
           />
     </Modal>
+
+
+    <Modal 
+    title={<label style={{ color: "white" }}>Manage This Pool {poolPageAddress}</label>}
+        className="shareViewModal"
+         visible={shareModalPresented}
+          onCancel={()=>{
+
+              setShareModalPresented(false);
+            
+          }}
+
+          okText="OK"
+
+          okButtonProps={{ disabled: true  }}
+          cancelButtonProps={{ disabled: false }}>
+         <PoolManageView/>
+    </Modal>
+  
     </div>
 }
