@@ -10,7 +10,7 @@ import '../css/common.css';
 export const TokenTestView : React.FC = () => {
 
 
-    const [createAndMintToken, createAndMintTk2, tokenProcessing, getTokenAddress] = useToken();
+    const [createAndMintToken, , tokenProcessing, getTokenAddress, createMint3] = useToken();
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -77,8 +77,9 @@ export const TokenTestView : React.FC = () => {
               
               setModal2Presented(true);
 
-        }} >Create And Mint Token 2</Button></p>
+        }} >Create Mint 3</Button></p>
 
+        
         <p><Button className="commonButton" onClick={async ()=> {
                                
                 let address = await getTokenAddress(seed);
@@ -112,7 +113,7 @@ export const TokenTestView : React.FC = () => {
        </Modal>
 
       
-       <Modal title="Create And Mint Token 2"
+       <Modal title="Create Mint 3"
           style={{minWidth:"80%"}}
           visible={modal2Presented}
           onOk={async ()=>{
@@ -120,8 +121,9 @@ export const TokenTestView : React.FC = () => {
       
                //createAndMintToken(seed, tokenCount, completion);
 
-               createAndMintTk2(seed, tokenCount, completion  );
+               //createAndMintTk2(seed, tokenCount, completion  );
                
+               createMint3(seed, tokenCount, completion);
           }}
           onCancel={()=>{setModal2Presented(false);}}
           okButtonProps={{ disabled: false }}

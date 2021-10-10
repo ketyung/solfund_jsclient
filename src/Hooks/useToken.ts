@@ -61,6 +61,107 @@ export default function useToken(){
 
 
 
+    async function createMint3(seed : string, tokenCount : number,
+        completionHandler : (result : boolean | Error) => void ){
+
+        if ( !publicKey){
+            
+            return ;
+
+        }
+
+
+        const mint = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+
+        //let mint = await splToken.Token.getAssociatedTokenAddress(SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+          //  splToken.TOKEN_PROGRAM_ID, tokenKey, publicKey);
+
+        //console.log("mint", mint.toBase58());
+
+        const allTxs = new web3.Transaction();
+       
+        const createMintAccountIx = web3.SystemProgram.createAccountWithSeed({
+            fromPubkey: publicKey,
+            basePubkey: publicKey,
+            seed: seed,
+            newAccountPubkey: mint,
+            lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection), 
+            space: splToken.MintLayout.span , programId: splToken.TOKEN_PROGRAM_ID
+        });
+
+        allTxs.add(createMintAccountIx);
+        
+        /**
+        allTxs.add(
+            web3.SystemProgram.createAccount({
+              fromPubkey: publicKey,
+              newAccountPubkey: mint,
+              lamports: await connection.getMinimumBalanceForRentExemption(
+                 splToken.MintLayout.span,
+              ),
+              space: splToken.MintLayout.span,
+              programId: splToken.TOKEN_PROGRAM_ID,
+            }),
+        );
+
+        allTxs.add( 
+
+            splToken.Token.createInitMintInstruction (
+                splToken.TOKEN_PROGRAM_ID,
+                mint, 2, publicKey, publicKey
+            )
+
+        );
+ */
+
+
+
+        const newInsArray : Uint8Array = new Uint8Array(9);
+            
+        newInsArray[0] = 1; // 2 is counter
+        let tbytes = num_to_u64(tokenCount);
+
+        for (var r=0; r < tbytes.length; r++){
+
+            newInsArray[1+r] = tbytes[r];
+        }
+
+        const dataBuffer = Buffer.from(newInsArray);
+
+        let accounts : Array<web3.AccountMeta> = [
+            { pubkey: publicKey, isSigner: true, isWritable: false },
+            { pubkey : mint, isSigner : false, isWritable : true}, 
+            { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+           // { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: true},
+            
+        ];
+
+
+        const mintTkWithRustIx = new web3.TransactionInstruction({
+            programId : myProgramId, keys: accounts, data: dataBuffer, });
+       
+        allTxs.add(mintTkWithRustIx);
+
+        allTxs.feePayer = publicKey;
+
+      
+        sendTxs(allTxs, (res : string | Error) =>  {
+
+            if (res instanceof Error){
+    
+                completionHandler(res);
+                setLoading(false);
+    
+            }
+            else {
+    
+                completionHandler(true);
+                setLoading(false);        
+            }
+    
+        });
+    }
+
 
     async function createTokenAccountAndMintTo(seed : string, tokenCount : number,
         completionHandler : (result : boolean | Error) => void) {
@@ -265,6 +366,6 @@ export default function useToken(){
     
 
     return [createTokenAccountAndMintTo, createTokenAccountAndMintTo2, loading,
-         getAssociatedTokenAddress,] as const;
+         getAssociatedTokenAddress,createMint3] as const;
 
 }
