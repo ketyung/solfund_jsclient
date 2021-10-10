@@ -88,7 +88,7 @@ export default function useToken(){
             splToken.Token.createInitMintInstruction(
                 splToken.TOKEN_PROGRAM_ID, // program id, 通常固定是token program id
                 mint, // mint account public key
-                2, // decimals
+                9, // decimals
                 publicKey, // mint authority (增發幣的權限)
                 null // freeze authority (冷凍帳戶的權限，這邊我們先留null即可)
             )
