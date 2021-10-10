@@ -93,6 +93,19 @@ export default function useToken(){
                 null // freeze authority (冷凍帳戶的權限，這邊我們先留null即可)
             )
         );
+
+        let ata = await splToken.Token.getAssociatedTokenAddress(
+            splToken.ASSOCIATED_TOKEN_PROGRAM_ID, // 通常是固定值, associated token program id
+            splToken.TOKEN_PROGRAM_ID, // 通常是固定值, token program id
+            mint, // mint
+            publicKey // token account auth (擁有token account權限的人)
+        );
+        console.log("ata::", ata.toBase58());
+        
+
+        // continue to add associated token account as follows:
+        // https://github.com/yihau/solana-web3-demo/blob/main/tour/create-token-account/main.ts
+
         tx.feePayer = publicKey;
 
 
@@ -134,6 +147,13 @@ export default function useToken(){
             }
             else {
     
+                let acc = connection.getAccountInfo(mint);
+                if (acc){
+
+                    console.log("acc.owner", acc);
+
+                }
+               
                 completionHandler(true);
                 setLoading(false);        
             }
