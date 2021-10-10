@@ -207,6 +207,13 @@ export default function useToken(){
         
         console.log("getAsso::", mint3.toBase58());
 
+        /*
+        initializeMint({
+            mint: mint.publicKey,
+            decimals,
+            mintAuthority: owner.publicKey,
+          }),
+*/
 
         const initTokenAccountIx =  splToken.Token.createInitAccountInstruction(
             splToken.TOKEN_PROGRAM_ID, // program id, always token program id
