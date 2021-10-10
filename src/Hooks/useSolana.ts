@@ -146,7 +146,7 @@ export default function useSolana() {
 
    
 
-    return [connection, publicKey,  sendIns, createAccount, loading, setLoading, sendTxs] as const;
+    return [connection, publicKey,  sendIns, createAccount, loading, setLoading, sendTxs, wallet] as const;
 
 
 
