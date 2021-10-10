@@ -111,7 +111,7 @@ export default function useToken(){
 
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: publicKey, isSigner: true, isWritable: false },
-            { pubkey : mint, isSigner : false, isWritable : false}, // set mint as signer too!
+            { pubkey : mint, isSigner : false, isWritable : true}, // set mint as signer too!
             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
            // { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: true},
         ];
