@@ -8,13 +8,12 @@ import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import * as splToken from "@solana/spl-token";
 import { num_to_u64 } from '../state';
-
 const myProgramId : web3.PublicKey = new web3.PublicKey("4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X");
 
 
 export default function useToken(){
 
-    const [connection, publicKey, , ,loading , setLoading, sendTxs] = useSolana();
+    const [connection, publicKey, , ,loading , setLoading, sendTxs, wallet] = useSolana();
 
   
     const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: web3.PublicKey = new web3.PublicKey(
@@ -179,9 +178,13 @@ export default function useToken(){
         
         const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
 
-        let mint = await findAssociatedTokenAddress(publicKey, tokenKey);
+        //let mint = await findAssociatedTokenAddress(publicKey, tokenKey);
     
-        console.log("mint", mint.toBase58());
+       // console.log("mint", mint.toBase58());
+
+       //let mint = splToken.Token.createMint(connection, wallet, 
+       // publicKey, publicKey, 9, splToken.TOKEN_PROGRAM_ID);
+
 
         const createTokenAccountIx = web3.SystemProgram.createAccountWithSeed({
             fromPubkey: publicKey,
@@ -192,10 +195,10 @@ export default function useToken(){
             space: splToken.AccountLayout.span , programId: splToken.TOKEN_PROGRAM_ID
         });
 
-     
+      
         const initTokenAccountIx =  splToken.Token.createInitAccountInstruction(
             splToken.TOKEN_PROGRAM_ID, // program id, always token program id
-            mint, // mint
+            tokenKey, // mint
             tokenKey, // token account public key
             publicKey
         );
