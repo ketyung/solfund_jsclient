@@ -101,6 +101,7 @@ export default function useToken(){
 
         );
     
+        /**
         const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed,  splToken.TOKEN_PROGRAM_ID);
       
         tx.add(
@@ -142,6 +143,7 @@ export default function useToken(){
               tokenCount // 要增發的數量 隨意帶 不過要記得這邊是最小單位 也就是說decimals如果是9 想要mint出1顆來就得帶1e9
             )
           );
+        */
 
         // continue to add associated token account as follows:
         // https://github.com/yihau/solana-web3-demo/blob/main/tour/create-token-account/main.ts
@@ -192,8 +194,12 @@ export default function useToken(){
                 let acc = connection.getAccountInfo(mint);
                 if (acc){
 
-                    console.log("acc.owner", acc);
+                    acc.then( d =>{
 
+                        console.log("acc.owner::", d?.owner.toBase58(), "lamports", d?.lamports);
+                    });
+
+                    console.log("acc::", acc);
                 }
                
                 completionHandler(true);
