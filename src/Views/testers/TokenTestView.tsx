@@ -123,8 +123,8 @@ export const TokenTestView : React.FC = () => {
 
                //createAndMintTk2(seed, tokenCount, completion  );
 
-               createMintOnly(tokenCount, completion);
-               
+               createMintOnly(seed, tokenCount, completion);
+
                //createMint3(seed, tokenCount, completion);
           }}
           onCancel={()=>{setModal2Presented(false);}}
