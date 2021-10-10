@@ -92,6 +92,8 @@ export const TokenTestView : React.FC = () => {
                // }
         }} >Get Token Address With Mint</Button></p>
    
+        <p><a href="https://solscan.io/account/4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X?cluster=devnet"
+        target="_blank">View on SolScan</a></p>
 
        <Modal title="Create And Mint Token 1"
           style={{minWidth:"80%"}}
