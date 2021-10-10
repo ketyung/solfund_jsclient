@@ -4,13 +4,13 @@ import useToken from '../../Hooks/useToken';
 import { Button, Spin, Modal, Form, Input } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import '../css/common.css';
-import * as web3 from '@solana/web3.js';
+//import * as web3 from '@solana/web3.js';
 
 
 export const TokenTestView : React.FC = () => {
 
 
-    const [createAndMintToken, createAndMintTk2, tokenProcessing] = useToken();
+    const [createAndMintToken, createAndMintTk2, tokenProcessing, getTokenAddress] = useToken();
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -70,7 +70,7 @@ export const TokenTestView : React.FC = () => {
               
                 setModalPresented(true);
 
-          }} >Create And Mint Token 1</Button></p>
+          }} >Create And Mint Token 1 (Rust Tkprog)</Button></p>
 
 
         <p><Button className="commonButton" onClick={async ()=> {
@@ -79,7 +79,19 @@ export const TokenTestView : React.FC = () => {
 
         }} >Create And Mint Token 2</Button></p>
 
-       
+        <p><Button className="commonButton" onClick={async ()=> {
+                               
+                let address = await getTokenAddress(seed);
+
+                //if (address){
+                    success("Token Address is :"+ address?.toBase58());
+                //}
+               // else {
+                 //   error("Failed to get token address");
+               // }
+        }} >Get Token Address With Mint</Button></p>
+   
+
        <Modal title="Create And Mint Token 1"
           style={{minWidth:"80%"}}
           visible={modalPresented}
@@ -120,7 +132,7 @@ export const TokenTestView : React.FC = () => {
        </Modal>
 
       
-
+      
     </div>;
 
 }

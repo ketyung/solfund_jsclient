@@ -55,14 +55,12 @@ export const Wallet : React.FC = () => {
                 </Link>
             </div>
             {
-            /* 
             <div className={matchTokenTest ? "topLinkSel" : "topLink"}>
                 <Link href="/tokentest">
                 <a className="link">Token</a>
                 </Link>
             </div>
-            */
-
+           
             }
             
            

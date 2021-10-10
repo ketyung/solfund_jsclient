@@ -22,10 +22,8 @@ export default function useToken(){
       );
       
     
-    async function findAssociatedTokenAddress(
-        walletAddress: web3.PublicKey,
-        tokenMintAddress: web3.PublicKey
-    ): Promise<web3.PublicKey> {
+    async function findAssociatedTokenAddress(walletAddress: web3.PublicKey, 
+    tokenMintAddress: web3.PublicKey): Promise<web3.PublicKey> {
         return (await web3.PublicKey.findProgramAddress(
             [
                 walletAddress.toBuffer(),
@@ -35,6 +33,35 @@ export default function useToken(){
             SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID
         ))[0];
     }
+
+
+    async function getAssociatedTokenAddress(seed : string ) : Promise <web3.PublicKey|null> {
+
+
+        if ( !publicKey){
+
+            return null ;
+        }
+
+        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+
+        try {
+
+            let f = await findAssociatedTokenAddress(publicKey, tokenKey);
+            
+            return f ;
+
+        } 
+        catch(err){
+
+            console.log("err::", err);
+            return null;
+        }
+    }
+
+
+
+
 
     async function createTokenAccountAndMintTo(seed : string, tokenCount : number,
         completionHandler : (result : boolean | Error) => void) {
@@ -55,6 +82,7 @@ export default function useToken(){
         //let accPubkey = new web3.Account();
 
         const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+
 
         const createTokenAccountIx = web3.SystemProgram.createAccountWithSeed({
             fromPubkey: publicKey,
@@ -88,17 +116,18 @@ export default function useToken(){
 
         const dataBuffer = Buffer.from(newInsArray);
 
-        console.log("signer.acc", publicKey.toBase58());
-        console.log("tk.acc", tokenKey.toBase58());
-        console.log("tk.prog", splToken.TOKEN_PROGRAM_ID.toBase58());
+        // console.log("signer.acc", publicKey.toBase58());
+        // console.log("tk.acc", tokenKey.toBase58());
+        // console.log("tk.prog", splToken.TOKEN_PROGRAM_ID.toBase58());
         
+        //let tokenAcc = await findAssociatedTokenAddress(publicKey, tokenKey);
 
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: publicKey, isSigner: true, isWritable: false },
             { pubkey : tokenKey, isSigner : false, isWritable : true}, 
-           // { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: false},
             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-           
+           // { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: true},
+            
         ];
         
         
@@ -213,6 +242,7 @@ export default function useToken(){
 
     
 
-    return [createTokenAccountAndMintTo, createTokenAccountAndMintTo2,  loading] as const;
+    return [createTokenAccountAndMintTo, createTokenAccountAndMintTo2, loading,
+         getAssociatedTokenAddress,] as const;
 
 }
