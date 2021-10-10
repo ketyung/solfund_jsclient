@@ -69,18 +69,15 @@ export default function useToken(){
 
         const accSeed = seed + "Acc";
 
-        const mint = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
        
-
-        console.log("mint.xxx::", mint.toBase58());
-
         let rqLamports = await splToken.Token.getMinBalanceRentForExemptMint(connection);
 
-        console.log("reqLamports", (rqLamports / web3.LAMPORTS_PER_SOL).toFixed(9));
+       // console.log("reqLamports", (rqLamports / web3.LAMPORTS_PER_SOL).toFixed(9));
 
+        const mint = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+       
         let tx = new web3.Transaction();
         tx.add(
-            // 創建一個帳戶
             web3.SystemProgram.createAccountWithSeed({
                 fromPubkey: publicKey,
                 basePubkey : publicKey,
@@ -90,13 +87,12 @@ export default function useToken(){
                 lamports: rqLamports,
                 programId: splToken.TOKEN_PROGRAM_ID,
             }),
-            // 對帳戶做mint的初始化
             splToken.Token.createInitMintInstruction(
-                splToken.TOKEN_PROGRAM_ID, // program id, 通常固定是token program id
+                splToken.TOKEN_PROGRAM_ID, // program id,
                 mint, // mint account public key
                 5, // decimals
-                publicKey, // mint authority (增發幣的權限)
-                null // freeze authority (冷凍帳戶的權限，這邊我們先留null即可)
+                publicKey, // mint authority
+                null // freeze authority
             ),
 
         );
