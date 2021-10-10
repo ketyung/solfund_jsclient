@@ -67,9 +67,10 @@ export default function useToken(){
             return ;
         }
 
+        const accSeed = seed + "Acc";
+
         const mint = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
-        const mintAcc = await web3.PublicKey.createWithSeed(publicKey, seed + "Acc", 
-        splToken.TOKEN_PROGRAM_ID);
+        const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed,  splToken.TOKEN_PROGRAM_ID);
 
 
         console.log("mint.xxx::", mint.toBase58());
@@ -79,7 +80,7 @@ export default function useToken(){
         console.log("reqLamports", (rqLamports / web3.LAMPORTS_PER_SOL).toFixed(9));
 
         let tx = new web3.Transaction();
-
+        /**
         tx.add(
             // 創建一個帳戶
             web3.SystemProgram.createAccountWithSeed({
@@ -101,20 +102,28 @@ export default function useToken(){
             ),
 
         );
-      
-      
+       */
       
         tx.add(
 
+            /**
             web3.SystemProgram.createAccountWithSeed({
                 fromPubkey: publicKey,
                 basePubkey : publicKey,
-                seed: seed+"Acc",
+                seed: accSeed,
                 newAccountPubkey: mintAcc,
                 space: splToken.AccountLayout.span,
                 lamports: rqLamports ,
                 programId: splToken.TOKEN_PROGRAM_ID,
-            }),
+            }),*/
+
+            web3.SystemProgram.createAccount({
+                fromPubkey: publicKey,
+                newAccountPubkey: mintAcc,
+                space: splToken.AccountLayout.span,
+                lamports: rqLamports,
+                programId: splToken.TOKEN_PROGRAM_ID,
+              }),
 
             splToken.Token.createInitAccountInstruction(
                 splToken.TOKEN_PROGRAM_ID, // program id, 通常是固定值 (token program id)
@@ -123,7 +132,7 @@ export default function useToken(){
                 publicKey // 操作 token account 的權限 (如果token account需要授權，都需要此帳號簽名)
               )
        
-        ); 
+        );  
 
         let ata = await splToken.Token.getAssociatedTokenAddress(
             splToken.ASSOCIATED_TOKEN_PROGRAM_ID, // 通常是固定值, associated token program id
@@ -137,7 +146,7 @@ export default function useToken(){
         // continue to add associated token account as follows:
         // https://github.com/yihau/solana-web3-demo/blob/main/tour/create-token-account/main.ts
 
-      
+      /**
 
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: publicKey, isSigner: true, isWritable: false },
@@ -166,6 +175,7 @@ export default function useToken(){
             
     
         tx.add(mintTkWithRustIx);
+         */
         tx.feePayer = publicKey;
 
 
