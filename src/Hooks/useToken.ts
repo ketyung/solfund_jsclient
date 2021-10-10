@@ -178,9 +178,9 @@ export default function useToken(){
         
         const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
 
-        //let mint = await findAssociatedTokenAddress(publicKey, tokenKey);
+        let mint0 = await findAssociatedTokenAddress(publicKey, tokenKey);
     
-       // console.log("mint", mint.toBase58());
+        console.log("findAsso", mint0.toBase58());
 
        //let mint = splToken.Token.createMint(connection, wallet, 
        // publicKey, publicKey, 9, splToken.TOKEN_PROGRAM_ID);
@@ -196,9 +196,21 @@ export default function useToken(){
         });
 
       
+        // depcreated !???
+        //let mint = new web3.Account();
+
+        //console.log("mint.xx::", mint.publicKey.toBase58());
+
+        let mint3 = await splToken.Token.getAssociatedTokenAddress(SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+            splToken.TOKEN_PROGRAM_ID, tokenKey, publicKey);
+
+        
+        console.log("getAsso::", mint3.toBase58());
+
+
         const initTokenAccountIx =  splToken.Token.createInitAccountInstruction(
             splToken.TOKEN_PROGRAM_ID, // program id, always token program id
-            tokenKey, // mint
+            mint3, // mint
             tokenKey, // token account public key
             publicKey
         );
