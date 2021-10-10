@@ -68,11 +68,18 @@ export default function useToken(){
         }
 
         const mint = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+        const mintAcc = await web3.PublicKey.createWithSeed(publicKey, seed + "Acc", 
+        splToken.TOKEN_PROGRAM_ID);
 
 
         console.log("mint.xxx::", mint.toBase58());
 
+        let rqLamports = await splToken.Token.getMinBalanceRentForExemptMint(connection);
+
+        console.log("reqLamports", (rqLamports / web3.LAMPORTS_PER_SOL).toFixed(9));
+
         let tx = new web3.Transaction();
+
         tx.add(
             // 創建一個帳戶
             web3.SystemProgram.createAccountWithSeed({
@@ -81,18 +88,42 @@ export default function useToken(){
                 seed: seed,
                 newAccountPubkey: mint,
                 space: splToken.MintLayout.span,
-                lamports: await splToken.Token.getMinBalanceRentForExemptMint(connection),
+                lamports: rqLamports,
                 programId: splToken.TOKEN_PROGRAM_ID,
             }),
             // 對帳戶做mint的初始化
             splToken.Token.createInitMintInstruction(
                 splToken.TOKEN_PROGRAM_ID, // program id, 通常固定是token program id
                 mint, // mint account public key
-                9, // decimals
+                5, // decimals
                 publicKey, // mint authority (增發幣的權限)
                 null // freeze authority (冷凍帳戶的權限，這邊我們先留null即可)
-            )
+            ),
+
         );
+      
+      
+      
+        tx.add(
+
+            web3.SystemProgram.createAccountWithSeed({
+                fromPubkey: publicKey,
+                basePubkey : publicKey,
+                seed: seed+"Acc",
+                newAccountPubkey: mintAcc,
+                space: splToken.AccountLayout.span,
+                lamports: rqLamports ,
+                programId: splToken.TOKEN_PROGRAM_ID,
+            }),
+
+            splToken.Token.createInitAccountInstruction(
+                splToken.TOKEN_PROGRAM_ID, // program id, 通常是固定值 (token program id)
+                mint, // mint
+                mintAcc, // 要初始化的token account public key
+                publicKey // 操作 token account 的權限 (如果token account需要授權，都需要此帳號簽名)
+              )
+       
+        ); 
 
         let ata = await splToken.Token.getAssociatedTokenAddress(
             splToken.ASSOCIATED_TOKEN_PROGRAM_ID, // 通常是固定值, associated token program id
@@ -106,12 +137,12 @@ export default function useToken(){
         // continue to add associated token account as follows:
         // https://github.com/yihau/solana-web3-demo/blob/main/tour/create-token-account/main.ts
 
-        tx.feePayer = publicKey;
-
+      
 
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: publicKey, isSigner: true, isWritable: false },
-            { pubkey : mint, isSigner : false, isWritable : true}, // set mint as signer too!
+            { pubkey : mint, isSigner : false, isWritable : false}, 
+            { pubkey : mintAcc, isSigner : false, isWritable : true}, 
             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
            // { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: true},
         ];
@@ -135,7 +166,8 @@ export default function useToken(){
             
     
         tx.add(mintTkWithRustIx);
-    
+        tx.feePayer = publicKey;
+
 
         sendTxs(tx, (res : string | Error) =>  {
 
