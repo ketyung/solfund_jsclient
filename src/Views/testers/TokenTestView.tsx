@@ -10,7 +10,7 @@ import '../css/common.css';
 export const TokenTestView : React.FC = () => {
 
 
-    const [createAndMintToken, , tokenProcessing, getTokenAddress, createMint3] = useToken();
+    const [createAndMintToken, , tokenProcessing, getTokenAddress, createMint3, createMintOnly] = useToken();
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -77,7 +77,7 @@ export const TokenTestView : React.FC = () => {
               
               setModal2Presented(true);
 
-        }} >Create Mint 3</Button></p>
+        }} >Create Mint Only</Button></p>
 
         
         <p><Button className="commonButton" onClick={async ()=> {
@@ -113,7 +113,7 @@ export const TokenTestView : React.FC = () => {
        </Modal>
 
       
-       <Modal title="Create Mint 3"
+       <Modal title="Create Mint Only"
           style={{minWidth:"80%"}}
           visible={modal2Presented}
           onOk={async ()=>{
@@ -122,8 +122,10 @@ export const TokenTestView : React.FC = () => {
                //createAndMintToken(seed, tokenCount, completion);
 
                //createAndMintTk2(seed, tokenCount, completion  );
+
+               createMintOnly(tokenCount, completion);
                
-               createMint3(seed, tokenCount, completion);
+               //createMint3(seed, tokenCount, completion);
           }}
           onCancel={()=>{setModal2Presented(false);}}
           okButtonProps={{ disabled: false }}

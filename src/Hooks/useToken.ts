@@ -60,6 +60,86 @@ export default function useToken(){
 
 
 
+    async function createMintOnly(tokenCount : number, completionHandler : (result : boolean | Error) => void) {
+
+        if ( !publicKey){
+
+            return ;
+        }
+
+        let mint = web3.Keypair.generate();
+        console.log(`mint: ${mint.publicKey.toBase58()}`);
+
+        let tx = new web3.Transaction();
+        tx.add(
+            // 創建一個帳戶
+            web3.SystemProgram.createAccount({
+                fromPubkey: publicKey,
+                newAccountPubkey: mint.publicKey,
+                space: splToken.MintLayout.span,
+                lamports: await splToken.Token.getMinBalanceRentForExemptMint(connection),
+                programId: splToken.TOKEN_PROGRAM_ID,
+            }),
+            // 對帳戶做mint的初始化
+            splToken.Token.createInitMintInstruction(
+                splToken.TOKEN_PROGRAM_ID, // program id, 通常固定是token program id
+                mint.publicKey, // mint account public key
+                2, // decimals
+                publicKey, // mint authority (增發幣的權限)
+                null // freeze authority (冷凍帳戶的權限，這邊我們先留null即可)
+            )
+        );
+        tx.feePayer = publicKey;
+
+
+        let accounts : Array<web3.AccountMeta> = [
+            { pubkey: publicKey, isSigner: true, isWritable: false },
+            { pubkey : mint.publicKey, isSigner : true, isWritable : false}, // set mint as signer too!
+            { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+           // { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: true},
+        ];
+
+
+        const newInsArray : Uint8Array = new Uint8Array(9);
+            
+        newInsArray[0] = 1; // 2 is counter
+        let tbytes = num_to_u64(tokenCount);
+
+        for (var r=0; r < tbytes.length; r++){
+
+            newInsArray[1+r] = tbytes[r];
+        }
+
+        const dataBuffer = Buffer.from(newInsArray);
+
+
+        const mintTkWithRustIx = new web3.TransactionInstruction({
+            programId : myProgramId, keys: accounts, data: dataBuffer, });
+            
+    
+        tx.add(mintTkWithRustIx);
+    
+
+        sendTxs(tx, (res : string | Error) =>  {
+
+            if (res instanceof Error){
+    
+                completionHandler(res);
+                setLoading(false);
+    
+            }
+            else {
+    
+                completionHandler(true);
+                setLoading(false);        
+            }
+    
+        });
+
+        //let txhash = await CONNECTION.sendTransaction(tx, [mint, FEE_PAYER]);
+        //console.log(`txhash: ${txhash}`);
+    }
+
 
     async function createMint3(seed : string, tokenCount : number,
         completionHandler : (result : boolean | Error) => void ){
@@ -70,6 +150,8 @@ export default function useToken(){
 
         }
 
+
+      //  const mint3 = splToken.Token.createMint()
 
         const mint = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
 
@@ -366,6 +448,6 @@ export default function useToken(){
     
 
     return [createTokenAccountAndMintTo, createTokenAccountAndMintTo2, loading,
-         getAssociatedTokenAddress,createMint3] as const;
+         getAssociatedTokenAddress,createMint3, createMintOnly] as const;
 
 }
