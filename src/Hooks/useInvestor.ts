@@ -4,12 +4,11 @@ import {programId, MODULE_INVESTOR, ACTION_CREATE} from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
 import { createInvestorBytes, extract_fund_pool_investor } from '../state';
 import { FundPoolInvestor } from '../state';
+import { INVESTOR_POOL_ID } from './Keys';
 
 export default function useInvestor(){
 
     const [connection, publicKey, , , loading, setLoading, sendTxs] = useSolana();
-
-    const INVESTOR_POOL_ID : string = "INVESTOR_POOL";
 
     function genSeed() : string {
 

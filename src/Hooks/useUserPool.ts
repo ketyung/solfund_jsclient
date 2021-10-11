@@ -2,14 +2,13 @@ import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId} from './useSolana';
 import { extract_user_pool, UserPool } from '../state';
-
+import { UserPoolID } from './Keys';
 
 export default function useUserPool(){
 
     const [connection, publicKey, , createAccount, loading, setLoading] = useSolana();
 
-    const UserPoolID : string = "THE_MGR_USR_POOL";
-
+    
     async function userPoolIdPubKey(id : string | null) : Promise<web3.PublicKey> {
 
         if ( !publicKey) {

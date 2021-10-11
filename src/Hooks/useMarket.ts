@@ -3,32 +3,25 @@ import {programId, MODULE_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './u
 import useSolana from './useSolana';
 import { extract_market, Market} from '../state';
 import { SolUtil } from '../utils/SolUtil';
-
-export const POOL_MARKET_KEY =
- "7wJhA8QwrU8BKLS3LNv4mgX8JCidS2wEEVTz3yt6ZUSL";
-
- // old 
-// "9jGazEpw8agjChuRE5LPKv3HACtsm8fFcrgBcNquoTsz";
-
+import { MARKET_SEED_ID } from './Keys';
 
 
 export default function useMarket(){
 
     const [connection, publicKey, , , loading, setLoading, sendTxs] = useSolana();
 
-    const ID : string = "__MARKET";
-
+   
     async function poolMarketIdPubKey() : Promise<web3.PublicKey> {
 
         if ( !publicKey) {
 
             let kp = web3.Keypair.generate();
 
-            return await web3.PublicKey.createWithSeed( kp.publicKey, ID, programId);
+            return await web3.PublicKey.createWithSeed( kp.publicKey, MARKET_SEED_ID, programId);
 
         }
 
-        return await web3.PublicKey.createWithSeed(publicKey, ID, programId);
+        return await web3.PublicKey.createWithSeed(publicKey, MARKET_SEED_ID, programId);
 
     }
 
@@ -53,7 +46,7 @@ export default function useMarket(){
         // create only when it's null
         if ( acc == null ){
 
-            let marketKey = await web3.PublicKey.createWithSeed(publicKey, ID, programId);
+            let marketKey = await web3.PublicKey.createWithSeed(publicKey, MARKET_SEED_ID, programId);
     
             const lp = await connection.getMinimumBalanceForRentExemption(size) ;
 
@@ -61,7 +54,7 @@ export default function useMarket(){
                 web3.SystemProgram.createAccountWithSeed({
                 fromPubkey: publicKey,
                 basePubkey: publicKey,
-                seed: ID,
+                seed: MARKET_SEED_ID,
                 newAccountPubkey: marketKey,
                 lamports: lp, space: size ,programId,
                 }),
