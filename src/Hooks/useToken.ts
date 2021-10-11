@@ -70,16 +70,10 @@ export default function useToken(){
         const accSeed = seed + "Acc";
 
        
-        let rqLamports = await splToken.Token.getMinBalanceRentForExemptMint(connection);
-
-       // console.log("reqLamports", (rqLamports / web3.LAMPORTS_PER_SOL).toFixed(9));
-
+      
        const mint = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
        //const mint = new web3.PublicKey("7ik9MMH8yrAtxACHp6NkdzzJ4C3Gkgzw4xrv6YLHwGGa");
        let tx = new web3.Transaction();
-
-
-      
 
    
         tx.add(
@@ -89,7 +83,7 @@ export default function useToken(){
                 seed: seed,
                 newAccountPubkey: mint,
                 space: splToken.MintLayout.span,
-                lamports: rqLamports,
+                lamports: await splToken.Token.getMinBalanceRentForExemptMint(connection),
                 programId: splToken.TOKEN_PROGRAM_ID,
             }),
             splToken.Token.createInitMintInstruction(
@@ -113,18 +107,25 @@ export default function useToken(){
                 seed: accSeed,
                 newAccountPubkey: mintAcc,
                 space: splToken.AccountLayout.span,
-                lamports: rqLamports ,
+                lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection) ,
                 programId: splToken.TOKEN_PROGRAM_ID,
             }),
+            
             splToken.Token.createInitAccountInstruction(
                 splToken.TOKEN_PROGRAM_ID, 
                 mint, // mint
                 mintAcc, // token account public key
                 publicKey  // signer 
-              )
-       
+              ),
+           
+                /** 
+              splToken.Token.createAssociatedTokenAccountInstruction(splToken.ASSOCIATED_TOKEN_PROGRAM_ID,
+                splToken.TOKEN_PROGRAM_ID, mint, mintAcc, publicKey, publicKey)*/
+        
         );   
       
+
+        
         let ata = await splToken.Token.getAssociatedTokenAddress(
             splToken.ASSOCIATED_TOKEN_PROGRAM_ID, // 通常是固定值, associated token program id
             splToken.TOKEN_PROGRAM_ID, // 通常是固定值, token program id
