@@ -1,5 +1,5 @@
 /**
- * Note - this is just the small part for testing
+ * Note - this is just the small part for me to test and understand
  * the Rust on-chain program for creating, minting spl token
  * By Christopher K Y Chee (ketyung@techchee.com)
  */
