@@ -97,6 +97,9 @@ export default function useToken(){
         );
     
 
+        //let fundAcc = new web3.PublicKey("97sWPorA4XXuf4GYzhSFEmPpFWQQKi2nPR4qxnRku3Ss");
+
+
         const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed,  splToken.TOKEN_PROGRAM_ID);
       
         const acc = await connection.getAccountInfo(mintAcc);
