@@ -75,7 +75,8 @@ export default function useToken(){
        //const mint = new web3.PublicKey("7ik9MMH8yrAtxACHp6NkdzzJ4C3Gkgzw4xrv6YLHwGGa");
        let tx = new web3.Transaction();
 
-   
+        console.log("mint", mint.toBase58());
+        
         tx.add(
             web3.SystemProgram.createAccountWithSeed({
                 fromPubkey: publicKey,
@@ -98,7 +99,6 @@ export default function useToken(){
     
 
         //let fundAcc = new web3.PublicKey("97sWPorA4XXuf4GYzhSFEmPpFWQQKi2nPR4qxnRku3Ss");
-
 
         const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed,  splToken.TOKEN_PROGRAM_ID);
       
@@ -126,25 +126,26 @@ export default function useToken(){
                     publicKey  // signer 
                 ),
         
-                    /** 
-                 splToken.Token.createAssociatedTokenAccountInstruction(splToken.ASSOCIATED_TOKEN_PROGRAM_ID,
-                    splToken.TOKEN_PROGRAM_ID, mint, mintAcc, publicKey, publicKey)*/
             
             );   
         
             console.log("need2CreateAcc", mintAcc.toBase58());
         }
+        
+            /** 
+        splToken.Token.createAssociatedTokenAccountInstruction(splToken.ASSOCIATED_TOKEN_PROGRAM_ID,
+            splToken.TOKEN_PROGRAM_ID, mint, mintAcc, publicKey, publicKey)*/
 
-        /**        
+            /**
         let ata = await splToken.Token.getAssociatedTokenAddress(
             splToken.ASSOCIATED_TOKEN_PROGRAM_ID, // associated token program id
             splToken.TOKEN_PROGRAM_ID, // token program id
             mint, // mint
             publicKey // token account auth 
         );
-        console.log("ata::", ata.toBase58());
-         */
-
+       
+        console.log("ata::", ata.toBase58()); */
+      
         /** // use the Rust side to mint intead!
         tx.add(
             splToken.Token.createMintToInstruction(
