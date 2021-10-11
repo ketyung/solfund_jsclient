@@ -96,9 +96,17 @@ export default function useInvestor(){
             return; 
         }
 
+        if ( fundPool.token_pda.toBase58() === web3.PublicKey.default.toBase58()){
+
+            completionHandler(new Error("Some required token info is missing!"));
+            setLoading(false);
+            return;
+        }
+
+
         setLoading(true);
 
-
+        
         // check if the fund pool address exists 
         let fundPoolAcc = await connection.getAccountInfo(fundPool.address);
         if ( fundPoolAcc == null){
@@ -135,6 +143,8 @@ export default function useInvestor(){
             );
 
             allTxs.add(createInvPoolAccTx);
+
+        
         }
 
 
@@ -153,6 +163,7 @@ export default function useInvestor(){
             }),
         );
 
+            
         allTxs.add(createInvAccTx);
        
         let investor_data : Uint8Array = createInvestorBytes( 112, 
@@ -173,6 +184,8 @@ export default function useInvestor(){
 
         ];
 
+
+        
         addRequiredTokenInsAndAccs(seed, fundPool.token_mint,
             fundPool.token_account, fundPool.token_pda, allTxs, accounts);
 
