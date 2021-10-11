@@ -12,6 +12,7 @@ import { ManagerPoolPage } from './Views/pages/ManagerPoolPage';
 import { TokenTestView } from './Views/testers/TokenTestView';
 import { AboutPage } from './Views/pages/AboutPage';
 import {Wallet} from './Views/components/Wallet';
+import {programId} from './Hooks/useSolana';
 
 function App() {
 
@@ -106,7 +107,10 @@ function App() {
         </ConnectionProvider>
 
         <div className="footer">
-          CopyRight 2021 - Solfund
+          CopyRight 2021 - Solfund&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a 
+          target="_blank" style={{color:"#aaf"}}
+          href={"https://solscan.io/account/"+programId
+          +"?cluster=devnet"}>View Transactions</a>
         </div>
     </div>
   );
