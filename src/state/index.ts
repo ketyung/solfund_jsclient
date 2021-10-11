@@ -128,24 +128,32 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
 
     let manager = new web3.PublicKey( data.slice(1, 33) );
     let address = new web3.PublicKey (data.slice(33,65) );
-    let token_address = new web3.PublicKey (data.slice(65,97) );
+
+    //manager, address, token_mint, 
+      //  token_account, token_pda,
+
+
+    let token_mint = new web3.PublicKey (data.slice(65,97) );
+    let token_account = new web3.PublicKey (data.slice(97,129) );
+    let token_pda = new web3.PublicKey (data.slice(129,161) );
+    
     let lamports = accountLamports;
 
-    let fee_in_lamports = Buffer.from ( data.slice(97, 105)).readUInt32LE(0);
-    let token_count = Buffer.from ( data.slice(105, 113)).readUInt32LE(0);
-    let rm_token_count =  Buffer.from ( data.slice(113, 121)).readUInt32LE(0);
-    let token_to_sol_ratio =  (Buffer.from ( data.slice(121, 129)).readUInt32LE(0)) / web3.LAMPORTS_PER_SOL;
+    let fee_in_lamports = Buffer.from ( data.slice(161, 169)).readUInt32LE(0);
+    let token_count = Buffer.from ( data.slice(169, 177)).readUInt32LE(0);
+    let rm_token_count =  Buffer.from ( data.slice(177, 185)).readUInt32LE(0);
+    let token_to_sol_ratio =  (Buffer.from ( data.slice(185, 193)).readUInt32LE(0)) / web3.LAMPORTS_PER_SOL;
     
-    let is_finalized = Buffer.from( data.slice(129, 130) ).readUInt8(0) === 1 ? true : false ;
-    let icon = Buffer.from( data.slice(130 , 132) ).readUInt16LE(0);
+    let is_finalized = Buffer.from( data.slice(193, 194) ).readUInt8(0) === 1 ? true : false ;
+    let icon = Buffer.from( data.slice(194 , 196) ).readUInt16LE(0);
     
-    let invs_len = Buffer.from( data.slice(132 , 133) ).readUInt8(0);
-    let wds_len = Buffer.from( data.slice(133 , 134) ).readUInt8(0);
+    let invs_len = Buffer.from( data.slice(196 , 197) ).readUInt8(0);
+    let wds_len = Buffer.from( data.slice(197 , 198) ).readUInt8(0);
     
     //console.log("icon", icon);
     //console.log("is_final", is_finalized);
     
-    let e1 = (invs_len * 80) + 134;  
+    let e1 = (invs_len * 80) + 198;  
     let invs = data.slice(134, e1 );
     let wds = data.slice(e1 , e1 + (wds_len * 80) );
     
@@ -218,7 +226,9 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
    
     let f =  new  FundPool( { manager : manager, 
         address: address,
-        token_address : token_address, 
+        token_mint : token_mint,
+        token_account : token_account,
+        token_pda : token_pda, 
         lamports : Number(lamports),
         fee_in_lamports : Number(fee_in_lamports),
         token_count : Number(token_count),
@@ -248,7 +258,6 @@ export const createInvestorBytes = (
     investor : web3.PublicKey, 
     pool_address : web3.PublicKey, 
     address : web3.PublicKey, 
-    token_address : web3.PublicKey, 
     amount : number, 
     token_count : number) => {
 
@@ -288,15 +297,6 @@ export const createInvestorBytes = (
         }
 
         offset += addrbytes.length; 
-
-        const tkbytes = token_address.toBytes();
-
-        for (r=0; r < tkbytes.length; r++){
-
-            newInsArray[offset+r] = tkbytes[r];
-        }
-
-        offset += tkbytes.length; 
 
         let lbytes = num_to_u64(amount);
 
@@ -488,7 +488,11 @@ export class FundPool {
 
     address : web3.PublicKey = web3.PublicKey.default ;
 
-    token_address : web3.PublicKey = web3.PublicKey.default ;
+    token_mint : web3.PublicKey = web3.PublicKey.default ;
+
+    token_account : web3.PublicKey = web3.PublicKey.default ;
+
+    token_pda : web3.PublicKey = web3.PublicKey.default ;
 
     lamports : number = 0;
 
@@ -512,7 +516,9 @@ export class FundPool {
     constructor ( pool : {
         manager : web3.PublicKey, 
         address  : web3.PublicKey,
-        token_address  : web3.PublicKey,
+        token_mint  : web3.PublicKey,
+        token_account  : web3.PublicKey,
+        token_pda  : web3.PublicKey,
         lamports : number,
         fee_in_lamports : number , 
         token_count : number,
@@ -529,7 +535,9 @@ export class FundPool {
 
             this.manager = pool.manager;
             this.address = pool.address;
-            this.token_address = pool.token_address; 
+            this.token_mint = pool.token_mint;
+            this.token_account = pool.token_account;
+            this.token_pda = pool.token_pda;
             this.lamports = pool.lamports;
             this.fee_in_lamports = pool.fee_in_lamports; 
             this.token_count = pool.token_count;

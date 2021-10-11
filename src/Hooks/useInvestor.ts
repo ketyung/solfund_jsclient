@@ -153,9 +153,9 @@ export default function useInvestor(){
 
         allTxs.add(createInvAccTx);
        
-        let investor_data : Uint8Array = createInvestorBytes( size, 
+        let investor_data : Uint8Array = createInvestorBytes( 112, 
             publicKey, fundPoolAddress, investorAccKey, 
-            web3.PublicKey.default, (amount * web3.LAMPORTS_PER_SOL), tokenCount);
+            (amount * web3.LAMPORTS_PER_SOL), tokenCount);
        
        // console.log("amount", amount);
 
@@ -197,7 +197,15 @@ export default function useInvestor(){
 
 
 
-    
+    /**
+     * 
+     *   let pool_token_account = next_account_info(account_info_iter)?; 
+    let investor_token_account = next_account_info(account_info_iter)?;
+    let pool_token_pda = next_account_info(account_info_iter)?;
+    let token_program = next_account_info(account_info_iter)?;
+  
+     */
+
 
 
     return [addInvestor,  investorPoolPubkey, loading, read] as const;
