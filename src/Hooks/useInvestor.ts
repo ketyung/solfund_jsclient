@@ -4,7 +4,7 @@ import {programId, MODULE_INVESTOR, ACTION_CREATE} from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
 import { createInvestorBytes, extract_fund_pool_investor } from '../state';
 import { FundPoolInvestor } from '../state';
-import { INVESTOR_POOL_ID } from './Keys';
+import { INVESTOR_POOL_ID } from '../utils/Keys';
 
 export default function useInvestor(){
 

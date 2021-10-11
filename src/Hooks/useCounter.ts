@@ -3,6 +3,8 @@ import useSolana from './useSolana';
 import {programId} from './useSolana';
 /**
  * This is not needed anymore, will remove in the future
+ * It was meant for the testing in those early days
+ * for understanding how the solana account works
  * ketyung@techchee.com
  */
 

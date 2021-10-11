@@ -3,7 +3,7 @@ import {programId, MODULE_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './u
 import useSolana from './useSolana';
 import { extract_market, Market} from '../state';
 import { SolUtil } from '../utils/SolUtil';
-import { MARKET_SEED_ID } from './Keys';
+import { MARKET_SEED_ID } from '../utils/Keys';
 
 
 export default function useMarket(){

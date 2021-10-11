@@ -1,6 +1,8 @@
 /**
- * Note - this is just the small part for me to test and understand
- * the Rust on-chain program for creating, minting spl token
+ * Note - useToken is just a custom react hook for me to test and understand
+ * and communicate with the Rust on-chain program for creating, minting spl token
+ * It used on the TokenTestView which is meant for testing only, will be
+ * removed in the future 
  * By Christopher K Y Chee (ketyung@techchee.com)
  */
 
