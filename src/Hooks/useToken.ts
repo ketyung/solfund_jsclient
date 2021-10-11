@@ -99,41 +99,50 @@ export default function useToken(){
 
         const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed,  splToken.TOKEN_PROGRAM_ID);
       
-        tx.add(
- 
-            web3.SystemProgram.createAccountWithSeed({
-                fromPubkey: publicKey,
-                basePubkey : publicKey,
-                seed: accSeed,
-                newAccountPubkey: mintAcc,
-                space: splToken.AccountLayout.span,
-                lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection) ,
-                programId: splToken.TOKEN_PROGRAM_ID,
-            }),
-            
-            splToken.Token.createInitAccountInstruction(
-                splToken.TOKEN_PROGRAM_ID, 
-                mint, // mint
-                mintAcc, // token account public key
-                publicKey  // signer 
-              ),
-           
-                /** 
-              splToken.Token.createAssociatedTokenAccountInstruction(splToken.ASSOCIATED_TOKEN_PROGRAM_ID,
-                splToken.TOKEN_PROGRAM_ID, mint, mintAcc, publicKey, publicKey)*/
-        
-        );   
-      
+        const acc = await connection.getAccountInfo(mintAcc);
 
+        if ( acc === null){
+
+
+            tx.add(
+    
+                web3.SystemProgram.createAccountWithSeed({
+                    fromPubkey: publicKey,
+                    basePubkey : publicKey,
+                    seed: accSeed,
+                    newAccountPubkey: mintAcc,
+                    space: splToken.AccountLayout.span,
+                    lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection) ,
+                    programId: splToken.TOKEN_PROGRAM_ID,
+                }),
+
+                splToken.Token.createInitAccountInstruction(
+                    splToken.TOKEN_PROGRAM_ID, 
+                    mint, // mint
+                    mintAcc, // token account public key
+                    publicKey  // signer 
+                ),
         
+                    /** 
+                 splToken.Token.createAssociatedTokenAccountInstruction(splToken.ASSOCIATED_TOKEN_PROGRAM_ID,
+                    splToken.TOKEN_PROGRAM_ID, mint, mintAcc, publicKey, publicKey)*/
+            
+            );   
+        
+            console.log("need2CreateAcc", mintAcc.toBase58());
+        }
+
+        /**        
         let ata = await splToken.Token.getAssociatedTokenAddress(
-            splToken.ASSOCIATED_TOKEN_PROGRAM_ID, // 通常是固定值, associated token program id
-            splToken.TOKEN_PROGRAM_ID, // 通常是固定值, token program id
+            splToken.ASSOCIATED_TOKEN_PROGRAM_ID, // associated token program id
+            splToken.TOKEN_PROGRAM_ID, // token program id
             mint, // mint
-            publicKey // token account auth (擁有token account權限的人)
+            publicKey // token account auth 
         );
         console.log("ata::", ata.toBase58());
-        
+         */
+
+        /**
         tx.add(
             splToken.Token.createMintToInstruction(
               splToken.TOKEN_PROGRAM_ID, // 通常是固定值, token program id
@@ -143,13 +152,9 @@ export default function useToken(){
               [], // 如果auth是mutiple singer才需要，這邊我們先留空
               tokenCount * 1e9 // 要增發的數量 隨意帶 不過要記得這邊是最小單位 也就是說decimals如果是9 想要mint出1顆來就得帶1e9
             )
-          );
+          ); */
 
-        // continue to add associated token account as follows:
-        // https://github.com/yihau/solana-web3-demo/blob/main/tour/create-token-account/main.ts
-
-      /**
-
+        // use rust to mint!
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: publicKey, isSigner: true, isWritable: false },
             { pubkey : mint, isSigner : false, isWritable : false}, 
@@ -162,7 +167,7 @@ export default function useToken(){
         const newInsArray : Uint8Array = new Uint8Array(9);
             
         newInsArray[0] = 1; // 2 is counter
-        let tbytes = num_to_u64(tokenCount);
+        let tbytes = num_to_u64(tokenCount * 1e9);
 
         for (var r=0; r < tbytes.length; r++){
 
@@ -177,7 +182,6 @@ export default function useToken(){
             
     
         tx.add(mintTkWithRustIx);
-         */
         tx.feePayer = publicKey;
 
 
