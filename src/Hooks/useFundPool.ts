@@ -5,7 +5,7 @@ import { SolUtil } from '../utils/SolUtil';
 import { createFundPoolBytes, FundPool, extract_fund_pool } from '../state';
 import { POOL_MARKET_KEY } from './Keys';
 import useuserPool from'./useUserPool';
-// import * as splToken from "@solana/spl-token";
+import * as splToken from "@solana/spl-token";
    
 export default function useFundPool(){
 
@@ -149,6 +149,85 @@ export default function useFundPool(){
         }
 
     }
+
+
+
+    async function addTokenIxs(seed : string, 
+        tx : web3.Transaction, accounts : Array<web3.AccountMeta>) {
+
+        if ( !publicKey)
+        {
+            return ;
+        }
+
+        const mint = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+       
+
+        tx.add(
+            web3.SystemProgram.createAccountWithSeed({
+                fromPubkey: publicKey,
+                basePubkey : publicKey,
+                seed: seed,
+                newAccountPubkey: mint,
+                space: splToken.MintLayout.span,
+                lamports: await splToken.Token.getMinBalanceRentForExemptMint(connection),
+                programId: splToken.TOKEN_PROGRAM_ID,
+            }),
+            splToken.Token.createInitMintInstruction(
+                splToken.TOKEN_PROGRAM_ID, // program id,
+                mint, // mint account public key
+                9, // decimals
+                publicKey, // mint authority
+                null // freeze authority
+            ),
+
+        );
+
+        const accSeed = seed + "Acc";
+
+        const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed,  splToken.TOKEN_PROGRAM_ID);
+      
+        const acc = await connection.getAccountInfo(mintAcc);
+
+        if ( acc === null){
+
+
+            tx.add(
+    
+                web3.SystemProgram.createAccountWithSeed({
+                    fromPubkey: publicKey,
+                    basePubkey : publicKey,
+                    seed: accSeed,
+                    newAccountPubkey: mintAcc,
+                    space: splToken.AccountLayout.span,
+                    lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection) ,
+                    programId: splToken.TOKEN_PROGRAM_ID,
+                }),
+
+                splToken.Token.createInitAccountInstruction(
+                    splToken.TOKEN_PROGRAM_ID, 
+                    mint, // mint
+                    mintAcc, // token account public key
+                    publicKey  // signer 
+                ),
+        
+            
+            );   
+        
+        //    console.log("need2CreateAcc", mintAcc.toBase58());
+        }
+       
+        accounts.push(
+
+            { pubkey : mint, isSigner : false, isWritable : false}, 
+            { pubkey : mintAcc, isSigner : false, isWritable : true}, 
+            { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+         
+        );
+
+
+    
+    }
     
 
     async function createFundPool(fee_in_lamports : number, token_count : number, 
@@ -165,30 +244,10 @@ export default function useFundPool(){
         genLastSeed();
         let lastSeed = getStoredLastSeed();
 
-        
-        /**
-        let tkSeed = "TK"+lastSeed;
-
-        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, tkSeed, splToken.TOKEN_PROGRAM_ID);
-
-        console.log("tokenKey", tokenKey.toBase58());
-
-
-        const createTokenAccountIx = web3.SystemProgram.createAccount({
-            programId: splToken.TOKEN_PROGRAM_ID,
-            space: splToken.AccountLayout.span,
-            lamports: await connection.getMinimumBalanceForRentExemption(
-                splToken.AccountLayout.span, 'singleGossip'),
-            fromPubkey: publicKey, // initializer 
-            newAccountPubkey: tokenKey
-        });
- */
-        let tokenKey = web3.PublicKey.default;
-       
 
         let fundPoolAccKey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
     
-        let accDataSize : number  = 132 + (80 * 100) + (80 *100) + 2; // hard-coded first 
+        let accDataSize : number  = 196 + (80 * 100) + (80 *100) + 2; // hard-coded first 
  
         const acLp = await connection.getMinimumBalanceForRentExemption(accDataSize) ;
 
@@ -212,24 +271,20 @@ export default function useFundPool(){
             { pubkey: userPoolPKey, isSigner: false, isWritable: true },
             { pubkey: new web3.PublicKey(POOL_MARKET_KEY), isSigner: false, isWritable: true },
             { pubkey: publicKey, isSigner: true, isWritable: false },
-            { pubkey : tokenKey, isSigner : false, isWritable : true} // pass the last one as the token account 
         ];
         
         
     
         let fund_pool_data : Uint8Array = createFundPoolBytes( 
-            publicKey, fundPoolAccKey, tokenKey,  fee_in_lamports, token_count, 
+            publicKey, fundPoolAccKey, fee_in_lamports, token_count, 
             token_to_sol_ratio, is_finalized, icon);
         let data = SolUtil.createBuffer(fund_pool_data,ACTION_CREATE,MODULE_FUND_POOL);
 
-        const createFpTxIns = new web3.TransactionInstruction({
-        programId, keys: accounts,data: data, });
-    
+     
         const allTxs = new web3.Transaction();
         
-        // add here for the createTokenAccount, initialize token acc, and transfer the token numbers to acc
-       // allTxs.add(createTokenAccountIx);//, initTokenAccountIx, txTokensToAccountIx);
-
+    
+        // add create manager pool ix if null
         let upAcc = await connection.getAccountInfo(userPoolPKey);
         if (upAcc == null ){
 
@@ -248,9 +303,22 @@ export default function useFundPool(){
             allTxs.add(createMpAccTx);
         }
         
-        
+        // add create fund pool account ix
         allTxs.add(
             createFundPoolAccTx,
+        );
+
+        // add the required token mint & account
+        await addTokenIxs("Tk_"+lastSeed, allTxs, accounts );
+
+        //console.log("accounts:", accounts);
+
+        // add the instruction for executing the Rust program
+
+        const createFpTxIns = new web3.TransactionInstruction({
+            programId, keys: accounts,data: data, });
+        
+        allTxs.add(
             new web3.Transaction().add(createFpTxIns), 
         );
 
