@@ -153,7 +153,8 @@ export default function useFundPool(){
 
 
     async function addRequiredTokenIxsAndAccs(seed : string, 
-        tx : web3.Transaction, accounts : Array<web3.AccountMeta>) {
+        tx : web3.Transaction, 
+        accounts : Array<web3.AccountMeta>) {
 
         if ( !publicKey)
         {

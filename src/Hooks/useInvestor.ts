@@ -5,6 +5,8 @@ import { SolUtil } from '../utils/SolUtil';
 import { createInvestorBytes, extract_fund_pool_investor } from '../state';
 import { FundPoolInvestor, FundPool } from '../state';
 import { INVESTOR_POOL_ID } from '../utils/Keys';
+import * as splToken from "@solana/spl-token";
+
 
 export default function useInvestor(){
 
@@ -171,6 +173,9 @@ export default function useInvestor(){
 
         ];
 
+        addRequiredTokenInsAndAccs(seed, fundPool.token_mint,
+            fundPool.token_account, fundPool.token_pda, allTxs, accounts);
+
         const addInvIx = new web3.TransactionInstruction({programId, 
             keys: accounts, data: data, });
 
@@ -197,14 +202,73 @@ export default function useInvestor(){
 
 
 
-    /**
-     * 
-     *   let pool_token_account = next_account_info(account_info_iter)?; 
-    let investor_token_account = next_account_info(account_info_iter)?;
-    let pool_token_pda = next_account_info(account_info_iter)?;
-    let token_program = next_account_info(account_info_iter)?;
-  
+   
+    async function addRequiredTokenInsAndAccs(seed : string, 
+        mint : web3.PublicKey, 
+        poolTokenAccount : web3.PublicKey,
+        poolTokenPda : web3.PublicKey, 
+        tx : web3.Transaction, 
+        accounts : Array<web3.AccountMeta>){
+
+        if ( !publicKey){
+
+            return ;
+        }
+
+        const accSeed = seed + "Acc";
+
+        const receiverTokenAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed,  splToken.TOKEN_PROGRAM_ID);
+      
+        const acc = await connection.getAccountInfo(receiverTokenAcc);
+
+        if ( acc === null){
+
+            tx.add(
+    
+                web3.SystemProgram.createAccountWithSeed({
+                    fromPubkey: publicKey,
+                    basePubkey : publicKey,
+                    seed: accSeed,
+                    newAccountPubkey: receiverTokenAcc,
+                    space: splToken.AccountLayout.span,
+                    lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection) ,
+                    programId: splToken.TOKEN_PROGRAM_ID,
+                }),
+
+                splToken.Token.createInitAccountInstruction(
+                    splToken.TOKEN_PROGRAM_ID, 
+                    mint, // mint
+                    receiverTokenAcc, // token account public key
+                    publicKey  // signer 
+                ),
+        
+            
+            );   
+        
+        }
+
+         /**
+        Order in RUST 
+        let pool_token_account = next_account_info(account_info_iter)?; 
+        let investor_token_account = next_account_info(account_info_iter)?;
+        let pool_token_pda = next_account_info(account_info_iter)?;
+        let token_program = next_account_info(account_info_iter)?;
      */
+
+        accounts.push(
+
+            { pubkey : poolTokenAccount, isSigner : false, isWritable : true}, 
+            { pubkey : receiverTokenAcc, isSigner : false, isWritable : true}, 
+            { pubkey : poolTokenPda, isSigner : false, isWritable : false}, 
+            { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+         
+        );
+
+
+
+       
+    }
+
 
 
 

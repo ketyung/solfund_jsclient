@@ -6,7 +6,7 @@ import * as web3 from '@solana/web3.js';
  * therefore I wrote my own extract_xxx functions to extract each array
  * of bytes of each field in any account such as Market, UserPool, FundPool etc
  * 
- * ketyung@techchee.com
+ * Christopher K Y Chee (ketyung@techchee.com)
  */
 
 
