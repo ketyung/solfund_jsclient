@@ -59,8 +59,127 @@ export default function useToken(){
     }
 
 
+    async function txTo(mintStr : string, accSeed : string,  
+    tokenAcc : string, pdaAcc : string, 
+    
+    tokenCount : number,completionHandler : (result : boolean | Error) => void){
 
-    async function createAndMintTo(seed : string, tokenCount : number, completionHandler : (result : boolean | Error) => void) {
+        if ( !publicKey){
+
+            return ;
+        }
+
+        let mint = new web3.PublicKey(mintStr);
+
+        let tx = new web3.Transaction();
+
+        const receiverAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed,  splToken.TOKEN_PROGRAM_ID);
+      
+        const acc = await connection.getAccountInfo(receiverAcc);
+
+        if ( acc === null){
+
+
+            tx.add(
+    
+                web3.SystemProgram.createAccountWithSeed({
+                    fromPubkey: publicKey,
+                    basePubkey : publicKey,
+                    seed: accSeed,
+                    newAccountPubkey: receiverAcc,
+                    space: splToken.AccountLayout.span,
+                    lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection) ,
+                    programId: splToken.TOKEN_PROGRAM_ID,
+                }),
+
+                splToken.Token.createInitAccountInstruction(
+                    splToken.TOKEN_PROGRAM_ID, 
+                    mint, // mint
+                    receiverAcc, // token account public key
+                    publicKey  // signer 
+                ),
+        
+            
+            );   
+        
+            console.log("need2CreateAcc", receiverAcc.toBase58());
+        }
+
+        /* From Rust side 
+           let signer_account = next_account_info(account_info_iter)?;
+    let receiver_account = next_account_info(account_info_iter)?; 
+    let token_account = next_account_info(account_info_iter)?; 
+    let token_program = next_account_info(account_info_iter)?;
+
+        */
+
+        let tokenAccount = new web3.PublicKey(tokenAcc);
+        let pdaAccount = new web3.PublicKey(pdaAcc);
+
+        let accounts : Array<web3.AccountMeta> = [
+            { pubkey: pdaAccount, isSigner: false, isWritable: false },
+            { pubkey : receiverAcc, isSigner : false, isWritable : true}, 
+            { pubkey : tokenAccount, isSigner : false, isWritable : true}, 
+            { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+            { pubkey: publicKey, isSigner: true, isWritable: false },
+        
+           // { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: true},
+        ];
+
+
+        const newInsArray : Uint8Array = new Uint8Array(9);
+            
+        newInsArray[0] = 2; 
+        let tbytes = num_to_u64(tokenCount * 1e9);
+
+        for (var r=0; r < tbytes.length; r++){
+
+            newInsArray[1+r] = tbytes[r];
+        }
+
+        const dataBuffer = Buffer.from(newInsArray);
+
+
+        const txRustIx = new web3.TransactionInstruction({
+            programId : myProgramId, keys: accounts, data: dataBuffer, });
+
+        tx.add(txRustIx);
+        tx.feePayer = publicKey;
+
+
+        sendTxs(tx, (res : string | Error) =>  {
+
+            if (res instanceof Error){
+    
+                completionHandler(res);
+                setLoading(false);
+    
+            }
+            else {
+    
+                let acc = connection.getAccountInfo(mint);
+                if (acc){
+
+                    acc.then( d =>{
+
+                        console.log("acc.owner::", d?.owner.toBase58(), "lamports", d?.lamports);
+                    });
+
+                    console.log("acc::", acc);
+                }
+                
+                completionHandler(true);
+                setLoading(false);        
+            }
+    
+        });
+
+        
+    }
+
+
+    async function createAndMintTo(seed : string, tokenCount : number, 
+        completionHandler : (result : boolean | Error) => void) {
 
         if ( !publicKey){
 
@@ -164,13 +283,14 @@ export default function useToken(){
             { pubkey : mint, isSigner : false, isWritable : false}, 
             { pubkey : mintAcc, isSigner : false, isWritable : true}, 
             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+         
            // { pubkey: web3.SYSVAR_RENT_PUBKEY, isSigner: false, isWritable: true},
         ];
 
 
         const newInsArray : Uint8Array = new Uint8Array(9);
             
-        newInsArray[0] = 1; // 2 is counter
+        newInsArray[0] = 1; // 2 is transfer
         let tbytes = num_to_u64(tokenCount * 1e9);
 
         for (var r=0; r < tbytes.length; r++){
@@ -223,6 +343,6 @@ export default function useToken(){
 
     
 
-    return [createAndMintTo, loading, getAssociatedTokenAddress] as const;
+    return [createAndMintTo, loading, getAssociatedTokenAddress,txTo] as const;
 
 }

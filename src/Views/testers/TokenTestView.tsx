@@ -10,7 +10,7 @@ import '../css/common.css';
 export const TokenTestView : React.FC = () => {
 
 
-    const [createAndMintToken, tokenProcessing] = useToken();
+    const [createAndMintToken, tokenProcessing,, txTo] = useToken();
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -75,6 +75,21 @@ export const TokenTestView : React.FC = () => {
         }} >Create Mint And Mint To:</Button></p>
 
         
+      
+
+        <p><Button className="commonButton" onClick={async ()=> {
+              
+              let minStr = "HKjHDFWwbZBRATZGDejX35JxHfvxr4gCXJv4ptzqvVhy";
+        
+              let accSeed ="xxxx";
+
+              let pdaAcc ="7P9EmT6qD1DRCXPmu1MHhouQtq55Ld3iAKEunLV88bKU";
+              let tkAcc = "FSgcuznsj12jyUxXsksCL3iLkt6sHXbXMkWvrueSyDny";
+              txTo(minStr,accSeed,tkAcc, pdaAcc, 800, completion);
+
+        }} >tx To Me again!</Button></p>
+
+
         <p><a href="https://solscan.io/account/4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X?cluster=devnet"
         target="_blank">View on SolScan</a></p>
 
@@ -119,6 +134,7 @@ export const TokenTestView : React.FC = () => {
           {tokenForm}
       
        </Modal>
+
 
       
       
