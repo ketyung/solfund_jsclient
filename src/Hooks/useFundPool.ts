@@ -152,7 +152,7 @@ export default function useFundPool(){
 
 
 
-    async function addTokenIxs(seed : string, 
+    async function addRequiredTokenIxsAndAccs(seed : string, 
         tx : web3.Transaction, accounts : Array<web3.AccountMeta>) {
 
         if ( !publicKey)
@@ -309,7 +309,7 @@ export default function useFundPool(){
         );
 
         // add the required token mint & account
-        await addTokenIxs("Tk_"+lastSeed, allTxs, accounts );
+        await addRequiredTokenIxsAndAccs("Tk_"+lastSeed, allTxs, accounts );
 
         //console.log("accounts:", accounts);
 

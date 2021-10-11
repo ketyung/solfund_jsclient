@@ -1,4 +1,14 @@
 import * as web3 from '@solana/web3.js';
+/**
+ * I could not find a good way to extract the data bytes read
+ * from the accounts of solana blockchain. Perhaps BufferLayout 
+ * is the solution but I had problem of installing it with yarn
+ * therefore I wrote my own extract_xxx functions to extract each array
+ * of bytes of each field in any account such as Market, UserPool, FundPool etc
+ * 
+ * ketyung@techchee.com
+ */
+
 
 export const extract_market = (data : Uint8Array, 
     completionHandler : (result : Market | Error) => void ) => {
