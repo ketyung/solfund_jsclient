@@ -6,12 +6,12 @@ import useMarket from '../../Hooks/useMarket';
 import '../css/common.css';
 import { POOL_MARKET_KEY } from '../../utils/Keys';
 import { MarketFundPoolsView } from '../components/MarketFundPoolsView';
-import {ReloadOutlined} from '@ant-design/icons';
+import {ReloadOutlined, FileAddOutlined} from '@ant-design/icons';
 
 
 export const MarketPage : React.FC = () =>{
 
-    const [, , loading] = useMarket();
+    const [createMarketAccount, , loading] = useMarket();
 
     const [reload, setReload] = useState(false);
 
@@ -26,7 +26,7 @@ export const MarketPage : React.FC = () =>{
 
             success("Success!", 5);
 
-            console.log("succ::",res );
+            console.log("succ::market::",res );
         }
     }
 
@@ -42,11 +42,10 @@ export const MarketPage : React.FC = () =>{
        
 
           {
-          /**
-          <Button shape="circle" style={{position:"fixed", display:"none", top:"100px",left:"40px", zIndex:1000}} onClick={async ()=> {    
+          <Button shape="circle" style={{position:"fixed", display:"none", top:"200px",left:"40px", zIndex:1000}} onClick={async ()=> {    
               createMarketAccount(completion2);
           }} ><FileAddOutlined/></Button>
-           */
+        
         }
         
         

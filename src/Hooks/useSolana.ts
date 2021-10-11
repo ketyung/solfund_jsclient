@@ -3,7 +3,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useState } from 'react';
 import {solanaNet} from '../utils/SolUtil';
 
-export const programId : web3.PublicKey = new web3.PublicKey("2GkHTs42nVfU15AqTpfDA2EgBzHix6rCewwutTKETM4M");
+export const programId : web3.PublicKey = new web3.PublicKey("FebG8MD2MQ5ZTnaULv3yWJq1qLVTUZ4woER6sgkXYpLz");
 
 export const MODULE_MARKET : number = 3;
 
