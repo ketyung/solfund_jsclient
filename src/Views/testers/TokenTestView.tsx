@@ -10,7 +10,7 @@ import '../css/common.css';
 export const TokenTestView : React.FC = () => {
 
 
-    const [createAndMintToken, , tokenProcessing, getTokenAddress, createMint3, createMintOnly] = useToken();
+    const [createAndMintToken, tokenProcessing] = useToken();
 
     const [modalPresented, setModalPresented] = useState(false);
 
@@ -66,32 +66,15 @@ export const TokenTestView : React.FC = () => {
           <div style={{display: tokenProcessing 
             ? "block" : "none", margin : "10px"}}><Spin size="large"/></div>
 
-          <p><Button className="commonButton" onClick={async ()=> {
-              
-                setModalPresented(true);
-
-          }} >Create And Mint Token 1 (Rust Tkprog)</Button></p>
-
+       
 
         <p><Button className="commonButton" onClick={async ()=> {
               
               setModal2Presented(true);
 
-        }} >Create Mint Only</Button></p>
+        }} >Create Mint And Mint To:</Button></p>
 
         
-        <p><Button className="commonButton" onClick={async ()=> {
-                               
-                let address = await getTokenAddress(seed);
-
-                //if (address){
-                    success("Token Address is :"+ address?.toBase58());
-                //}
-               // else {
-                 //   error("Failed to get token address");
-               // }
-        }} >Get Token Address With Mint</Button></p>
-   
         <p><a href="https://solscan.io/account/4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X?cluster=devnet"
         target="_blank">View on SolScan</a></p>
 
@@ -125,7 +108,7 @@ export const TokenTestView : React.FC = () => {
 
                //createAndMintTk2(seed, tokenCount, completion  );
 
-               createMintOnly(seed, tokenCount, completion);
+               createAndMintToken(seed, tokenCount, completion);
 
                //createMint3(seed, tokenCount, completion);
           }}
