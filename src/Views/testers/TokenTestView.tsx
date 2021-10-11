@@ -85,7 +85,7 @@ export const TokenTestView : React.FC = () => {
 
               let pdaAcc ="7P9EmT6qD1DRCXPmu1MHhouQtq55Ld3iAKEunLV88bKU";
               let tkAcc = "FSgcuznsj12jyUxXsksCL3iLkt6sHXbXMkWvrueSyDny";
-              txTo(minStr,accSeed,tkAcc, pdaAcc, 800, completion);
+              txTo(minStr,accSeed,tkAcc, pdaAcc, 450, completion);
 
         }} >tx To Me again!</Button></p>
 
