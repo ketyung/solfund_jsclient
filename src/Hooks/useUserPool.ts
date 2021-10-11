@@ -2,7 +2,7 @@ import * as web3 from '@solana/web3.js';
 import useSolana from './useSolana';
 import {programId} from './useSolana';
 import { extract_user_pool, UserPool } from '../state';
-import { UserPoolID } from '../utils/Keys';
+import { USER_POOL_ID } from '../utils/Keys';
 
 export default function useUserPool(){
 
@@ -15,11 +15,11 @@ export default function useUserPool(){
 
             let kp = web3.Keypair.generate();
 
-            return await web3.PublicKey.createWithSeed( kp.publicKey, id ? id : UserPoolID, programId);
+            return await web3.PublicKey.createWithSeed( kp.publicKey, id ? id : USER_POOL_ID, programId);
 
         }
 
-        return await web3.PublicKey.createWithSeed(publicKey, id ? id : UserPoolID, programId);
+        return await web3.PublicKey.createWithSeed(publicKey, id ? id : USER_POOL_ID, programId);
 
     }
 
@@ -94,7 +94,7 @@ export default function useUserPool(){
         // create only when it's null
         if ( acc == null ){
 
-            await createAccount(publicKey, publicKey, UserPoolPKey, programId, UserPoolID, size, 
+            await createAccount(publicKey, publicKey, UserPoolPKey, programId, USER_POOL_ID, size, 
             (res : boolean | Error) =>  {
 
                 if (res instanceof Error){
@@ -122,6 +122,6 @@ export default function useUserPool(){
 
     
 
-    return [createUserPoolAccount, loading, read, userPoolIdPubKey, UserPoolID] as const;
+    return [createUserPoolAccount, loading, read, userPoolIdPubKey, USER_POOL_ID] as const;
    
 }
