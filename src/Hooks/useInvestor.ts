@@ -3,7 +3,7 @@ import useSolana from './useSolana';
 import {programId, MODULE_INVESTOR, ACTION_CREATE} from './useSolana';
 import { SolUtil } from '../utils/SolUtil';
 import { createInvestorBytes, extract_fund_pool_investor } from '../state';
-import { FundPoolInvestor } from '../state';
+import { FundPoolInvestor, FundPool } from '../state';
 import { INVESTOR_POOL_ID } from '../utils/Keys';
 
 export default function useInvestor(){
@@ -82,7 +82,7 @@ export default function useInvestor(){
 
 
     async function addInvestor( 
-        fundPoolAddress : web3.PublicKey,
+        fundPool : FundPool,
         poolManager : web3.PublicKey, 
         amount : number, 
         tokenCount : number,  
@@ -98,7 +98,7 @@ export default function useInvestor(){
 
 
         // check if the fund pool address exists 
-        let fundPoolAcc = await connection.getAccountInfo(fundPoolAddress);
+        let fundPoolAcc = await connection.getAccountInfo(fundPool.address);
         if ( fundPoolAcc == null){
 
             completionHandler(new Error("Invalid fund pool account"));
@@ -154,7 +154,7 @@ export default function useInvestor(){
         allTxs.add(createInvAccTx);
        
         let investor_data : Uint8Array = createInvestorBytes( 112, 
-            publicKey, fundPoolAddress, investorAccKey, 
+            publicKey, fundPool.address, investorAccKey, 
             (amount * web3.LAMPORTS_PER_SOL), tokenCount);
        
        // console.log("amount", amount);
@@ -164,7 +164,7 @@ export default function useInvestor(){
         let accounts : Array<web3.AccountMeta> = [
             { pubkey: investorAccKey, isSigner: false, isWritable: true },
             { pubkey: investorPoolKey, isSigner: false, isWritable: true },
-            { pubkey: fundPoolAddress , isSigner: false, isWritable: true },
+            { pubkey: fundPool.address , isSigner: false, isWritable: true },
             { pubkey: publicKey, isSigner: true, isWritable: false },
             { pubkey: web3.SystemProgram.programId, isSigner: false, isWritable: false },
             { pubkey : poolManager, isSigner : false, isWritable: true},

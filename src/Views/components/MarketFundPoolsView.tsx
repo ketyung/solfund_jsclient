@@ -105,7 +105,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
              
              if (selectedFundPool?.address) {
 
-                 await addInvestor(selectedFundPool.address, 
+                 await addInvestor(selectedFundPool, 
                      selectedFundPool.manager ?? web3.PublicKey.default, 
                      amount, tokenCount, completion);
              }
