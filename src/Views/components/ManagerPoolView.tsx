@@ -45,7 +45,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
 
-    const [createFundPool] = useFundPool();
+    const [createFundPool,fundPoolCreating] = useFundPool();
 
     const [tokenCount, setTokenCount] = useState(0);
     
@@ -88,9 +88,8 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     const completion = (res : boolean | Error) =>  {
 
         if (res instanceof Error){
-
+     
             error((res as Error).message, 5 );
-
         }
         else {
 
@@ -182,7 +181,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     address ?
 
     <div style={{color:'white'}}>
-     <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+     <div style={{display: (fundPoolLoading || fundPoolCreating) ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
        
      <div style={{display:"inline"}}>Pools By {address}</div>
     
@@ -263,6 +262,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
                     error("Invalid commission value, must be less than 1");
                     return; 
                 }
+
 
                 setModalPresented(false);
                 
