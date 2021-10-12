@@ -162,14 +162,18 @@ export default function useFundPool(){
             return ;
         }
 
-        const mint = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
+        const tkSeed = "Token"+ seed ;
+
+        //await web3.Keypair.generate().publicKey.toBase58();
+        const mint = await web3.PublicKey.createWithSeed(publicKey, tkSeed, 
+        splToken.TOKEN_PROGRAM_ID);
        
 
         tx.add(
             web3.SystemProgram.createAccountWithSeed({
                 fromPubkey: publicKey,
                 basePubkey : publicKey,
-                seed: seed,
+                seed: tkSeed,
                 newAccountPubkey: mint,
                 space: splToken.MintLayout.span,
                 lamports: await splToken.Token.getMinBalanceRentForExemptMint(connection),
@@ -185,9 +189,11 @@ export default function useFundPool(){
 
         );
 
-        const accSeed = seed + "Acc";
+        //const accSeed = seed + "Acc";
 
-        const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed,  splToken.TOKEN_PROGRAM_ID);
+        const accSeed =  "TkAcc" + seed; //await web3.Keypair.generate().publicKey.toBase58();
+        const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed
+            ,  splToken.TOKEN_PROGRAM_ID);
       
         const acc = await connection.getAccountInfo(mintAcc);
 
@@ -220,7 +226,10 @@ export default function useFundPool(){
         }
 
 
-        let pdas = await web3.PublicKey.findProgramAddress([ Buffer.from("TokenPda"+ seed)], programId);
+        let pdas = await web3.PublicKey.findProgramAddress([ Buffer.from(
+
+            "TokenPDA" + seed 
+        )], programId);
        
         accounts.push(
 

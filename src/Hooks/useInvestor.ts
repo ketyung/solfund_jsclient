@@ -263,22 +263,25 @@ export default function useInvestor(){
 
          /**
         Order in RUST 
-        let pool_token_account = next_account_info(account_info_iter)?; 
-        let investor_token_account = next_account_info(account_info_iter)?;
-        let pool_token_pda = next_account_info(account_info_iter)?;
-        let token_program = next_account_info(account_info_iter)?;
-     */
+   let pool_token_pda = next_account_info(account_info_iter)?;
+    let investor_token_account = next_account_info(account_info_iter)?;
+    let pool_token_account = next_account_info(account_info_iter)?; 
+    let token_program = next_account_info(account_info_iter)?;
+   */
+
 
         accounts.push(
 
-            { pubkey : poolTokenAccount, isSigner : false, isWritable : true}, 
-            { pubkey : receiverTokenAcc, isSigner : false, isWritable : true}, 
             { pubkey : poolTokenPda, isSigner : false, isWritable : false}, 
+            { pubkey : receiverTokenAcc, isSigner : false, isWritable : true}, 
+            { pubkey : poolTokenAccount, isSigner : false, isWritable : true}, 
             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
          
         );
 
-        console.log("mint", mint.toBase58(), 
+        console.log(
+            "invTkAcc", receiverTokenAcc.toBase58(), 
+            "mint", mint.toBase58(), 
         "tokenAcc", poolTokenAccount.toBase58(), "pda", poolTokenPda.toBase58());
 
 
