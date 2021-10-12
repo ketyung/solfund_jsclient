@@ -189,8 +189,7 @@ export default function useInvestor(){
        addRequiredTokenInsAndAccs(seed, fundPool.token_mint,
            fundPool.token_account, fundPool.token_pda, allTxs, accounts);
 
-        console.log("accounts", accounts);
-
+       
         const addInvIx = new web3.TransactionInstruction({programId, 
             keys: accounts, data: data, });
 
@@ -279,6 +278,8 @@ export default function useInvestor(){
          
         );
 
+        console.log("mint", mint.toBase58(), 
+        "tokenAcc", poolTokenAccount.toBase58(), "pda", poolTokenPda.toBase58());
 
 
        

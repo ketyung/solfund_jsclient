@@ -6,6 +6,7 @@ import { createFundPoolBytes, FundPool, extract_fund_pool } from '../state';
 import { POOL_MARKET_KEY } from '../utils/Keys';
 import useuserPool from'./useUserPool';
 import * as splToken from "@solana/spl-token";
+import { format } from 'path';
    
 export default function useFundPool(){
 
@@ -217,15 +218,24 @@ export default function useFundPool(){
         
         //    console.log("need2CreateAcc", mintAcc.toBase58());
         }
+
+
+        let pdas = await web3.PublicKey.findProgramAddress([ Buffer.from("TokenPda"+ seed)], programId);
        
         accounts.push(
 
             { pubkey : mint, isSigner : false, isWritable : false}, 
             { pubkey : mintAcc, isSigner : false, isWritable : true}, 
             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+            { pubkey: pdas[0], isSigner: false, isWritable: false },
+            
          
         );
 
+        console.log("mint", mint.toBase58());
+        console.log("tokenAccount", mintAcc.toBase58());
+        console.log("pda", pdas[0].toBase58());
+      
 
     
     }
