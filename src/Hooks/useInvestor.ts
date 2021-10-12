@@ -189,15 +189,7 @@ export default function useInvestor(){
         await addRequiredTokenInsAndAccs("Token"+seed, fundPool.token_mint,
            fundPool.token_account, fundPool.token_pda, allTxs, accounts);
 
-
-
-        //console.log("accounts", accounts);
-
-        accounts.map((acc)=>{
-
-            console.log("acc:", acc.pubkey.toBase58(), "isSigner::", acc.isSigner);
-        })
-       
+  
         const addInvIx = new web3.TransactionInstruction({programId, 
             keys: accounts, data: data, });
 

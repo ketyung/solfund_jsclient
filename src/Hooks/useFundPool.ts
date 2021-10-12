@@ -197,11 +197,9 @@ export default function useFundPool(){
 
         //const accSeed = seed + "Acc";
 
-        const accSeed =  "TkAcc" + randomSeed(); //await web3.Keypair.generate().publicKey.toBase58();
+        const accSeed =  "TkAcc" + randomSeed(); 
         const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed , splToken.TOKEN_PROGRAM_ID);
 
-        console.log("accSeed", accSeed, "mintAcc", mintAcc.toBase58());
-      
         const acc = await connection.getAccountInfo(mintAcc);
 
         if ( acc === null){
