@@ -195,15 +195,39 @@ export default function useFundPool(){
 
         );
 
-        //const accSeed = seed + "Acc";
-
+       
         const accSeed =  "TkAcc" + randomSeed(); 
         const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed , splToken.TOKEN_PROGRAM_ID);
 
+        //const mintAcc = web3.Keypair.generate().publicKey;
+  
         const acc = await connection.getAccountInfo(mintAcc);
 
+
+        // the following will cause a signature failure 
+        // with some wallets while using createAccount 
+        // and will cause error of 
+        // "Could not create program address with signer seeds: Provided seeds do not result in a valid address"
+        // when using createAccountWithSeed 
         if ( acc === null){
 
+            /**
+            tx.add(
+                web3.SystemProgram.createAccount({
+                    fromPubkey: publicKey,
+                    newAccountPubkey: mintAcc,
+                    space: splToken.AccountLayout.span,
+                    lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection),
+                    programId:splToken.TOKEN_PROGRAM_ID,
+                }),
+   
+                splToken.Token.createInitAccountInstruction(
+                    splToken.TOKEN_PROGRAM_ID,
+                    mint, // mint
+                    mintAcc,
+                    publicKey 
+                )
+            ); */
 
             tx.add(
     
@@ -217,6 +241,8 @@ export default function useFundPool(){
                     programId: splToken.TOKEN_PROGRAM_ID,
                 }),
 
+                //web3.SystemProgram.createAccount()
+
                 splToken.Token.createInitAccountInstruction(
                     splToken.TOKEN_PROGRAM_ID, 
                     mint, // mint
@@ -225,9 +251,11 @@ export default function useFundPool(){
                 ),
         
             
-            );   
+            );
         
         }
+
+        tx.feePayer = publicKey;
  
         accounts.push(
 
