@@ -174,22 +174,29 @@ export default function useInvestor(){
 
         let data = SolUtil.createBuffer(investor_data,ACTION_CREATE,MODULE_INVESTOR);
 
-        let accounts : Array<web3.AccountMeta> = [
+        var accounts : Array<web3.AccountMeta> = [
             { pubkey: investorAccKey, isSigner: false, isWritable: true },
             { pubkey: investorPoolKey, isSigner: false, isWritable: true },
             { pubkey: fundPool.address , isSigner: false, isWritable: true },
             { pubkey: publicKey, isSigner: true, isWritable: false },
-            { pubkey: web3.SystemProgram.programId, isSigner: false, isWritable: false },
+            { pubkey: web3.SystemProgram.programId, isSigner: false, isWritable: true },
             { pubkey : fundPool.manager, isSigner : false, isWritable: true},
 
         ];
 
 
         
-        addRequiredTokenInsAndAccs(seed, fundPool.token_mint,
+        await addRequiredTokenInsAndAccs("Token"+seed, fundPool.token_mint,
            fundPool.token_account, fundPool.token_pda, allTxs, accounts);
 
-        console.log("accounts", accounts);
+
+
+        //console.log("accounts", accounts);
+
+        accounts.map((acc)=>{
+
+            console.log("acc:", acc.pubkey.toBase58(), "isSigner::", acc.isSigner);
+        })
        
         const addInvIx = new web3.TransactionInstruction({programId, 
             keys: accounts, data: data, });
@@ -273,7 +280,7 @@ export default function useInvestor(){
 
         accounts.push(
 
-            { pubkey : poolTokenPda, isSigner : true, isWritable : false}, 
+            { pubkey : poolTokenPda, isSigner : false, isWritable : false}, 
             { pubkey : receiverTokenAcc, isSigner : false, isWritable : true}, 
             { pubkey : poolTokenAccount, isSigner : false, isWritable : true}, 
             { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
