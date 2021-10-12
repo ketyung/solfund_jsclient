@@ -5,7 +5,7 @@ import {Route, useRoute} from 'wouter';
 import {useMemo, useEffect} from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import {getPhantomWallet,getSolflareWallet,getSolletWallet} from '@solana/wallet-adapter-wallets';
+import {getPhantomWallet,getSolflareWallet,getSolletWallet,getSolletExtensionWallet,} from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import {FundPoolPage} from './Views/pages/FundPoolPage';
 import { ManagerPoolPage } from './Views/pages/ManagerPoolPage';
@@ -24,6 +24,7 @@ function App() {
     getPhantomWallet(),
     getSolletWallet({ network }),
     getSolflareWallet(),
+    getSolletExtensionWallet({ network }),
    ], [network]);
 
    const [matchHome] = useRoute("/");
