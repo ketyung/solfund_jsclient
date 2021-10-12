@@ -1,11 +1,19 @@
-import React, {useState} from 'react';
+/**
+ * This is only a test view for me to test & understand the token mint, initialize
+ * , account creation & initialization and sending the instruction to the Rust side
+ * to mint the tokens etc. And also token list etc. This will be removed in the future
+ * By Christopher K Y Chee (ketyung@techchee.com)
+ */
+
+import React, {useState, useEffect} from 'react';
 import 'antd/dist/antd.css';
 import useToken from '../../Hooks/useToken';
 import { Button, Spin, Modal, Form, Input } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import '../css/common.css';
 //import * as web3 from '@solana/web3.js';
-
+import { TokenListProvider, TokenInfo } from '@solana/spl-token-registry';
+import '../components/css/tokenList.css';
 
 export const TokenTestView : React.FC = () => {
 
@@ -16,10 +24,13 @@ export const TokenTestView : React.FC = () => {
 
     const [modal2Presented, setModal2Presented] = useState(false);
 
+    const [modal3Presented, setModal3Presented] = useState(false);
+
     const [tokenCount, setTokenCount] = useState(0);
     
     const [seed, setSeed] = useState("");
     
+    const [tokenList, setTokenList] = useState<Array<TokenInfo>>();
 
     const tokenCountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
 
@@ -35,6 +46,42 @@ export const TokenTestView : React.FC = () => {
         setSeed(txt);
       
     };
+
+    useEffect(() => {
+
+        const provider = new TokenListProvider();
+        
+        provider.resolve().then((tokens) => {
+            const tokenList = tokens.filterByClusterSlug('devnet').getList();
+    
+            setTokenList(tokenList);
+        });
+
+    }, []);
+
+
+    const tokenListView =
+        
+       
+        <div className="tokenListView">       
+        {tokenList?.map((token)=>{
+
+            return <div className="tokenRow">
+            <div className="symbol">
+            {token.symbol}
+            </div>
+            <div className="name">
+            {token.name}
+            </div>
+            
+            </div>
+
+        })}
+        
+        </div>
+
+
+    
 
 
     const tokenForm =  <Form layout="vertical">
@@ -90,7 +137,17 @@ export const TokenTestView : React.FC = () => {
         }} >tx To Me again!</Button></p>
 
 
-        <p><a href="https://solscan.io/account/4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X?cluster=devnet"
+        <p><Button className="commonButton" onClick={async ()=> {
+              
+              setModal3Presented(true);
+
+        }}>Show Token List</Button></p>
+
+       
+
+
+        <p><a style={{color:"white"}} 
+        href="https://solscan.io/account/4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X?cluster=devnet"
         target="_blank">View on SolScan</a></p>
 
        <Modal title="Create And Mint Token 1"
@@ -119,13 +176,8 @@ export const TokenTestView : React.FC = () => {
           onOk={async ()=>{
                 setModal2Presented(false);
       
-               //createAndMintToken(seed, tokenCount, completion);
-
-               //createAndMintTk2(seed, tokenCount, completion  );
-
                createAndMintToken(seed, tokenCount, completion);
 
-               //createMint3(seed, tokenCount, completion);
           }}
           onCancel={()=>{setModal2Presented(false);}}
           okButtonProps={{ disabled: false }}
@@ -136,7 +188,21 @@ export const TokenTestView : React.FC = () => {
        </Modal>
 
 
-      
+       <Modal title="Token List"
+          style={{minWidth:"80%"}}
+          visible={modal3Presented}
+          onOk={async ()=>{
+               
+                setModal3Presented(false);
+
+          }}
+          onCancel={()=>{setModal3Presented(false);}}
+          okButtonProps={{ disabled: false }}
+          okText = "Ok"
+          cancelButtonProps={{ disabled: false }}>
+          {tokenListView}
+
+       </Modal>
       
     </div>;
 

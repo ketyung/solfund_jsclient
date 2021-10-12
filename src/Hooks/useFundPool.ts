@@ -95,6 +95,10 @@ export default function useFundPool(){
     }
 
     
+    /**
+     * Deklete fundPool maybe needed in the future,
+     * currently is only meant for testing 
+     */
     async function deleteFundPool (address : web3.PublicKey | null, userPoolAccount : web3.PublicKey | null, 
         completionHandler : (result : boolean | Error) => void) {
 
@@ -208,7 +212,7 @@ export default function useFundPool(){
         // with some wallets while using createAccount 
         // and will cause error of 
         // "Could not create program address with signer seeds: Provided seeds do not result in a valid address"
-        // when using createAccountWithSeed 
+        // when using createAccountWithSeed when testing on DevNet
         // haven't figured out why?
         if ( acc === null){
 
@@ -242,8 +246,7 @@ export default function useFundPool(){
                     programId: splToken.TOKEN_PROGRAM_ID,
                 }),
 
-                //web3.SystemProgram.createAccount()
-
+              
                 splToken.Token.createInitAccountInstruction(
                     splToken.TOKEN_PROGRAM_ID, 
                     mint, // mint
@@ -254,28 +257,9 @@ export default function useFundPool(){
             
             ); 
 
-            /**
-            tx.add(
-
-                splToken.Token.createAssociatedTokenAccountInstruction(
-
-                    splToken.ASSOCIATED_TOKEN_PROGRAM_ID, 
-                    splToken.TOKEN_PROGRAM_ID, mint, mintAcc, publicKey, publicKey
-                ),
-
-                splToken.Token.createInitAccountInstruction(
-                    splToken.TOKEN_PROGRAM_ID, 
-                    mint, // mint
-                    mintAcc, // token account public key
-                    publicKey  // signer 
-                ),
-        
-            ) */
         
         }
 
-        //tx.feePayer = publicKey;
- 
         accounts.push(
 
             { pubkey : mint, isSigner : false, isWritable : false}, 
@@ -369,16 +353,15 @@ export default function useFundPool(){
         // add the required token mint & account
         await addRequiredTokenIxsAndAccs("Tk_"+lastSeed, allTxs, accounts );
 
-        //console.log("accounts:", accounts);
-
         // add the instruction for executing the Rust program
-
         const createFpTxIns = new web3.TransactionInstruction({
             programId, keys: accounts,data: data, });
         
         allTxs.add(
             new web3.Transaction().add(createFpTxIns), 
         );
+
+        allTxs.feePayer = publicKey;
 
         sendTxs(allTxs, (res : string | Error) =>  {
 

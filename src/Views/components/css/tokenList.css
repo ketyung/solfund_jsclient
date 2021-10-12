@@ -1,0 +1,33 @@
+.tokenListView {
+
+    max-height: 300px;
+    overflow: auto;
+}
+
+.tokenRow {
+
+    background-color: #236;
+    padding:10px;
+    color:white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 12pt;
+}
+
+.tokenRow:hover {
+    background-color:#354;
+}
+
+.tokenRow .symbol {
+
+    min-width: 10%;
+    display: inline-block;
+    margin:10px;
+
+}
+
+.tokenRow .name {
+
+    min-width: 60%;
+    display: inline-block;
+    margin:10px;
+}
