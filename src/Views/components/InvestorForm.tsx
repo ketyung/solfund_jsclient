@@ -21,7 +21,10 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol,
   
     const [tokenCount, setTokenCount] = useState(0);
     
-    
+    const roundIt = function(num: number, decimalPlaces: number) {
+        const factor = 10 ** decimalPlaces;
+        return Math.round(num * factor) / factor;
+    };
    
     const amountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
 
@@ -29,9 +32,11 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol,
 
         let am = parseFloat(txt); 
 
-        let amval = isNaN(am) ? 0 : am ;
+        let amval : number = roundIt( (isNaN(am) ? 0 : am), 2) ;
         
-        let tkCount = Math.floor(amval / (tokenToSol > 0 ? tokenToSol : 1));
+        var tkCount = Math.floor(amval / (tokenToSol > 0 ? tokenToSol : 1));
+
+        tkCount = Math.floor(tkCount / 10) * 10;
 
         if (tkCount < remainingToken){
       
