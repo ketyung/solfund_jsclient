@@ -6,7 +6,6 @@ import { createFundPoolBytes, FundPool, extract_fund_pool } from '../state';
 import { POOL_MARKET_KEY } from '../utils/Keys';
 import useuserPool from'./useUserPool';
 import * as splToken from "@solana/spl-token";
-import { format } from 'path';
    
 export default function useFundPool(){
 
@@ -170,12 +169,12 @@ export default function useFundPool(){
 
         const tkSeed = "Token"+ seed ;
 
-        //await web3.Keypair.generate().publicKey.toBase58();
-        const mint = await web3.PublicKey.createWithSeed(publicKey, tkSeed, 
-        splToken.TOKEN_PROGRAM_ID);
+        //const mint = web3.Keypair.generate().publicKey;//.toBase58();
+        const mint = await web3.PublicKey.createWithSeed(publicKey, tkSeed, splToken.TOKEN_PROGRAM_ID);
        
 
         tx.add(
+
             web3.SystemProgram.createAccountWithSeed({
                 fromPubkey: publicKey,
                 basePubkey : publicKey,
@@ -184,7 +183,8 @@ export default function useFundPool(){
                 space: splToken.MintLayout.span,
                 lamports: await splToken.Token.getMinBalanceRentForExemptMint(connection),
                 programId: splToken.TOKEN_PROGRAM_ID,
-            }),
+            }), 
+
             splToken.Token.createInitMintInstruction(
                 splToken.TOKEN_PROGRAM_ID, // program id,
                 mint, // mint account public key
@@ -203,7 +203,7 @@ export default function useFundPool(){
   
         const acc = await connection.getAccountInfo(mintAcc);
 
-
+    
         // the following will cause a signature failure 
         // with some wallets while using createAccount 
         // and will cause error of 
@@ -212,7 +212,7 @@ export default function useFundPool(){
         // haven't figured out why?
         if ( acc === null){
 
-            /**
+            /*
             tx.add(
                 web3.SystemProgram.createAccount({
                     fromPubkey: publicKey,
@@ -252,11 +252,29 @@ export default function useFundPool(){
                 ),
         
             
-            );
+            ); 
+
+            /**
+            tx.add(
+
+                splToken.Token.createAssociatedTokenAccountInstruction(
+
+                    splToken.ASSOCIATED_TOKEN_PROGRAM_ID, 
+                    splToken.TOKEN_PROGRAM_ID, mint, mintAcc, publicKey, publicKey
+                ),
+
+                splToken.Token.createInitAccountInstruction(
+                    splToken.TOKEN_PROGRAM_ID, 
+                    mint, // mint
+                    mintAcc, // token account public key
+                    publicKey  // signer 
+                ),
+        
+            ) */
         
         }
 
-        tx.feePayer = publicKey;
+        //tx.feePayer = publicKey;
  
         accounts.push(
 
