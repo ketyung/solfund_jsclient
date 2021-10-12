@@ -5,7 +5,7 @@ import {ICONS} from './IconsChooser';
 import './css/FundPoolCardView.css';
 import {format_pub_key_shorter} from '../../state/';
 import {Button} from 'antd';
-import {UserAddOutlined, ShareAltOutlined, InfoOutlined} from '@ant-design/icons';
+import {UserAddOutlined, ShareAltOutlined, InfoOutlined, SettingOutlined} from '@ant-design/icons';
 import {Link} from 'wouter';
 import {extract_fund_pool, FundPool} from '../../state';
 import useSolana from '../../Hooks/useSolana';
@@ -76,8 +76,9 @@ export const FundPoolCardView2 : React.FC <FundPoolCardView2Props> = ({address,
 
             }
         
-        }} title="Invest In This Fund" >
-        <UserAddOutlined />
+        }} title={managedByManager ? "Manage This Pool" :  "Invest In This Fund"} >
+        {managedByManager ? <SettingOutlined /> :  <UserAddOutlined />}
+
         </Button>
         <span>
         <Image width={50} title="Icon" alt="Icon" style={{ verticalAlign: 'middle' }}
