@@ -181,7 +181,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     address ?
 
     <div style={{color:'white'}}>
-     <div style={{display: (fundPoolLoading || fundPoolCreating) ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+     <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
        
      <div style={{display:"inline"}}>Pools By {address}</div>
     
