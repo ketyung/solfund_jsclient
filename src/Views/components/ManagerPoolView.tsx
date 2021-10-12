@@ -272,6 +272,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
                 createFundPool(commInLp,tokenCount,ratioLp, true,
                 selectedIcon, completion);
+
                 
           }}
           onCancel={()=>{setModalPresented(false);}}
