@@ -224,28 +224,14 @@ export default function useFundPool(){
         
         //    console.log("need2CreateAcc", mintAcc.toBase58());
         }
-
-        /**
-         * // use the Rust side to create PDA instead
-        let pdas = await web3.PublicKey.findProgramAddress([ Buffer.from(
-
-            "TokenPDA" + seed 
-        )], programId);
-         */
-       
+ 
         accounts.push(
 
             { pubkey : mint, isSigner : false, isWritable : false}, 
             { pubkey : mintAcc, isSigner : false, isWritable : true}, 
-            { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-           // { pubkey: pdas[0], isSigner: false, isWritable: false },
-            
+            { pubkey: splToken.TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },            
          
         );
-
-        console.log("mint", mint.toBase58());
-        console.log("tokenAccount", mintAcc.toBase58());
-      
 
     
     }
