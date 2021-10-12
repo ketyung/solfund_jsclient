@@ -13,7 +13,7 @@ import { success,error } from '../../utils/Mesg';
 import '../css/common.css';
 //import * as web3 from '@solana/web3.js';
 import { TokenListProvider, TokenInfo } from '@solana/spl-token-registry';
-import '../components/css/tokenList.css';
+import { TokenListView } from '../components/TokenListView';
 
 export const TokenTestView : React.FC = () => {
 
@@ -47,39 +47,7 @@ export const TokenTestView : React.FC = () => {
       
     };
 
-    useEffect(() => {
-
-        const provider = new TokenListProvider();
-        
-        provider.resolve().then((tokens) => {
-            const tokenList = tokens.filterByClusterSlug('devnet').getList();
-    
-            setTokenList(tokenList);
-        });
-
-    }, []);
-
-
-    const tokenListView =
-        
-       
-        <div className="tokenListView">       
-        {tokenList?.map((token)=>{
-
-            return <div className="tokenRow">
-            <div className="symbol">
-            {token.symbol}
-            </div>
-            <div className="name">
-            {token.name}
-            </div>
-            
-            </div>
-
-        })}
-        
-        </div>
-
+  
 
     
 
@@ -200,8 +168,7 @@ export const TokenTestView : React.FC = () => {
           okButtonProps={{ disabled: false }}
           okText = "Ok"
           cancelButtonProps={{ disabled: false }}>
-          {tokenListView}
-
+          <TokenListView/>
        </Modal>
       
     </div>;

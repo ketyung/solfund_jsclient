@@ -1,5 +1,5 @@
 .tokenListView {
-
+    
     max-height: 300px;
     overflow: auto;
 }
@@ -7,14 +7,22 @@
 .tokenRow {
 
     background-color: #236;
-    padding:10px;
+    padding:2px 10px 10px 10px;
     color:white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 12pt;
 }
 
 .tokenRow:hover {
-    background-color:#354;
+    background-color:#333;
+    cursor:pointer;
+}
+
+.tokenRow .logo {
+
+    min-width: 5%;
+    display: inline-block;
+    margin:10px;
 }
 
 .tokenRow .symbol {
