@@ -4,7 +4,7 @@ import { ManagerPoolView } from '../components/ManagerPoolView';
 import { InvestorPoolView } from '../components/InvestorPoolView';
 import useSolana from '../../Hooks/useSolana';
 import {WalletOutlined} from '@ant-design/icons';
-import {logo} from '../components/Wallet';
+import {logo} from '../components/MenuView';
 
 export const HomePage : React.FC = () => {
 
