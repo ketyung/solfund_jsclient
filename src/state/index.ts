@@ -164,7 +164,7 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
     //console.log("is_final", is_finalized);
     
     let e1 = (invs_len * 80) + 198;  
-    let invs = data.slice(134, e1 );
+    let invs = data.slice(198, e1 );
     let wds = data.slice(e1 , e1 + (wds_len * 80) );
     
 
