@@ -26,7 +26,7 @@ export default function useFundPool(){
         return localStorage.getItem("storedLastSeed") ?? "";
     }
 
-    function genLastSeed()  {
+    function randomSeed() : string {
 
         let seed = () => {
             let s4 = () => {
@@ -37,7 +37,13 @@ export default function useFundPool(){
             return s4() + s4() + s4() + s4();
         }
 
-        let seedStr = "FP_"+seed();
+        return seed(); 
+    }
+
+    function genLastSeed()  {
+
+        
+        let seedStr = "FP_"+randomSeed();
 
         setStoredLastSeed(seedStr);
     }
@@ -191,9 +197,10 @@ export default function useFundPool(){
 
         //const accSeed = seed + "Acc";
 
-        const accSeed =  "TkAcc" + seed; //await web3.Keypair.generate().publicKey.toBase58();
-        const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed
-            ,  splToken.TOKEN_PROGRAM_ID);
+        const accSeed =  "TkAcc" + randomSeed(); //await web3.Keypair.generate().publicKey.toBase58();
+        const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed , splToken.TOKEN_PROGRAM_ID);
+
+        console.log("accSeed", accSeed, "mintAcc", mintAcc.toBase58());
       
         const acc = await connection.getAccountInfo(mintAcc);
 
@@ -222,7 +229,6 @@ export default function useFundPool(){
             
             );   
         
-        //    console.log("need2CreateAcc", mintAcc.toBase58());
         }
  
         accounts.push(
