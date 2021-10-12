@@ -209,6 +209,7 @@ export default function useFundPool(){
         // and will cause error of 
         // "Could not create program address with signer seeds: Provided seeds do not result in a valid address"
         // when using createAccountWithSeed 
+        // haven't figured out why?
         if ( acc === null){
 
             /**
