@@ -205,7 +205,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     <div>
 
-    <div style={{display: fundPoolLoading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
+    <div style={{display: (fundPoolLoading || fundPoolCreating) ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
     
     <span className="title">Fund Pools Managed By You</span>
     <Button className="addNewButton"  onClick={async ()=> {
