@@ -118,7 +118,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
         <div style={{display:"inline-block",marginLeft:"20px", color:"white"}}>Equivalent Value In SOL:</div>
         <div style={{backgroundColor:"#008", color:"white",minWidth:"60px",textAlign:"center",
-        padding:"10px", borderRadius:"20px",marginLeft:"10px", display:"inline-block"}}>{valueInSol}</div>
+        padding:"10px", borderRadius:"20px",marginLeft:"10px", display:"inline-block"}}>{valueInSol.toFixed(2)}</div>
     </Form.Item>
 
     <Form.Item>

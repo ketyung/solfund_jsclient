@@ -10,7 +10,8 @@ export const TokenListView : React.FC = () => {
     const tokenListView =
         
        
-    <div className="tokenListView">       
+    <div className="tokenListView"> 
+    <p style={{color:"white",fontSize:"12pt",marginLeft:"10px", fontWeight:"bolder"}}>Select Token</p>      
     {tokenList?.map((token)=>{
 
         return <div className="tokenRow">
