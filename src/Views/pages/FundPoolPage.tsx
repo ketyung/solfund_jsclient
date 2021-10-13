@@ -100,7 +100,9 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
             title={inv.address.toBase58()}>
             <span className="no">{idx+1}</span> 
             <span className="key">{inv.investor.toBase58()}</span>  
-            <span className="tokenCount">{inv.token_count} Tokens</span>  
+            <span className="tokenCount">{inv.token_count} Tokens</span>
+            <span className="percentage">{((inv.token_count/fundPool.token_count) * 100).toFixed(2)} %</span>
+              
             </div>
 
         })

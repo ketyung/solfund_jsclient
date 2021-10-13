@@ -115,4 +115,18 @@
     text-align: center;
 }
 
+.investorRow .percentage {
+
+    width: 8%;
+    display: inline-block;
+    color:#ff2;
+    font-weight: 600;
+    background-color: #112233;
+    border-radius: 30px;
+    padding: 10px;
+    text-align: center;
+    margin-left: 5px;
+}
+
+
 

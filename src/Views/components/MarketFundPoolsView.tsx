@@ -220,6 +220,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
          <InvestorForm setValuesOf={setValuesOf} 
          tokenToSol={selectedFundPool?.token_to_sol_ratio ?? 0} 
          remainingToken={selectedFundPool?.rm_token_count ?? 0}
+         commission={(selectedFundPool?.fee_in_lamports ?? 0) / web3.LAMPORTS_PER_SOL}
          loading={investorLoading}
          />
         

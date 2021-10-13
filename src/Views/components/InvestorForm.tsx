@@ -8,6 +8,8 @@ interface FundPoolFormProps {
     tokenToSol : number, 
 
     remainingToken : number, 
+
+    commission : number, 
     
     loading : boolean, 
 
@@ -17,7 +19,7 @@ interface FundPoolFormProps {
 
 
 export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol, 
-    remainingToken, loading, setValuesOf}) =>{
+    remainingToken, commission, loading, setValuesOf}) =>{
   
     const [tokenCount, setTokenCount] = useState(0);
     
@@ -58,7 +60,7 @@ export const InvestorForm   : React.FC<FundPoolFormProps> = ({tokenToSol,
     <Form layout="vertical">
 
         <div style={{minWidth:"200px",backgroundColor:"#254",marginBottom:"20px", padding:"10px",borderRadius:"20px", color:"wheat"}}>
-            Token To SOL Ratio : {tokenToSol} , Available Tokens : {remainingToken} 
+            Token To SOL Ratio : {tokenToSol}, Available Tokens : {remainingToken}, Commission : {commission} SOL 
             <div style={{display: loading ? "inline" : "none", margin : "10px"}}><Spin size="default"/></div>
    
         </div>
