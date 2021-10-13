@@ -12,8 +12,6 @@ import { Button, Spin, Modal, Form, Input } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import '../css/common.css';
 //import * as web3 from '@solana/web3.js';
-import { TokenListProvider, TokenInfo } from '@solana/spl-token-registry';
-import { TokenListView } from '../components/TokenListView';
 
 export const TokenTestView : React.FC = () => {
 
@@ -30,8 +28,7 @@ export const TokenTestView : React.FC = () => {
     
     const [seed, setSeed] = useState("");
     
-    const [tokenList, setTokenList] = useState<Array<TokenInfo>>();
-
+  
     const tokenCountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
 
         let txt = e.currentTarget.value;
@@ -156,20 +153,6 @@ export const TokenTestView : React.FC = () => {
        </Modal>
 
 
-       <Modal title="Token List"
-          style={{minWidth:"80%"}}
-          visible={modal3Presented}
-          onOk={async ()=>{
-               
-                setModal3Presented(false);
-
-          }}
-          onCancel={()=>{setModal3Presented(false);}}
-          okButtonProps={{ disabled: false }}
-          okText = "Ok"
-          cancelButtonProps={{ disabled: false }}>
-          <TokenListView/>
-       </Modal>
       
     </div>;
 

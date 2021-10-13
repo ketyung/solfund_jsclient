@@ -3,7 +3,13 @@ import { TokenListProvider, TokenInfo } from '@solana/spl-token-registry';
 import './css/tokenList.css';
 import {Image} from 'antd';
 
-export const TokenListView : React.FC = () => {
+interface TokenListViewProps{
+
+    setSelected : (selected : TokenInfo)=>void,
+
+}
+
+export const TokenListView : React.FC <TokenListViewProps> = ({setSelected}) => {
 
     const [tokenList, setTokenList] = useState<Array<TokenInfo>>();
 
@@ -14,7 +20,11 @@ export const TokenListView : React.FC = () => {
     <p style={{color:"white",fontSize:"12pt",marginLeft:"10px", fontWeight:"bolder"}}>Select Token</p>      
     {tokenList?.map((token)=>{
 
-        return <div className="tokenRow">
+        return <div className="tokenRow" onClick={()=>{
+
+            setSelected(token);
+            
+        }}>
 
         <div className="logo">
         <Image width={30} title="Icon" alt="Icon" style={{ verticalAlign: 'middle', marginTop:"5px", marginRight:"20px"}}

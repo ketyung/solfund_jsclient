@@ -11,11 +11,21 @@ export const TokenSwapView : React.FC = () => {
     const [tokenA, setTokenA] = useState<TokenInfo>();
     
     const [tokenB, setTokenB] = useState<TokenInfo>();
-    
-    const tokenListView = <div style={{backgroundColor:"#235", minWidth:"500px",borderRadius:"20px",padding:"10px" }}>
 
-        <TokenListView/>
-    </div>
+    const setSelectedTokenA = (selected : TokenInfo) => {
+
+        setTokenA(selected);
+    }
+
+    const setSelectedTokenB = (selected : TokenInfo) => {
+
+        setTokenB(selected);
+    }
+    
+    const tokenListView = (setSelected : (selected : TokenInfo)=>void) =>{
+    return <div style={{backgroundColor:"#235", minWidth:"500px",borderRadius:"20px",padding:"10px" }}>
+        <TokenListView setSelected={setSelected}/>
+    </div>}
 
     return <div>
 
@@ -25,7 +35,7 @@ export const TokenSwapView : React.FC = () => {
         required tooltip="From Token">
             <Input placeholder="0.00" style={{maxWidth:"200px",height:"40px",backgroundColor:"#334", color:"white"}} />
 
-            <Dropdown overlay={tokenListView} placement="bottomCenter">
+            <Dropdown overlay={tokenListView(setSelectedTokenA)} placement="bottomCenter">
           
             <Image width={40} height={40}  title="Icon" alt="Icon" 
             style={{ verticalAlign: 'middle', marginTop:"15px", marginLeft:"5px", cursor:"pointer"}} preview={false}
@@ -38,7 +48,7 @@ export const TokenSwapView : React.FC = () => {
         required tooltip="To Token">
             <Input placeholder="0.00" style={{maxWidth:"200px",height:"40px", backgroundColor:"#334", color:"white"}} />
            
-            <Dropdown overlay={tokenListView} placement="bottomCenter">
+            <Dropdown overlay={tokenListView(setSelectedTokenB)} placement="bottomCenter">
             <Image width={40} height={40}  title="Icon" alt="Icon" 
             style={{ verticalAlign: 'middle', marginTop:"15px", marginLeft:"5px", cursor:"pointer"}} preview={false}
             src={tokenB?.logoURI ? tokenB.logoURI : defaultImage} 
