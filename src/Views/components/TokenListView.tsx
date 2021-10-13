@@ -13,17 +13,19 @@ export const TokenListView : React.FC <TokenListViewProps> = ({setSelected}) => 
 
     const [tokenList, setTokenList] = useState<Array<TokenInfo>>();
 
+    const cluster = "devnet"; // temporarily hard-coded 
+
     const tokenListView =
         
        
     <div className="tokenListView"> 
-    <p style={{color:"white",fontSize:"12pt",marginLeft:"10px", fontWeight:"bolder"}}>Select Token</p>      
+    <p style={{color:"white",fontSize:"12pt",marginLeft:"10px", fontWeight:"bolder"}}>Select Token ({cluster})</p>      
     {tokenList?.map((token)=>{
 
         return <div className="tokenRow" onClick={()=>{
 
             setSelected(token);
-            
+
         }}>
 
         <div className="logo">
@@ -50,7 +52,7 @@ export const TokenListView : React.FC <TokenListViewProps> = ({setSelected}) => 
 
         const provider = new TokenListProvider();        
         provider.resolve().then((tokens) => {
-            const tokenList = tokens.filterByClusterSlug('devnet').getList();
+            const tokenList = tokens.filterByClusterSlug(cluster).getList();
     
             setTokenList(tokenList);
         });
