@@ -63,7 +63,6 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     
     const [manageViewPresented, setManageViewPresented] = useState(false);
     
-
     const [poolPageAddress , setPoolPageAddress] = useState("");
 
 
@@ -149,11 +148,11 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     
     (fundPoolAddresses.map.length ?? 0) > 0 ? 
 
-    fundPoolAddresses.map(  (address, index) => {
+    fundPoolAddresses.map(  (poolAddr, index) => {
 
-        return <FundPoolCardView2 address={address}  
+        return <FundPoolCardView2 address={poolAddr}  
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
-        key ={"fundPool" + index } managedByManager={true}
+        key ={"fundPool" + index } managedByManager={ address ? false : true}
         setFundPoolPresented={setFundPoolPresented} setShareView={setShareView}/>
 
     })
