@@ -4,15 +4,18 @@ import {programId, MODULE_FUND_POOL, ACTION_CREATE, ACTION_DELETE} from './useSo
 import { SolUtil } from '../utils/SolUtil';
 import { createFundPoolBytes, FundPool, extract_fund_pool } from '../state';
 import { POOL_MARKET_KEY } from '../utils/Keys';
-import useuserPool from'./useUserPool';
+import useUserPool from'./useUserPool';
 import * as splToken from "@solana/spl-token";
+import useToken from './useToken';
    
 export default function useFundPool(){
 
    
     const [connection, publicKey,  sendIns, , loading, setLoading, sendTxs] = useSolana();
 
-    const [,,,userPoolIdPubKey, UserPoolID] = useuserPool();
+    const [,,,userPoolIdPubKey, UserPoolID] = useUserPool();
+    
+    const [,,findAssociatedTokenAddress,,SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID] = useToken();
  
     function setStoredLastSeed(seed : string){
 
@@ -202,6 +205,21 @@ export default function useFundPool(){
 
         tx.add(
 
+          
+            /**             
+             * Create account will fail with error of "signature verification failed"
+             * So for the time being use createAccountWithSeed instead
+             * may need to look into the serum wallet adapter https://github.com/project-serum/sol-wallet-adapter
+             * So at the mean time, just leave it as it is
+             * web3.SystemProgram.createAccount({
+                fromPubkey: publicKey,
+                newAccountPubkey: mint,
+                space: splToken.MintLayout.span,
+                lamports: await splToken.Token.getMinBalanceRentForExemptMint(connection),
+                programId: splToken.TOKEN_PROGRAM_ID,
+              }),
+              */
+
             web3.SystemProgram.createAccountWithSeed({
                 fromPubkey: publicKey,
                 basePubkey : publicKey,
@@ -210,7 +228,7 @@ export default function useFundPool(){
                 space: splToken.MintLayout.span,
                 lamports: await splToken.Token.getMinBalanceRentForExemptMint(connection),
                 programId: splToken.TOKEN_PROGRAM_ID,
-            }), 
+            }),
 
             splToken.Token.createInitMintInstruction(
                 splToken.TOKEN_PROGRAM_ID, // program id,
@@ -222,67 +240,19 @@ export default function useFundPool(){
 
         );
 
-       
-        const accSeed =  "TkAcc" + randomSeed(); 
-        const mintAcc = await web3.PublicKey.createWithSeed(publicKey, accSeed , splToken.TOKEN_PROGRAM_ID);
+      
+        let mintAcc = await findAssociatedTokenAddress(publicKey, mint);
 
-        //const mintAcc = web3.Keypair.generate().publicKey;
-  
-        const acc = await connection.getAccountInfo(mintAcc);
+        // need to create the associated account
+        tx.add(
 
+            splToken.Token.createAssociatedTokenAccountInstruction(
+                SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, splToken.TOKEN_PROGRAM_ID,
+                mint,mintAcc,publicKey, publicKey),
+
+        );
     
-        // the following will cause a signature failure 
-        // with some wallets while using createAccount 
-        // and will cause error of 
-        // "Could not create program address with signer seeds: Provided seeds do not result in a valid address"
-        // when using createAccountWithSeed when testing on DevNet
-        // haven't figured out why?
-        if ( acc === null){
-
-            /*
-            tx.add(
-                web3.SystemProgram.createAccount({
-                    fromPubkey: publicKey,
-                    newAccountPubkey: mintAcc,
-                    space: splToken.AccountLayout.span,
-                    lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection),
-                    programId:splToken.TOKEN_PROGRAM_ID,
-                }),
-   
-                splToken.Token.createInitAccountInstruction(
-                    splToken.TOKEN_PROGRAM_ID,
-                    mint, // mint
-                    mintAcc,
-                    publicKey 
-                )
-            ); */
-
-            tx.add(
-    
-                web3.SystemProgram.createAccountWithSeed({
-                    fromPubkey: publicKey,
-                    basePubkey : publicKey,
-                    seed: accSeed,
-                    newAccountPubkey: mintAcc,
-                    space: splToken.AccountLayout.span,
-                    lamports: await splToken.Token.getMinBalanceRentForExemptAccount(connection) ,
-                    programId: splToken.TOKEN_PROGRAM_ID,
-                }),
-
-              
-                splToken.Token.createInitAccountInstruction(
-                    splToken.TOKEN_PROGRAM_ID, 
-                    mint, // mint
-                    mintAcc, // token account public key
-                    publicKey  // signer 
-                ),
         
-            
-            ); 
-
-        
-        }
-
         accounts.push(
 
             { pubkey : mint, isSigner : false, isWritable : false}, 

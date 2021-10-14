@@ -345,6 +345,6 @@ export default function useToken(){
 
     
 
-    return [createAndMintTo, loading, getAssociatedTokenAddress,txTo] as const;
+    return [createAndMintTo, loading, findAssociatedTokenAddress,txTo, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID] as const;
 
 }
