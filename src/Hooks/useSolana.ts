@@ -81,7 +81,8 @@ export default function useSolana() {
 
    async function sendTxs( transactions : web3.Transaction, 
     completionHandler : (result : string | Error) => void ){
-        sendTransaction(transactions, connection)
+        
+        await sendTransaction(transactions, connection)
         .then( value => {
 
             connection.confirmTransaction(value, 'processed').then (_ =>{
@@ -117,7 +118,7 @@ export default function useSolana() {
         const transaction = new web3.Transaction().add(instruction);
 
 
-        sendTransaction(transaction, connection)
+        await sendTransaction(transaction, connection)
         .then( value => {
 
             connection.confirmTransaction(value, 'processed').then (_ =>{
