@@ -1,3 +1,8 @@
+The Typescript JS client repo for the Solfund app
+
+Just clone or download this and cd into the folder 
+and type "yarn" to install all the required typescript components and then "yan start" to launch it. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
