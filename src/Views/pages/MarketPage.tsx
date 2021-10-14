@@ -42,7 +42,7 @@ export const MarketPage : React.FC = () =>{
        
 
           {
-          <Button shape="circle" style={{position:"fixed", display:"none", top:"200px",left:"40px", zIndex:1000}} onClick={async ()=> {    
+          <Button shape="circle" style={{position:"fixed", display:"block", top:"200px",left:"40px", zIndex:1000}} onClick={async ()=> {    
               createMarketAccount(completion2);
           }} ><FileAddOutlined/></Button>
         
