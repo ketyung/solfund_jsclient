@@ -61,9 +61,32 @@ export default function useFundPool(){
             
             if ( acc != null ){
 
-                extract_fund_pool(acc.data, 
-                    acc.lamports, 
-                    completionHandler);
+                extract_fund_pool(acc.data, (res : FundPool | Error) =>  {
+
+                        if (res instanceof Error){
+                
+                            completionHandler(res);
+                            setLoading(false);
+                
+                        }
+                        else {
+                
+                            let pda = connection.getAccountInfo(res.pool_pda);
+                            pda.then( value => {
+
+                                res.lamports = value?.lamports ?? 0;
+                                completionHandler(res);
+                            }).catch(_ => {
+
+                                completionHandler(res);
+                            });
+
+                        
+
+                            setLoading(false);        
+                        }
+                
+                    });
 
                 /**
                 console.log("acc.lamp", acc.lamports,
@@ -289,7 +312,7 @@ export default function useFundPool(){
 
         let fundPoolAccKey = await web3.PublicKey.createWithSeed(publicKey, lastSeed, programId);
     
-        let accDataSize : number  = 196 + (80 * 100) + (80 *100) + 2; // hard-coded first 
+        let accDataSize : number  = 228 + (80 * 100) + (80 *100) + 2; // hard-coded first 
  
         const acLp = await connection.getMinimumBalanceForRentExemption(accDataSize) ;
 

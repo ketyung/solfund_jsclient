@@ -125,12 +125,12 @@ export const extract_fund_pool_investor = (data : Uint8Array,
     completionHandler(poolInvestor);
 }
 
-export const extract_fund_pool = (data : Uint8Array, accountLamports : number, 
+export const extract_fund_pool = (data : Uint8Array, 
     completionHandler : (result : FundPool | Error) => void ) => {
 
     /**
      * 
-     *  let (is_initialized,manager, address, token_address, lamports, 
+     *  let (is_initialized,manager, address, pool_pda, token_address, lamports, 
             token_count,rm_token_count, token_to_lamport_ratio,
             is_finalized, icon, invs_len, wds_len, invs_flat,wds_flat)
      */
@@ -138,38 +138,31 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
 
     let manager = new web3.PublicKey( data.slice(1, 33) );
     let address = new web3.PublicKey (data.slice(33,65) );
+    let pool_pda = new web3.PublicKey (data.slice(65,97) );
 
-    //manager, address, token_mint, 
-      //  token_account, token_pda,
-
-
-    let token_mint = new web3.PublicKey (data.slice(65,97) );
-    let token_account = new web3.PublicKey (data.slice(97,129) );
-    let token_pda = new web3.PublicKey (data.slice(129,161) );
+                         
+    let token_mint = new web3.PublicKey (data.slice(97,129) );
+    let token_account = new web3.PublicKey (data.slice(129,161) );
+    let token_pda = new web3.PublicKey (data.slice(161,193) );
     
-    let lamports = accountLamports;
-
-    let fee_in_lamports = Buffer.from ( data.slice(161, 169)).readUInt32LE(0);
-    let token_count = Buffer.from ( data.slice(169, 177)).readUInt32LE(0);
-    let rm_token_count =  Buffer.from ( data.slice(177, 185)).readUInt32LE(0);
-    let token_to_sol_ratio =  (Buffer.from ( data.slice(185, 193)).readUInt32LE(0)) / web3.LAMPORTS_PER_SOL;
     
-    let is_finalized = Buffer.from( data.slice(193, 194) ).readUInt8(0) === 1 ? true : false ;
-    let icon = Buffer.from( data.slice(194 , 196) ).readUInt16LE(0);
+    let fee_in_lamports = Buffer.from ( data.slice(193, 201)).readUInt32LE(0);
+    let token_count = Buffer.from ( data.slice(201, 209)).readUInt32LE(0);
+    let rm_token_count =  Buffer.from ( data.slice(209, 217)).readUInt32LE(0);
+    let token_to_sol_ratio =  (Buffer.from ( data.slice(217, 225)).readUInt32LE(0)) / web3.LAMPORTS_PER_SOL;
     
-    let invs_len = Buffer.from( data.slice(196 , 197) ).readUInt8(0);
-    let wds_len = Buffer.from( data.slice(197 , 198) ).readUInt8(0);
+    let is_finalized = Buffer.from( data.slice(225, 226) ).readUInt8(0) === 1 ? true : false ;
+    let icon = Buffer.from( data.slice(226 , 228) ).readUInt16LE(0);
     
-    //console.log("icon", icon);
-    //console.log("is_final", is_finalized);
+    let invs_len = Buffer.from( data.slice(228 , 229) ).readUInt8(0);
+    let wds_len = Buffer.from( data.slice(229 , 230) ).readUInt8(0);
     
-    let e1 = (invs_len * 80) + 198;  
-    let invs = data.slice(198, e1 );
+    
+    let e1 = (invs_len * 80) + 230;  
+    let invs = data.slice(230, e1 );
     let wds = data.slice(e1 , e1 + (wds_len * 80) );
     
 
-  //  console.log("invs_len::", invs_len);
-   // console.log("wds_len::", wds_len);
     
     var validInvs  : Array<FundPoolInvestor> = [];
 
@@ -234,12 +227,14 @@ export const extract_fund_pool = (data : Uint8Array, accountLamports : number,
     }
 
    
+
+
     let f =  new  FundPool( { manager : manager, 
-        address: address,
+        address: address, pool_pda : pool_pda,
         token_mint : token_mint,
         token_account : token_account,
         token_pda : token_pda, 
-        lamports : Number(lamports),
+        lamports : 0,
         fee_in_lamports : Number(fee_in_lamports),
         token_count : Number(token_count),
         rm_token_count : Number(rm_token_count),
@@ -332,8 +327,8 @@ export const createInvestorBytes = (
 
 
 export const createFundPoolBytes = (manager : web3.PublicKey, 
-    address : web3.PublicKey, 
-    fee_in_lamports : number, token_count : number, token_to_lamport_ratio : number, 
+    address : web3.PublicKey, fee_in_lamports : number,
+    token_count : number, token_to_lamport_ratio : number, 
     is_finalized : boolean, icon : number) => {
 
         // manager,lamports, token_count,is_finalized
@@ -497,7 +492,9 @@ export class FundPool {
     manager : web3.PublicKey = web3.PublicKey.default ;
 
     address : web3.PublicKey = web3.PublicKey.default ;
-
+   
+    pool_pda : web3.PublicKey = web3.PublicKey.default ;
+    
     token_mint : web3.PublicKey = web3.PublicKey.default ;
 
     token_account : web3.PublicKey = web3.PublicKey.default ;
@@ -526,6 +523,7 @@ export class FundPool {
     constructor ( pool : {
         manager : web3.PublicKey, 
         address  : web3.PublicKey,
+        pool_pda  : web3.PublicKey,
         token_mint  : web3.PublicKey,
         token_account  : web3.PublicKey,
         token_pda  : web3.PublicKey,
@@ -545,6 +543,7 @@ export class FundPool {
 
             this.manager = pool.manager;
             this.address = pool.address;
+            this.pool_pda = pool.pool_pda;
             this.token_mint = pool.token_mint;
             this.token_account = pool.token_account;
             this.token_pda = pool.token_pda;

@@ -172,12 +172,15 @@ export default function useInvestor(){
        
        // console.log("amount", amount);
 
+       //console.log("fundPool.pda:::", fundPool.pool_pda.toBase58());
+
         let data = SolUtil.createBuffer(investor_data,ACTION_CREATE,MODULE_INVESTOR);
 
         var accounts : Array<web3.AccountMeta> = [
             { pubkey: investorAccKey, isSigner: false, isWritable: true },
             { pubkey: investorPoolKey, isSigner: false, isWritable: true },
             { pubkey: fundPool.address , isSigner: false, isWritable: true },
+            { pubkey: fundPool.pool_pda , isSigner: false, isWritable: true },
             { pubkey: publicKey, isSigner: true, isWritable: false },
             { pubkey: web3.SystemProgram.programId, isSigner: false, isWritable: true },
             { pubkey : fundPool.manager, isSigner : false, isWritable: true},

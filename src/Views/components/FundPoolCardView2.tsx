@@ -39,14 +39,25 @@ export const FundPoolCardView2 : React.FC <FundPoolCardView2Props> = ({address,
         if (fpAcc != null){
 
             extract_fund_pool(fpAcc.data, 
-                fpAcc.lamports, 
                 (res : FundPool | Error) =>  {
 
                 if (!(res instanceof Error)){
         
                     if ( res.address.toBase58() === address.toBase58()){
 
-                       setFundPool(res);
+                       let pda = connection.getAccountInfo(res.pool_pda);
+                          
+                       pda.then( value => {
+
+                           res.lamports = value?.lamports ?? 0;
+                           setFundPool(res);
+    
+                       }).catch(_ => {
+
+
+                           setFundPool(res);
+                       });
+
                     }
                    
                 }
