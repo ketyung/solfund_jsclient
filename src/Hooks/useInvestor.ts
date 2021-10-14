@@ -237,14 +237,19 @@ export default function useInvestor(){
         // use associated token address
         const receiverTokenAcc =  await findAssociatedTokenAddress(publicKey, mint);
 
-        // and create it 
-        tx.add(
+        // and create it if null !
+        if ( await connection.getAccountInfo(receiverTokenAcc) == null ){
+
+            tx.add(
     
-            splToken.Token.createAssociatedTokenAccountInstruction(
-                SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, splToken.TOKEN_PROGRAM_ID,
-                mint,receiverTokenAcc,publicKey, publicKey),
-    
-        );
+                splToken.Token.createAssociatedTokenAccountInstruction(
+                    SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, splToken.TOKEN_PROGRAM_ID,
+                    mint,receiverTokenAcc,publicKey, publicKey),
+        
+            );
+            
+        }
+
         
       
 

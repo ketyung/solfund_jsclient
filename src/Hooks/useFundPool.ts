@@ -243,15 +243,19 @@ export default function useFundPool(){
       
         let mintAcc = await findAssociatedTokenAddress(publicKey, mint);
 
-        // need to create the associated account
-        tx.add(
+        // need to create the associated account if null
+         if ( await connection.getAccountInfo(mintAcc) == null ){
 
-            splToken.Token.createAssociatedTokenAccountInstruction(
-                SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, splToken.TOKEN_PROGRAM_ID,
-                mint,mintAcc,publicKey, publicKey),
+            tx.add(
 
-        );
+                splToken.Token.createAssociatedTokenAccountInstruction(
+                    SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, splToken.TOKEN_PROGRAM_ID,
+                    mint,mintAcc,publicKey, publicKey),
     
+            );
+        
+        }
+       
         
         accounts.push(
 
