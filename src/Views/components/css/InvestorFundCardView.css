@@ -1,42 +1,96 @@
-.investorPoolNorm{
+@media only screen and (max-device-width: 768px){
 
-    display:inline-block;
-    width:26%;
-    border: 1px solid #eed;
-    padding:10px 10px 10px 50px;
-    margin:10px;
-    border-radius: 20px;
-    background-color: #317377;
-    max-height:200px;
-    color:white;
-    text-align: justify;
+    .investorPoolNorm{
+
+        display:block;
+        width:90%;
+        border: 1px solid #eed;
+        padding:10px 10px 10px 50px;
+        border-radius: 20px;
+        background-color: #317377;
+        height:170px;
+        color:white;
+        text-align: justify;
+        margin:auto;
+        margin-bottom: 20px;
+
+    }
+
+    .investorPoolNorm:hover{
+
+        background-color: #952;
+        color:white;
+    }
+
+
+    .investorPoolBrk{
+        display:block;
+        width:90%;
+        border: 1px solid #eed;
+        padding:10px 10px 10px 50px;
+        margin:10px;
+        border-radius: 20px;
+        background-color: #317377;
+        clear:both;
+        color:white;
+        height:170px;
+        text-align: justify;   
+        margin:auto;
+        margin-bottom: 20px;
+
+    }
+
+
+    .investorPoolBrk:hover {
+
+        background-color: #952;
+        color:white;
+        
+    }
 }
 
-.investorPoolNorm:hover{
+@media only screen and (min-device-width: 769px){
 
-    background-color: #952;
-    color:white;
-}
+    .investorPoolNorm{
+
+        display:inline-block;
+        width:26%;
+        border: 1px solid #eed;
+        padding:10px 10px 10px 50px;
+        margin:10px;
+        border-radius: 20px;
+        background-color: #317377;
+        max-height:200px;
+        color:white;
+        text-align: justify;
+    }
+
+    .investorPoolNorm:hover{
+
+        background-color: #952;
+        color:white;
+    }
 
 
-.investorPoolBrk{
-    display:inline-block;
-    width:26%;
-    border: 1px solid #eed;
-    padding:10px 10px 10px 50px;
-    margin:10px;
-    border-radius: 20px;
-    background-color: #317377;
-    clear:both;
-    color:white;
-    max-height:200px;
-    text-align: justify;   
-}
+    .investorPoolBrk{
+        display:inline-block;
+        width:26%;
+        border: 1px solid #eed;
+        padding:10px 10px 10px 50px;
+        margin:10px;
+        border-radius: 20px;
+        background-color: #317377;
+        clear:both;
+        color:white;
+        max-height:200px;
+        text-align: justify;   
+    }
 
 
-.investorPoolBrk:hover {
+    .investorPoolBrk:hover {
 
-    background-color: #952;
-    color:white;
-    
+        background-color: #952;
+        color:white;
+        
+    }
 }

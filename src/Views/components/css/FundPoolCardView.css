@@ -1,42 +1,92 @@
-.fundPoolNorm{
+@media only screen and (max-width: 768px), only screen and (max-device-width: 768px){
 
-    display:inline-block;
-    width:26%;
-    border: 1px solid #aab;
-    padding:10px 10px 10px 50px;
-    margin:10px;
-    border-radius: 20px;
-    background-color: #233336;
-    max-height:200px;
-    color:white;
-    text-align: justify;
-}
+    .fundPoolNorm{
 
-.fundPoolNorm:hover{
+        display:block;
+        max-width:90%;
+        border: 1px solid #aab;
+        border-radius: 20px;
+        background-color: #233336;
+        height:200px;
+        color:white;
+        text-align: justify;
+        padding:10px;
+        margin: auto; 
+        margin-bottom: 20px;
+        
+    }
 
-    background-color: #347;
-    color:white;
-}
+    .fundPoolNorm:hover{
 
+        background-color: #347;
+        color:white;
+    }
 
-.fundPoolBrk{
-    display:inline-block;
-    width:26%;
-    border: 1px solid #aab;
-    padding:10px 10px 10px 50px;
-    margin:10px;
-    border-radius: 20px;
-    background-color: #233336;
-    clear:both;
-    color:white;
-    max-height:200px;
-    text-align: justify;   
-}
-
-
-.fundPoolBrk:hover {
-
-    background-color: #347;
-    color:white;
+    .fundPoolBrk{
     
+        display:block;
+        max-width:90%;
+        border: 1px solid #aab;
+        border-radius: 20px;
+        background-color: #233336;
+        height:200px;
+        color:white;
+        text-align: justify;
+        padding:10px;
+        margin: auto; 
+        margin-bottom: 20px;
+     
+    }
+
+    .fundPoolBrk:hover {
+    
+        background-color: #347;
+        color:white;
+    }
+}
+
+@media only screen and (min-device-width: 769px){
+
+    .fundPoolNorm{
+
+        display:inline-block;
+        width:26%;
+        border: 1px solid #aab;
+        padding:10px 10px 10px 50px;
+        margin:10px;
+        border-radius: 20px;
+        background-color: #233336;
+        max-height:200px;
+        color:white;
+        text-align: justify;
+    }
+
+    .fundPoolNorm:hover{
+
+        background-color: #347;
+        color:white;
+    }
+
+
+    .fundPoolBrk{
+        display:inline-block;
+        width:26%;
+        border: 1px solid #aab;
+        padding:10px 10px 10px 50px;
+        margin:10px;
+        border-radius: 20px;
+        background-color: #233336;
+        clear:both;
+        color:white;
+        max-height:200px;
+        text-align: justify;   
+    }
+
+
+    .fundPoolBrk:hover {
+
+        background-color: #347;
+        color:white;
+        
+    }
 }
