@@ -10,14 +10,35 @@
 
 }
 
-.homeFundPoolDiv .title {
+@media only screen and (min-device-width: 769px){
 
-    font-weight: "bolder";
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size:18pt;
-    color: blanchedalmond;
-    margin: 10px 10px 3px 3px;
-    padding:10px;
+    .homeFundPoolDiv .title {
+
+        font-weight: "bolder";
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size:18pt;
+        color: blanchedalmond;
+        margin: 10px 10px 3px 3px;
+        padding:10px;
+        display:inline-block;
+    }
+
+}
+
+
+@media only screen and (max-device-width: 768px){
+
+    .homeFundPoolDiv .title {
+
+        font-weight: "bolder";
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size:15pt;
+        color: blanchedalmond;
+        margin: 10px 10px 3px 3px;
+        padding:10px;
+        display:block;
+    }
+    
 }
 
 .homeFundPoolDiv .addNewButton {
