@@ -1,5 +1,5 @@
 import * as web3 from '@solana/web3.js';
-import {programId, MODULE_MARKET, ACTION_CREATE, ACTION_REGISTER_ADDR} from './useSolana';
+import {programId, MODULE_MARKET, ACTION_CREATE} from './useSolana';
 import useSolana from './useSolana';
 import { extract_market, Market} from '../state';
 import { SolUtil } from '../utils/SolUtil';

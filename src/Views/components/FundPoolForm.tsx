@@ -29,7 +29,7 @@ export const FundPoolForm   : React.FC<FundPoolFormProps> = ({setValuesOf}) =>{
 
     const [valueInSol, setValueInSol] = useState(0);
     
-    const [finalized, setFinalized] = useState(false);
+    const [finalized] = useState(false);
  
     const [commissionInSol, setCommissionInSol] = useState(0);
     

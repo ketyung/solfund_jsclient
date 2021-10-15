@@ -5,7 +5,7 @@
  * By Christopher K Y Chee (ketyung@techchee.com)
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import useToken from '../../Hooks/useToken';
 import { Button, Spin, Modal, Form, Input } from 'antd';
@@ -22,7 +22,7 @@ export const TokenTestView : React.FC = () => {
 
     const [modal2Presented, setModal2Presented] = useState(false);
 
-    const [modal3Presented, setModal3Presented] = useState(false);
+    const [,setModal3Presented] = useState(false);
 
     const [tokenCount, setTokenCount] = useState(0);
     
@@ -113,7 +113,7 @@ export const TokenTestView : React.FC = () => {
 
         <p><a style={{color:"white"}} 
         href="https://solscan.io/account/4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X?cluster=devnet"
-        target="_blank">View on SolScan</a></p>
+        target="_blank" rel="noreferrer">View on SolScan</a></p>
 
        <Modal title="Create And Mint Token 1"
           style={{minWidth:"80%"}}

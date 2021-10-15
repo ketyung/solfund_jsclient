@@ -15,7 +15,7 @@ const myProgramId : web3.PublicKey = new web3.PublicKey("4jMJG9RfsdonDTShkHTxv2R
 
 export default function useToken(){
 
-    const [connection, publicKey, , ,loading , setLoading, sendTxs, wallet] = useSolana();
+    const [connection, publicKey, , ,loading , setLoading, sendTxs] = useSolana();
 
   
     const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: web3.PublicKey = new web3.PublicKey(
@@ -36,29 +36,6 @@ export default function useToken(){
     }
 
 
-    async function getAssociatedTokenAddress(seed : string ) : Promise <web3.PublicKey|null> {
-
-
-        if ( !publicKey){
-
-            return null ;
-        }
-
-        const tokenKey = await web3.PublicKey.createWithSeed(publicKey, seed, splToken.TOKEN_PROGRAM_ID);
-
-        try {
-
-            let f = await findAssociatedTokenAddress(publicKey, tokenKey);
-            
-            return f ;
-
-        } 
-        catch(err){
-
-            console.log("err::", err);
-            return null;
-        }
-    }
 
 
     async function txTo(mintStr : string, accSeed : string,  

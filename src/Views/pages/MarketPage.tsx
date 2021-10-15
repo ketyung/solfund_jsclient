@@ -1,35 +1,20 @@
 import React, {useState} from 'react';
 import 'antd/dist/antd.css';
 import { Button, Spin } from 'antd';
-import { success,error } from '../../utils/Mesg';
 import useMarket from '../../Hooks/useMarket';
 import '../css/common.css';
 import { POOL_MARKET_KEY } from '../../utils/Keys';
 import { MarketFundPoolsView } from '../components/MarketFundPoolsView';
-import {ReloadOutlined, FileAddOutlined} from '@ant-design/icons';
+import {ReloadOutlined, /*FileAddOutlined */} from '@ant-design/icons';
 
 
 export const MarketPage : React.FC = () =>{
 
-    const [createMarketAccount, , loading] = useMarket();
+    const [/*createMarketAccount */, , loading] = useMarket();
 
     const [reload, setReload] = useState(false);
 
-    const completion2 = (res : boolean | Error) =>  {
-
-        if (res instanceof Error){
-
-            error((res as Error).message, 5 );
-
-        }
-        else {
-
-            success("Success!", 5);
-
-            console.log("succ::market::",res );
-        }
-    }
-
+  
 
     return <div>
           <div style={{display: loading ? "block" : "none", margin : "10px"}}><Spin size="large"/></div>
