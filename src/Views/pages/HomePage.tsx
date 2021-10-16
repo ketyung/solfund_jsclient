@@ -38,7 +38,7 @@ export const HomePage : React.FC = () => {
         </div>
 
         <div style={{color:"wheat",marginTop:"40px"}}>
-            Note: Some CSS isn't optimized for mobile yet, will do soon...
+            Note: Not all CSS optimized for mobile yet, will do soon...
         </div>
         </div>
     
