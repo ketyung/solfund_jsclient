@@ -5,8 +5,7 @@ import { FundPool, Market } from '../../state';
 import { error, success } from '../../utils/Mesg';
 import * as web3 from '@solana/web3.js';
 import { FundPoolCardView2 } from './FundPoolCardView2';
-import {Modal,Spin, Image} from 'antd';
-import { ShareView } from './ShareView';
+import {Spin} from 'antd';
 import './css/modal.css';
 import {InvestmentModalForm, ShareModalForm} from '../components/CommonModalForms';
 
