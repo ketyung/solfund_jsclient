@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import useFundPool from '../../Hooks/useFundPool';
 import {FundPool} from '../../state';
-import { error } from '../../utils/Mesg';
 import * as web3 from '@solana/web3.js';
 import {FundPoolCardView} from '../components/FundPoolCardView';
 import './css/FundPoolPage.css';
 import {Menu, Dropdown, Button} from 'antd';
+import { error, success } from '../../utils/Mesg';
+import {InvestmentModalForm, ShareModalForm} from '../components/CommonModalForms';
+import useInvestor from '../../Hooks/useInvestor';
 
 
 interface FundPoolViewProps {
@@ -19,13 +21,80 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
 
     const [fundPool, setFundPool] = useState<FundPool>();
 
+    const [tokenCount ,setTokenCount] = useState(0);
+    
+    const [amount,setAmount] = useState(0);
+
+    const [errorMessage,setErrorMessage] = useState<string|null>();
+   
+    const [addInvestor,,investorLoading] = useInvestor();
+
+    const setValuesOf = (token_count : number, amount : 
+      number, errorMessage : string | null  ) => {
+
+      setTokenCount(token_count);
+      setAmount(amount);
+      setErrorMessage(errorMessage);
+    }
+
+    const [modalPresented, setModalPresented] = useState(false);
+
+    const [shareModalPresented, setShareModalPresented] = useState(false);
+
+    const submitInvestor = async () => {
+
+      if ( errorMessage != null){
+          error(errorMessage);
+      }
+      else {
+
+           if ( amount === 0 ){
+
+               error("Invalid amount");
+               return;
+           }
+
+           if ( tokenCount === 0 ){
+
+               error("Invalid token count");
+               return;
+           }
+           
+           if (fundPool?.address) {
+
+               await addInvestor(fundPool, 
+                   amount, tokenCount, completion);
+           }
+           else {
+
+               error("No selected address!");
+           }
+      }
+    }
+
+    const completion = (res : boolean | Error) =>  {
+
+      if (res instanceof Error){
+
+          error((res as Error).message, 5 );
+
+      }
+      else {
+
+          success("Success!", 3);
+          setModalPresented(false);
+          readAddr();
+
+      }
+  }
+
+
     const setAddressPresented = ( address : web3.PublicKey) => {
 
-    }
-
-    const setShareView = ( presented : boolean) => {
+        setModalPresented(true);
 
     }
+
 
     const cluster = "devnet"; // temporary hard coded here first
 
@@ -47,24 +116,34 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
         </Menu>
       );
     
+
+    async function readAddr(){
+
+       
+       await read (address, 
+          
+          (res : FundPool | Error) =>  {
+
+              if (res instanceof Error){
+      
+                  error(res.message);
+              }
+              else {
+      
+                  setFundPool(res);
+                  console.log("red.adrr");
+
+              }
+
+       
+          }
+      );
+ 
+    }
+
     useEffect(() => {
     
-        read (address, 
-        
-            (res : FundPool | Error) =>  {
-
-                if (res instanceof Error){
-        
-                    error(res.message);
-                }
-                else {
-        
-                    setFundPool(res);
-                }
-        
-            }
-        );
-        //readAddr();
+        readAddr();
 
     }, [address])
   
@@ -77,7 +156,7 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
         icon={fundPool?.icon ?? 0} 
         className="fundPool" feeInLamports={fundPool?.fee_in_lamports ?? 0}
         setAddressPresented={setAddressPresented}
-        setShareView={setShareView}
+        setShareView={setShareModalPresented}
         />
     <div className="investorDiv">
     <div className="topBar">
@@ -108,6 +187,15 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
         })
     }
     </div>
+    <InvestmentModalForm modalPresented={modalPresented} setModalPresented={setModalPresented}
+    submitInvestor={submitInvestor} selectedFundPool={fundPool} investorLoading={investorLoading}
+    setValuesOf={setValuesOf}
+    />
+
+    <ShareModalForm address={fundPool?.address?.toBase58() ?? ""} modalPresented={shareModalPresented}
+    setModalPresented={setShareModalPresented} />
+
+
     </div>;
 
 }
