@@ -6,8 +6,8 @@ https://devpost.com/software/solafund
 Just clone or download this and cd into the folder 
 and type "yarn" to install all the required typescript components and then "yan start" to launch it. 
 
-This is a complete serverless dApp, which you can just run it on your localhost. There is also an online
-version temporarily hosted at https://solfund.techchee.com/
+This is a complete serverless dApp, which you can just run it on your localhost and all data stored on the Solana blockchain. 
+There is also an online version temporarily hosted at https://solfund.techchee.com/
 
 # Getting Started with Create React App
 
