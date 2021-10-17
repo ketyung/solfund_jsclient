@@ -135,6 +135,7 @@ export default function useInvestor(){
        
             const lp = await connection.getMinimumBalanceForRentExemption(poolSize) ;
 
+
             const createInvPoolAccTx = new web3.Transaction().add(
                 web3.SystemProgram.createAccountWithSeed({
                 fromPubkey: publicKey,
@@ -145,26 +146,56 @@ export default function useInvestor(){
                 }),
             );
 
+            /*
+            const createInvPoolAccTx = new web3.Transaction().add(
+                web3.SystemProgram.createAccount({
+
+                    fromPubkey: publicKey,
+                    newAccountPubkey:  web3.Keypair.generate().publicKey,
+                    space: poolSize,
+                    lamports: lp,
+                    programId: programId,
+
+                }),
+            );*/
+
             allTxs.add(createInvPoolAccTx);
 
         
         }
 
 
-        let size : number  = (32 * 4) + (8 * 3) ; // hard-coded first 
+        let invAccSize : number  = (32 * 4) + (8 * 3) ; // hard-coded first 
         let seed = genSeed();
-        let investorAccKey =  await web3.PublicKey.createWithSeed(publicKey,seed, programId);
-        const lp = await connection.getMinimumBalanceForRentExemption(size) ;
+        const lp = await connection.getMinimumBalanceForRentExemption(invAccSize) ;
 
+        let investorAccKey =  await web3.PublicKey.createWithSeed(publicKey,seed, programId);
         const createInvAccTx = new web3.Transaction().add(
             web3.SystemProgram.createAccountWithSeed({
             fromPubkey: publicKey,
             basePubkey: publicKey,
             seed: seed,
             newAccountPubkey: investorAccKey,
-            lamports: lp, space: size ,programId,
+            lamports: lp, space: invAccSize ,programId,
             }),
         );
+
+        /*
+        let investorAccKey =  web3.Keypair.generate().publicKey; 
+
+        const createInvAccTx = new web3.Transaction().add(
+
+
+            web3.SystemProgram.createAccount({
+
+                fromPubkey: publicKey,
+                newAccountPubkey: investorAccKey,
+                space: invAccSize,
+                lamports: lp,
+                programId: programId,
+
+            }),
+        );*/
 
             
         allTxs.add(createInvAccTx);
@@ -200,6 +231,7 @@ export default function useInvestor(){
             keys: accounts, data: data, });
 
         allTxs.add(addInvIx);
+        allTxs.feePayer = publicKey;
      
         sendTxs(allTxs, (res : string | Error) =>  {
 

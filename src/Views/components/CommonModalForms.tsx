@@ -25,7 +25,7 @@ interface InvestmentFormProps  {
 export const InvestmentModalForm : React.FC <InvestmentFormProps> = ({modalPresented, setModalPresented,
     submitInvestor, selectedFundPool, investorLoading, setValuesOf}) =>{
 
-    return <Modal 
+    return <Modal destroyOnClose={true} 
     title={
     <div>
       <Image width={30} title="Icon" alt="Icon" style={{ verticalAlign: 'middle', 
