@@ -6,7 +6,7 @@ import './css/FundPoolCardView.css';
 import './css/SolToUsdView.css';
 import {format_pub_key_shorter} from '../../state/';
 import {Button} from 'antd';
-import {UserAddOutlined, ShareAltOutlined, InfoOutlined, SettingOutlined} from '@ant-design/icons';
+import {ShareAltOutlined, InfoOutlined} from '@ant-design/icons';
 import {Link} from 'wouter';
 import {extract_fund_pool, FundPool} from '../../state';
 import useSolana from '../../Hooks/useSolana';
@@ -37,6 +37,36 @@ export const FundPoolCardView2 : React.FC <FundPoolCardView2Props> = ({address,
     const [connection] = useSolana();
 
     const fundValue = (fundPool?.lamports ?? 0)/web3.LAMPORTS_PER_SOL;
+
+    const investButton =  managedByManager ?
+
+    <Button shape="round" 
+    style={{backgroundColor:"#251", float:"right", color:"white", fontWeight:"bolder"}} onClick={()=>{
+
+        if ( fundPool ){
+
+            setFundPoolPresented(fundPool, managedByManager);
+        }
+    
+    }} title="Manage This Pool" >
+    Manage
+    </Button>
+
+    :
+
+    <Button className="investButton" shape="round" 
+    style={{backgroundColor:"#718", float:"right", color:"white", fontWeight:"bolder"}} onClick={()=>{
+
+        if ( fundPool ){
+
+            setFundPoolPresented(fundPool, managedByManager);
+
+        }
+    
+    }} title="Invest In This Pool">
+    Invest    
+    </Button>
+
 
     async function readData(pubkey : web3.PublicKey){
 
@@ -85,18 +115,7 @@ export const FundPoolCardView2 : React.FC <FundPoolCardView2Props> = ({address,
     return <div className={className}>
     
         <div>
-        <Button shape="circle" style={{float:"right"}} onClick={()=>{
-
-            if ( fundPool ){
-
-                setFundPoolPresented(fundPool, managedByManager);
-
-            }
-        
-        }} title={managedByManager ? "Manage This Pool" :  "Invest In This Fund"} >
-        {managedByManager ? <SettingOutlined /> :  <UserAddOutlined />}
-
-        </Button>
+        {investButton}
         <span>
         <Image width={50} title="Icon" alt="Icon" style={{ verticalAlign: 'middle' }}
         height={50} preview={false}

@@ -18,9 +18,10 @@
 
     .fundPoolNorm:hover{
 
-        background-color: #347;
+        background-image: linear-gradient(to right,#111122 ,#347);      
         color:white;
     }
+
 
     .fundPoolBrk{
     
@@ -28,7 +29,7 @@
         max-width:90%;
         border: 1px solid #aab;
         border-radius: 20px;
-        background-color: #233336;
+        background-image: linear-gradient(to right,#223344 ,#235682);
         height:200px;
         color:white;
         text-align: justify;
@@ -39,10 +40,14 @@
     }
 
     .fundPoolBrk:hover {
-    
-        background-color: #347;
+
+        background-image: linear-gradient(to right,#111122 ,#347);      
         color:white;
+        
     }
+
+
+
 }
 
 @media only screen and (min-device-width: 769px){
@@ -89,4 +94,5 @@
         color:white;
         
     }
+
 }

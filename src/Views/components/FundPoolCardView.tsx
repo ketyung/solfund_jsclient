@@ -5,7 +5,7 @@ import {ICONS} from './IconsChooser';
 import './css/FundPoolCardView.css';
 import {format_pub_key_shorter} from '../../state/';
 import {Tooltip,Button} from 'antd';
-import {UserAddOutlined, ShareAltOutlined, InfoOutlined} from '@ant-design/icons';
+import {ShareAltOutlined, InfoOutlined} from '@ant-design/icons';
 import {Link} from 'wouter';
 import {SolToUsdView} from './SolToUsdView';
 
@@ -42,12 +42,14 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
     return <div className={className}>
     
         <div>
-        <Button shape="circle" style={{float:"right"}} onClick={()=>{
+        <Button className="investButton" shape="round" 
+        style={{backgroundColor:"#718", float:"right", color:"white", fontWeight:"bolder"}} onClick={()=>{
+
 
             setAddressPresented(new web3.PublicKey(address));
 
         }} title="Invest In This Fund" >
-        <UserAddOutlined />
+        Invest
         </Button>
         <span>
         <Image width={50} title="Icon" alt="Icon" style={{ verticalAlign: 'middle' }}
