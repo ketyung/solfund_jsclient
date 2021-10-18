@@ -8,6 +8,8 @@ import { FundPoolCardView2 } from './FundPoolCardView2';
 import {Spin} from 'antd';
 import './css/modal.css';
 import {InvestmentModalForm, ShareModalForm} from '../components/CommonModalForms';
+import usePythSolToUsdAuto from '../../Hooks/usePythSolToUsdAuto';
+
 
 interface MarketFundPoolsProps {
 
@@ -42,6 +44,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
     const [fundPoolLoading, setFundPoolLoading] = useState(false);
 
     const [addInvestor,,investorLoading] = useInvestor();
+
+    const [solToUsd] = usePythSolToUsdAuto();
 
     const completion = (res : boolean | Error) =>  {
 
@@ -122,7 +126,7 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     fundPoolAddresses.map(  (address, index) => {
 
-        return <FundPoolCardView2 address={address}  
+        return <FundPoolCardView2 address={address}  solToUsd={solToUsd}
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
         key ={"fundPool2_" + index } managedByManager={false} 
         setFundPoolPresented={setFundPoolPresented} setShareView={setShareView}/>

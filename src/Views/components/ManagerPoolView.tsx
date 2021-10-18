@@ -150,7 +150,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
 
     fundPoolAddresses.map(  (poolAddr, index) => {
 
-        return <FundPoolCardView2 address={poolAddr}  
+        return <FundPoolCardView2 address={poolAddr} solToUsd={0} 
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
         key ={"fundPool" + index } managedByManager={ address ? false : true}
         setFundPoolPresented={setFundPoolPresented} setShareView={setShareView}/>

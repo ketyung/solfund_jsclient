@@ -85,13 +85,12 @@ export const MenuView : React.FC = () => {
                 <a className="link">About <InfoCircleOutlined /></a>
                 </Link>
             </div>
-            {/**
+            {/*
             <div className={matchTokenTest ? "topLinkSel" : "topLink"}>
                 <Link href="/tokentest">
                 <a className="link">Token</a>
                 </Link>
-            </div>
-             */
+            </div>*/
             }
             </div>
     </span>

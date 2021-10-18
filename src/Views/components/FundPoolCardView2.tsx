@@ -3,6 +3,7 @@ import * as web3 from '@solana/web3.js';
 import {Image} from 'antd';
 import {ICONS} from './IconsChooser';
 import './css/FundPoolCardView.css';
+import './css/SolToUsdView.css';
 import {format_pub_key_shorter} from '../../state/';
 import {Button} from 'antd';
 import {UserAddOutlined, ShareAltOutlined, InfoOutlined, SettingOutlined} from '@ant-design/icons';
@@ -18,6 +19,8 @@ interface FundPoolCardView2Props {
 
     managedByManager : boolean, 
 
+    solToUsd : number,
+
     setFundPoolPresented : ( fundPool : FundPool, managedByManager : boolean) => void ,
 
     setShareView: (presented : boolean, address : web3.PublicKey) => void ,
@@ -26,11 +29,14 @@ interface FundPoolCardView2Props {
 }
 
 export const FundPoolCardView2 : React.FC <FundPoolCardView2Props> = ({address, 
-    className, managedByManager, setFundPoolPresented, setShareView}) => {
+    className, managedByManager, solToUsd, 
+    setFundPoolPresented, setShareView}) => {
 
     const [fundPool, setFundPool] = useState<FundPool>();
 
     const [connection] = useSolana();
+
+    const fundValue = (fundPool?.lamports ?? 0)/web3.LAMPORTS_PER_SOL;
 
     async function readData(pubkey : web3.PublicKey){
 
@@ -107,9 +113,11 @@ export const FundPoolCardView2 : React.FC <FundPoolCardView2Props> = ({address,
        
         <div className="item">Token : {fundPool?.token_count?? 0}</div>
 
-        <div className="item">Fund : {((fundPool?.lamports ?? 0)/web3.LAMPORTS_PER_SOL).toFixed(5)} SOL</div>
+        <div className="item">Fund : {fundValue.toFixed(3)} SOL
+        {solToUsd > 0 ? <div className="solToUsdSmall">${(fundValue * solToUsd).toFixed(2)}</div> : <></>}
+        </div>
 
-        <div className="item">Commission: {((fundPool?.fee_in_lamports ?? 0)/web3.LAMPORTS_PER_SOL).toFixed(5)} SOL</div>
+        <div className="item">Commission: {((fundPool?.fee_in_lamports ?? 0)/web3.LAMPORTS_PER_SOL).toFixed(3)} SOL</div>
  
 
         <Button shape="circle" style={{float:"right", marginLeft:"20px"}}

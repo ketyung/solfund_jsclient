@@ -7,6 +7,7 @@ import {format_pub_key_shorter} from '../../state/';
 import {Tooltip,Button} from 'antd';
 import {UserAddOutlined, ShareAltOutlined, InfoOutlined} from '@ant-design/icons';
 import {Link} from 'wouter';
+import {SolToUsdView} from './SolToUsdView';
 
 interface FundPoolCardViewProps {
 
@@ -36,6 +37,8 @@ interface FundPoolCardViewProps {
 export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, manager, 
     tokenCount, lamports,feeInLamports, valueInSol, icon, className, setAddressPresented, setShareView}) => {
 
+    const solValue = lamports/web3.LAMPORTS_PER_SOL;
+
     return <div className={className}>
     
         <div>
@@ -64,7 +67,7 @@ export const FundPoolCardView : React.FC <FundPoolCardViewProps> = ({address, ma
 
         <div className="item">Token : {tokenCount}</div>
 
-        <div className="item">Fund : {(lamports/web3.LAMPORTS_PER_SOL).toFixed(5)} SOL</div>
+        <div className="item">Fund : {solValue.toFixed(5)} SOL <SolToUsdView valueInSol={solValue} id={1}/></div>
 
         <div className="item">Commission: {(feeInLamports/web3.LAMPORTS_PER_SOL).toFixed(5)} SOL</div>
  

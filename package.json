@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@pythnetwork/client": "^2.3.2",
     "@solana/spl-token": "^0.1.8",
     "@solana/spl-token-registry": "^0.2.273",
     "@solana/wallet-adapter-base": "^0.6.0",

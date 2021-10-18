@@ -11,7 +11,8 @@ import useToken from '../../Hooks/useToken';
 import { Button, Spin, Modal, Form, Input } from 'antd';
 import { success,error } from '../../utils/Mesg';
 import '../css/common.css';
-//import * as web3 from '@solana/web3.js';
+import { SolToUsdView } from '../components/SolToUsdView';
+import usePythSolToUsd from '../../Hooks/usePythSolToUsd';
 
 export const TokenTestView : React.FC = () => {
 
@@ -27,7 +28,8 @@ export const TokenTestView : React.FC = () => {
     const [tokenCount, setTokenCount] = useState(0);
     
     const [seed, setSeed] = useState("");
-    
+
+    const [fetchSolToUsd, solToUsd] = usePythSolToUsd();
   
     const tokenCountOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
 
@@ -45,6 +47,16 @@ export const TokenTestView : React.FC = () => {
     };
 
   
+    const solToUsdViews = () => {
+        var rows = [];
+        for (var i = 0; i < 10; i++) {
+            rows.push(<SolToUsdView valueInSol={1*i} id={i} key={i}/>);
+        } 
+    
+        return <p>{rows}</p>;
+    }
+
+    
 
     
 
@@ -108,8 +120,18 @@ export const TokenTestView : React.FC = () => {
 
         }}>Show Token List</Button></p>
 
-       
 
+        <p><Button className="commonButton" onClick={async ()=> {
+              
+              fetchSolToUsd();
+
+        }}>Fetch Sol To USD</Button></p>
+
+        <p style={{color:"white"}}>{solToUsd.toFixed(3)}</p>
+
+
+        <p>{solToUsdViews()}</p>
+       
 
         <p><a style={{color:"white"}} 
         href="https://solscan.io/account/4jMJG9RfsdonDTShkHTxv2R7rGTqd3NC2Fqb9ckmrT3X?cluster=devnet"
