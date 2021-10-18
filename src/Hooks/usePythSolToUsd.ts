@@ -72,7 +72,7 @@ export default function usePythSolToUsd() {
         const priceData = parsePriceData(account.data);
        // console.log("priceData::", priceData.price);
         let confidence = Math.abs(priceData.confidence);
-        if ( confidence > 0.1){
+        if ( confidence > 0.05){
 
             setPrice(priceData.price);
         } 
