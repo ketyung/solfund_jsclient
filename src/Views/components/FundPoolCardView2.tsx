@@ -117,7 +117,7 @@ export const FundPoolCardView2 : React.FC <FundPoolCardView2Props> = ({address,
         {solToUsd > 0 ? <div className="solToUsdSmall">${(fundValue * solToUsd).toFixed(2)}</div> : <></>}
         </div>
 
-        <div className="item">Commission: {((fundPool?.fee_in_lamports ?? 0)/web3.LAMPORTS_PER_SOL).toFixed(3)} SOL</div>
+        <div className="item">Commission: {((fundPool?.fee_in_lamports ?? 0)/web3.LAMPORTS_PER_SOL).toFixed(5)} SOL</div>
  
 
         <Button shape="circle" style={{float:"right", marginLeft:"20px"}}
