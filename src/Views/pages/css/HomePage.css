@@ -122,7 +122,8 @@
 
     height:40px;
     padding:10px;
-    background-color: teal;
+    background-image: linear-gradient(to right, teal ,#123);      
+   
     font-weight: 500;
     color:white;
     font-size: 10pt;

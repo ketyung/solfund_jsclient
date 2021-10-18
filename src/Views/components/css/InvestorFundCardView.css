@@ -7,7 +7,7 @@
         border: 1px solid #eed;
         padding:10px 10px 10px 50px;
         border-radius: 20px;
-        background-color: #317377;
+        background-image: linear-gradient(to right,#317377 ,#235682);
         height:170px;
         color:white;
         text-align: justify;
@@ -59,7 +59,7 @@
         padding:10px 10px 10px 50px;
         margin:10px;
         border-radius: 20px;
-        background-color: #317377;
+        background-image: linear-gradient(to right,#317377 ,#235682);
         max-height:200px;
         color:white;
         text-align: justify;
@@ -67,7 +67,7 @@
 
     .investorPoolNorm:hover{
 
-        background-color: #952;
+        background-image: linear-gradient(to right,#335 ,#952);
         color:white;
     }
 
@@ -79,7 +79,7 @@
         padding:10px 10px 10px 50px;
         margin:10px;
         border-radius: 20px;
-        background-color: #317377;
+        background-image: linear-gradient(to right,#317377 ,#235682);
         clear:both;
         color:white;
         max-height:200px;
@@ -89,7 +89,7 @@
 
     .investorPoolBrk:hover {
 
-        background-color: #952;
+        background-image: linear-gradient(to right,#335 ,#952);
         color:white;
         
     }

@@ -6,7 +6,8 @@
 .roundModal .ant-modal-content {
 
     border-radius: 30px;    
-    background-color: #235;
+    background-image: linear-gradient(to right,#001, #235);      
+  
     color:white;
 }
 
@@ -30,7 +31,7 @@
 .shareViewModal .ant-modal-content {
 
     border-radius: 30px;    
-    background-color: #568;
+    background-image: linear-gradient(to right,#003, #030);      
     color:white;
 }
 

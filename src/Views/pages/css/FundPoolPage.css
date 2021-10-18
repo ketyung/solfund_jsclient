@@ -5,7 +5,7 @@
     padding:10px 10px 10px 50px;
     margin:auto;
     border-radius: 30px;
-    background-color: #112233;
+    background-image: linear-gradient(to right,#003, #300);      
     height:276px;
     color:white;
     text-align: justify;
@@ -20,7 +20,7 @@
 
 .fundPool:hover{
 
-    background-color: #222368;
+    background-image: linear-gradient(to right,#001, #425);      
     color:white;
 }
 
