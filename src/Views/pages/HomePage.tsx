@@ -5,6 +5,7 @@ import { InvestorPoolView } from '../components/InvestorPoolView';
 import useSolana from '../../Hooks/useSolana';
 import {WalletOutlined} from '@ant-design/icons';
 import {logo} from '../components/MenuView';
+import { SolToUsdView } from '../components/SolToUsdView';
 
 export const HomePage : React.FC = () => {
 
@@ -37,9 +38,14 @@ export const HomePage : React.FC = () => {
         Currently it works on the DevNet only !
         </div>
 
+        <div style={{color:"wheat", marginTop:"40px"}}>
+            1 SOL = <SolToUsdView valueInSol={1} id={1}/>    
+        </div>
+           
         <div style={{color:"wheat",marginTop:"40px"}}>
             Note: Not all CSS optimized for mobile yet, will do soon...
         </div>
+
         </div>
     
       
