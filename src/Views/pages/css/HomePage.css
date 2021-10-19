@@ -82,13 +82,12 @@
 
 .connectWallet {
 
-    background-color: #600;
     padding:10px;
     color:white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 18pt;
     border-radius: 30px;
-    width:80%;
+    width:60%;
     min-height: 50px;
     margin: auto;
     animation: 1.5s shake infinite;
@@ -115,7 +114,8 @@
 .tempCenterLogo {
 
     margin: auto;
-    animation: 3s shake infinite;   
+    animation: logo-spin infinite 10s linear;
+    
 }
 
 .footer {
@@ -123,7 +123,7 @@
     height:40px;
     padding:10px;
     background-image: linear-gradient(to right, teal ,#123);      
-   
+    width:100%;
     font-weight: 500;
     color:white;
     font-size: 10pt;
@@ -150,3 +150,12 @@
     100% { transform: skewX(0deg); }  
 }
   
+
+@keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
