@@ -46,6 +46,32 @@
         
     }
 
+    .addressShort {
+
+        font-weight : 500;
+        margin : 5px;
+        height: 10px;
+        padding : 5px;
+        display: inline-block;
+      
+    }
+
+    .managerShort {
+
+        margin: 10px;
+        display: inline-block;
+
+    }
+
+    .address {
+
+        display:none;
+    }
+
+    .manager {
+
+        display:none;
+    }
 
 
 }
@@ -94,5 +120,34 @@
         color:white;
         
     }
+
+    .address {
+
+        font-weight : 500;
+        margin : 5px;
+        height: 10px;
+        padding : 5px;
+        display: inline-block;
+        
+    }
+
+    .manager {
+
+        margin: 7px;
+        margin-left: 10px;
+        display: inline-block;
+
+    }
+
+    .addressShort {
+
+        display:none;
+    }
+
+    .managerShort {
+
+        display:none;
+    }
+
 
 }

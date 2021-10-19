@@ -1,132 +1,297 @@
-.fundPool{
-    display:block;
-    width:80%;
-    border: 1px solid #aab;
-    padding:10px 10px 10px 50px;
-    margin:auto;
-    border-radius: 30px;
-    background-image: linear-gradient(to right,#003, #300);      
-    height:276px;
-    color:white;
-    text-align: justify;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size:14pt;
+@media only screen and (max-width: 768px), only screen and (max-device-width: 768px){
+
+    .fundPool{
+        display:block;
+        width:80%;
+        border: 1px solid #aab;
+        padding:10px;
+        margin:auto;
+        border-radius: 30px;
+        background-image: linear-gradient(to right,#003, #300);      
+        height:276px;
+        color:white;
+        text-align: justify;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size:10pt;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+    }
+
+    .fundPool .item {
+
+        margin: 10px;
+    }
+
+    .fundPool:hover{
+
+        background-image: linear-gradient(to right,#001, #425);      
+        color:white;
+    }
+
+    .investorDiv{
+        display:block;
+        max-width:80%;
+        text-align: justify;
+        padding:2px;
+        margin: auto;
+    }
+
+    .topBar {
+
+        padding:3px;
+        margin:3px;
+        text-align: justify;
+    }
+
+    .barItem {
+
+        background-color: #352;
+        padding:10px 2px 2px 2px;
+        border-radius: 30px;
+        height: 40px;
+        color:white;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-weight: 300;
+        font-size: 9pt;
+        max-width: 110px;
+        margin-top: 20px;
+        text-align: center;
+        display: inline-block;
+        margin-right:20px;
+        min-width:100px;
+    }
+
+    .barItem:hover {
+
+        background-color: #459;
+    }
+
+    .investorRow {
+
+        background-color: #223396;
+        padding:10px 10px 30px 10px;
+        border-radius: 30px;
+        height: 50px;
+        color:white;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-weight: bolder;
+        max-width: 100%;
+        margin-top: 20px;
+        text-align: left;
+        min-height:60px;
+    }
+
+    .investorRow:hover {
+        background-color: #666;
+    }
+
+    .investorRow .no {
+
+        display: none;
+    }
+
+    .investorRow .key {
+
+        display: none; 
+    }
+
+    .investorRow .keyShort {
+
+        max-width: 45%;
+        padding: 10px;
+        color:wheat;
+        font-weight: bolder;
+        display: inline-block; 
+        margin-right:30px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    .investorRow .tokenCountShort {
+
+        max-width: 25%;
+        display: inline-block;
+        color:#ff2;
+        font-weight: 600;
+        background-color: #112233;
+        border-radius: 30px;
+        padding: 10px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+    }
+
+
+    .investorRow .tokenCount {
+
+        display:none;
+    }
+
+    .investorRow .percentage {
+
+        max-width: 25%;
+        display: inline-block;
+        color:#ff2;
+        font-weight: 600;
+        background-color: #112233;
+        border-radius: 30px;
+        padding: 10px;
+        text-align: center;
+        margin-left: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+   
+    }
+
 }
 
-.fundPool .item {
+@media only screen and (min-device-width: 769px){
 
-    margin: 10px;
+    .fundPool{
+        display:block;
+        width:80%;
+        border: 1px solid #aab;
+        padding:10px 10px 10px 50px;
+        margin:auto;
+        border-radius: 30px;
+        background-image: linear-gradient(to right,#003, #300);      
+        height:276px;
+        color:white;
+        text-align: justify;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size:14pt;
+    }
+
+    .fundPool .item {
+
+        margin: 10px;
+    }
+
+    .fundPool:hover{
+
+        background-image: linear-gradient(to right,#001, #425);      
+        color:white;
+    }
+
+    .investorDiv{
+        display:block;
+        width:80%;
+        text-align: justify;
+        padding:2px;
+        margin: auto;
+    }
+
+    .topBar {
+
+        padding:10px;
+        margin:10px;
+        text-align: justify;
+    }
+
+    .barItem {
+
+        background-color: #352;
+        padding:10px;
+        border-radius: 30px;
+        height: 40px;
+        color:white;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-weight: bolder;
+        max-width: 200px;
+        margin-top: 20px;
+        text-align: center;
+        display: inline-block;
+        margin-right:20px;
+        min-width:100px;
+    }
+
+    .barItem:hover {
+
+        background-color: #459;
+    }
+
+    .investorRow {
+
+        background-color: #223396;
+        padding:10px 10px 30px 10px;
+        border-radius: 30px;
+        height: 50px;
+        color:white;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-weight: bolder;
+        max-width: 100%;
+        margin-top: 20px;
+        text-align: left;
+        min-height:60px;
+    }
+
+    .investorRow:hover {
+        background-color: #666;
+    }
+
+    .investorRow .no {
+
+        width:5%;
+        padding:10px;
+        color:wheat;
+        font-weight: 100;
+        text-align: center;
+        border-radius: 80px;
+        background-color: #900;
+        display: inline-block;
+        margin-right:10px;
+    }
+
+    .investorRow .key {
+
+        width: 55%;
+        padding: 10px;
+        color:white;
+        font-weight: bolder;
+        display: inline-block; 
+        margin-right:20px;
+    }
+
+    .investorRow .keyShort {
+
+        display: none; 
+    }
+
+    .investorRow .tokenCount {
+
+        width: 15%;
+        display: inline-block;
+        color:#ff2;
+        font-weight: 600;
+        background-color: #112233;
+        border-radius: 30px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .investorRow .tokenCountShort {
+
+        display:none;
+    }
+
+    .investorRow .percentage {
+
+        width: 8%;
+        display: inline-block;
+        color:#ff2;
+        font-weight: 600;
+        background-color: #112233;
+        border-radius: 30px;
+        padding: 10px;
+        text-align: center;
+        margin-left: 5px;
+    }
+
 }
-
-.fundPool:hover{
-
-    background-image: linear-gradient(to right,#001, #425);      
-    color:white;
-}
-
-.investorDiv{
-    display:block;
-    width:80%;
-    text-align: justify;
-    padding:2px;
-    margin: auto;
-}
-
-.topBar {
-
-    padding:10px;
-    margin:10px;
-    text-align: justify;
-}
-
-.barItem {
-
-    background-color: #352;
-    padding:10px;
-    border-radius: 30px;
-    height: 40px;
-    color:white;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-weight: bolder;
-    max-width: 200px;
-    margin-top: 20px;
-    text-align: center;
-    display: inline-block;
-    margin-right:20px;
-    min-width:100px;
-}
-
-.barItem:hover {
-
-    background-color: #459;
-}
-
-.investorRow {
-
-    background-color: #223396;
-    padding:10px 10px 30px 10px;
-    border-radius: 30px;
-    height: 50px;
-    color:white;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-weight: bolder;
-    max-width: 100%;
-    margin-top: 20px;
-    text-align: left;
-    min-height:60px;
-}
-
-.investorRow:hover {
-    background-color: #666;
-}
-
-.investorRow .no {
-
-    width:5%;
-    padding:10px;
-    color:wheat;
-    font-weight: 100;
-    text-align: center;
-    border-radius: 80px;
-    background-color: #900;
-    display: inline-block;
-    margin-right:10px;
-}
-
-.investorRow .key {
-
-    width: 65%;
-    padding: 10px;
-    color:white;
-    font-weight: bolder;
-    display: inline-block; 
-    margin-right:20px;
-}
-
-.investorRow .tokenCount {
-
-    width: 15%;
-    display: inline-block;
-    color:#ff2;
-    font-weight: 600;
-    background-color: #112233;
-    border-radius: 30px;
-    padding: 10px;
-    text-align: center;
-}
-
-.investorRow .percentage {
-
-    width: 8%;
-    display: inline-block;
-    color:#ff2;
-    font-weight: 600;
-    background-color: #112233;
-    border-radius: 30px;
-    padding: 10px;
-    text-align: center;
-    margin-left: 5px;
-}
-
-
-

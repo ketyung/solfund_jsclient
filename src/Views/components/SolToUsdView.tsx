@@ -8,6 +8,7 @@
 import React, {useEffect, useState} from 'react';
 import './css/SolToUsdView.css';
 import usePythSolToUsd from '../../Hooks/usePythSolToUsd';
+import {Spin} from 'antd';
 
 interface SolToUsdViewProp {
 
@@ -42,7 +43,7 @@ export const SolToUsdView : React.FC<SolToUsdViewProp> = ({ valueInSol, id }) =>
     }, [toLoad])
     
     return <div className="solToUsd">
-    { (price > 0) ? "$"+(price * valueInSol).toFixed(3) : " ..... "}
+    { (price > 0) ? "$"+(price * valueInSol).toFixed(3) : <Spin size="small"/>}
     </div>
 
 }

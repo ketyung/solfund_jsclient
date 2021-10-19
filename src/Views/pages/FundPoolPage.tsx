@@ -8,6 +8,7 @@ import {Menu, Dropdown, Button} from 'antd';
 import { error, success } from '../../utils/Mesg';
 import {InvestmentModalForm, ShareModalForm} from '../components/CommonModalForms';
 import useInvestor from '../../Hooks/useInvestor';
+import {format_pub_key_shorter} from '../../state/';
 
 
 interface FundPoolViewProps {
@@ -179,7 +180,9 @@ export const FundPoolPage : React.FC <FundPoolViewProps> = ({address}) => {
             title={inv.address.toBase58()}>
             <span className="no">{idx+1}</span> 
             <span className="key">{inv.investor.toBase58()}</span>  
+            <span className="keyShort">{format_pub_key_shorter(inv.investor.toBase58())}</span>  
             <span className="tokenCount">{inv.token_count} Tokens</span>
+            <span className="tokenCountShort">{Math.floor(inv.token_count/1000)}K Tk</span>
             <span className="percentage">{((inv.token_count/fundPool.token_count) * 100).toFixed(2)} %</span>
               
             </div>

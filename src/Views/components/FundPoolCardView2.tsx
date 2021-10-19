@@ -5,7 +5,7 @@ import {ICONS} from './IconsChooser';
 import './css/FundPoolCardView.css';
 import './css/SolToUsdView.css';
 import {format_pub_key_shorter} from '../../state/';
-import {Button} from 'antd';
+import {Button,Spin} from 'antd';
 import {ShareAltOutlined, InfoOutlined} from '@ant-design/icons';
 import {Link} from 'wouter';
 import {extract_fund_pool, FundPool} from '../../state';
@@ -133,7 +133,8 @@ export const FundPoolCardView2 : React.FC <FundPoolCardView2Props> = ({address,
         <div className="item">Token : {fundPool?.token_count?? 0}</div>
 
         <div className="item">Fund : {fundValue.toFixed(3)} SOL
-        {solToUsd > 0 ? <div className="solToUsdSmall">${(fundValue * solToUsd).toFixed(2)}</div> : <></>}
+        {solToUsd > 0 ? <div className="solToUsdSmall">${(fundValue * solToUsd).toFixed(2)}</div> 
+        : <Spin style={{marginLeft:"6px"}} size="small"/>}
         </div>
 
         <div className="item">Commission: {((fundPool?.fee_in_lamports ?? 0)/web3.LAMPORTS_PER_SOL).toFixed(5)} SOL</div>
