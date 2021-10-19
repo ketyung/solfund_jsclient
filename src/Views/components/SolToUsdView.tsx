@@ -30,7 +30,7 @@ export const SolToUsdView : React.FC<SolToUsdViewProp> = ({ valueInSol, id }) =>
 
         // make it slower, seem to cause
         // too many requests often
-        const nextReloadTime = 3000 + (id * 100);
+        const nextReloadTime = 5000 + (id * 100);
         
         //console.log("nextReloadTime", nextReloadTime);
 

@@ -21,7 +21,7 @@ export default function usePythSolToUsdAuto() {
         setTimeout(()=> {
 
             setToLoad( !toLoad );
-
+        
         }, nextReloadTime);
         
     }, [toLoad]);

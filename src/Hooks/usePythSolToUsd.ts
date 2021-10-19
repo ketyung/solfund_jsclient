@@ -70,12 +70,12 @@ export default function usePythSolToUsd() {
     function handlePriceAccount(account: web3.AccountInfo<Buffer>) {
 
         const priceData = parsePriceData(account.data);
-       // console.log("priceData::", priceData.price);
-        let confidence = Math.abs(priceData.confidence);
-        if ( confidence > 0.05){
+        // console.log("priceData::", priceData.price);
+        //let confidence = Math.abs(priceData.confidence);
+        //if ( confidence > 0.05){
 
-            setPrice(priceData.price);
-        } 
+        setPrice(priceData.price);
+        //} 
       
     }
 
