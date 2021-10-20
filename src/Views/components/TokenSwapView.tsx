@@ -39,7 +39,7 @@ export const TokenSwapView : React.FC = () => {
     }
     
     const tokenListView = (setSelected : (selected : TokenInfo)=>void, setVisible : (visible : boolean)=> void ) =>{
-    return <div style={{backgroundColor:"#112", minWidth:"500px",borderRadius:"20px",padding:"10px" }}>
+    return <div className="tokenListViewContainer">
         <TokenListView setSelected={setSelected} setVisible={setVisible} />
     </div>}
 

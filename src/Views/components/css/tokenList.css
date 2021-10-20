@@ -1,9 +1,18 @@
+.tokenListViewContainer {
+
+    background-image: linear-gradient(to right,#020 ,#003);      
+    min-width:500px;
+    border-radius:20px;
+    padding:10px;
+}
+
 .tokenListView {
     
     max-height: 300px;
     overflow: auto;
     font-size: 10pt;
     border-radius: 20px;
+    margin:auto;  
 }
 
 ::-webkit-scrollbar {
@@ -29,7 +38,7 @@
 }
 
 .tokenRow:hover {
-    background-color:#333;
+    background-color:#223;
     cursor:pointer;
 }
 
