@@ -15,7 +15,7 @@ export const TokenListView : React.FC <TokenListViewProps> = ({setSelected, setV
 
     const [tokenList, setTokenList] = useState<Array<TokenInfo>>();
 
-    const cluster = "devnet"; // temporarily hard-coded 
+    const cluster = "mainnet-beta"; // temporarily hard-coded 
 
     const [keyword, setKeyword] = useState<string>();
 
