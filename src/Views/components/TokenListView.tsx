@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { TokenListProvider, TokenInfo } from '@solana/spl-token-registry';
 import './css/tokenList.css';
-import {Image, Input} from 'antd';
+import {Image, Input, Button} from 'antd';
+import {CloseOutlined} from '@ant-design/icons';
 
 interface TokenListViewProps{
 
@@ -16,13 +17,28 @@ export const TokenListView : React.FC <TokenListViewProps> = ({setSelected, setV
 
     const cluster = "devnet"; // temporarily hard-coded 
 
+    const [keyword, setKeyword] = useState<string>();
+
+    const searchOnChange = (e: React.FormEvent<HTMLInputElement>): void => {
+
+        let txt = e.currentTarget.value;
+        setKeyword(txt);
+
+    }
 
     const tokenListView =
         
        
     <div className="tokenListView"> 
-      <p key={1} style={{color:"white",fontSize:"12pt",marginLeft:"10px", fontWeight:"bolder"}}>Select Token ({cluster})</p>    
-      <p key={2}><Input placeholder="Search" style={{marginLeft:"10px",maxWidth:"90%",height:"40px",backgroundColor:"#334", color:"white"}} /></p>  
+      <p key={1} style={{color:"white",fontSize:"12pt",marginLeft:"10px", fontWeight:"bolder"}}>
+      Select Token ({cluster}) <span style={{float:"right", marginRight:"3px"}}
+      ><Button shape="circle" onClick={()=>{
+            setVisible(false);
+      }}
+      style={{backgroundColor:"transparent",color:"white", border:0}} 
+      icon={<CloseOutlined/>}></Button></span></p>    
+      <p key={2}><Input placeholder="Search" onChange={searchOnChange}
+      style={{marginLeft:"10px",maxWidth:"90%",height:"40px",backgroundColor:"#334", color:"white"}} /></p>  
       
         {tokenList?.map((token, index)=>{
 
@@ -59,10 +75,18 @@ export const TokenListView : React.FC <TokenListViewProps> = ({setSelected, setV
         provider.resolve().then((tokens) => {
             const tokenList = tokens.filterByClusterSlug(cluster).getList();
     
-            setTokenList(tokenList);
+            const filteredList = keyword ? tokenList.filter ((t)=>{
+
+                return (t.name.toLowerCase().indexOf(keyword) > -1 
+                || t.symbol.toLowerCase().indexOf(keyword) > -1) ;
+            })
+
+            : tokenList;
+
+            setTokenList(filteredList);
         });
 
-    }, []);
+    }, [keyword]);
 
 
     return <div>{tokenListView}</div>;
