@@ -7,7 +7,6 @@
 
     border-radius: 30px;    
     background-image: linear-gradient(to right,#001, #235);      
-  
     color:white;
 }
 
@@ -55,14 +54,14 @@
 .manageViewModal .ant-modal-content {
 
     border-radius: 30px;    
-    background-color: #235;
+    background-image: linear-gradient(to right,#000, #005);    
     color:white;
 }
 
 .manageViewModal .ant-modal-header{
 
     border-radius: 30px 30px;    
-    background-color:transparent;
+    background-image: linear-gradient(to right,#000, #005);   
     color: white;
     font-size: 30pt;
     margin:0 auto;

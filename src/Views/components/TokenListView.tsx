@@ -1,30 +1,35 @@
 import React, {useState, useEffect} from 'react';
 import { TokenListProvider, TokenInfo } from '@solana/spl-token-registry';
 import './css/tokenList.css';
-import {Image} from 'antd';
+import {Image, Input} from 'antd';
 
 interface TokenListViewProps{
 
     setSelected : (selected : TokenInfo)=>void,
 
+    setVisible : (visible : boolean) => void, 
 }
 
-export const TokenListView : React.FC <TokenListViewProps> = ({setSelected}) => {
+export const TokenListView : React.FC <TokenListViewProps> = ({setSelected, setVisible}) => {
 
     const [tokenList, setTokenList] = useState<Array<TokenInfo>>();
 
     const cluster = "devnet"; // temporarily hard-coded 
 
+
     const tokenListView =
         
        
     <div className="tokenListView"> 
-    <p style={{color:"white",fontSize:"12pt",marginLeft:"10px", fontWeight:"bolder"}}>Select Token ({cluster})</p>      
-    {tokenList?.map((token)=>{
+      <p key={1} style={{color:"white",fontSize:"12pt",marginLeft:"10px", fontWeight:"bolder"}}>Select Token ({cluster})</p>    
+      <p key={2}><Input placeholder="Search" style={{marginLeft:"10px",maxWidth:"90%",height:"40px",backgroundColor:"#334", color:"white"}} /></p>  
+      
+        {tokenList?.map((token, index)=>{
 
-        return <div className="tokenRow" onClick={()=>{
+        return <div key={2+(index+1)} className="tokenRow" onClick={()=>{
 
             setSelected(token);
+            setVisible(false);
 
         }}>
 
@@ -39,7 +44,7 @@ export const TokenListView : React.FC <TokenListViewProps> = ({setSelected}) => 
         <div className="symbol">
         {token.symbol}
         </div>
-        <div className="name">
+        <div className="name" title={token.address}>
         {token.name}
         </div>
         

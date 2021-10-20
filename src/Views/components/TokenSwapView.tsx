@@ -8,6 +8,10 @@ const defaultImage = "https://raw.githubusercontent.com/solana-labs/token-list/m
 
 export const TokenSwapView : React.FC = () => {
 
+    const [visibleA, setVisibleA] = useState(false);
+
+    const [visibleB, setVisibleB] = useState(false);
+
     const [tokenA, setTokenA] = useState<TokenInfo>();
     
     const [tokenB, setTokenB] = useState<TokenInfo>();
@@ -21,21 +25,35 @@ export const TokenSwapView : React.FC = () => {
 
         setTokenB(selected);
     }
+
+    const handleVisibleChangeA = (visible : boolean) =>{
+
+        setVisibleA(visible);
+
+    }
+
+    const handleVisibleChangeB = (visible : boolean) =>{
+
+        setVisibleB(visible);
+
+    }
     
-    const tokenListView = (setSelected : (selected : TokenInfo)=>void) =>{
+    const tokenListView = (setSelected : (selected : TokenInfo)=>void, setVisible : (visible : boolean)=> void ) =>{
     return <div style={{backgroundColor:"#112", minWidth:"500px",borderRadius:"20px",padding:"10px" }}>
-        <TokenListView setSelected={setSelected}/>
+        <TokenListView setSelected={setSelected} setVisible={setVisible} />
     </div>}
 
     return <div>
 
         <Form layout="vertical">
 
-        <Form.Item label={<label style={{ height:"50px", color: "white", fontSize:"10pt" }}>From</label>} 
+        <Form.Item label={<label style={{color: "white", fontSize:"10pt", maxWidth:"100px" }}>From</label>} 
         required tooltip="From Token">
             <Input placeholder="0.00" style={{maxWidth:"200px",height:"40px",backgroundColor:"#334", color:"white"}} />
 
-            <Dropdown overlay={tokenListView(setSelectedTokenA)} placement="bottomCenter">
+            <Dropdown overlay={tokenListView(setSelectedTokenA, setVisibleA)} 
+            visible={visibleA}  onVisibleChange={handleVisibleChangeA}
+            trigger={["click"]} placement="bottomCenter">
             <div style={{display:"inline-block"}}>
             <Image width={40} height={40}  title="Icon" alt="Icon" 
             style={{ verticalAlign: 'middle', marginTop:"15px", marginLeft:"5px", cursor:"pointer"}} preview={false}
@@ -46,11 +64,12 @@ export const TokenSwapView : React.FC = () => {
             </Dropdown>
         </Form.Item>
 
-        <Form.Item label={<label style={{ color: "white", fontSize:"10pt" }}>To</label>} 
+        <Form.Item label={<label style={{color: "white", fontSize:"10pt", maxWidth:"100px" }}>To</label>}
         required tooltip="To Token">
             <Input placeholder="0.00" style={{maxWidth:"200px",height:"40px", backgroundColor:"#334", color:"white"}} />
            
-            <Dropdown overlay={tokenListView(setSelectedTokenB)} placement="bottomCenter">
+            <Dropdown overlay={tokenListView(setSelectedTokenB, setVisibleB)} trigger={["click"]} 
+            placement="bottomCenter"  visible={visibleB} onVisibleChange={handleVisibleChangeB}>
             <div style={{display:"inline-block"}}>
             <Image width={40} height={40}  title="Icon" alt="Icon" 
             style={{ verticalAlign: 'middle', marginTop:"15px", marginLeft:"5px", cursor:"pointer"}} preview={false}
