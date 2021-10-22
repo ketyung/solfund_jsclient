@@ -75,7 +75,7 @@ export const InvestorFundCardView : React.FC <InvestorFundCardViewProps> =
 
         readData(address);
        
-    }, []);
+    }, [address]);
 
     return <div className={className}>
     

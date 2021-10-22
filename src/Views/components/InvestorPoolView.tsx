@@ -7,6 +7,7 @@ import useInvestor from '../../Hooks/useInvestor';
 import {AlertOutlined,ReloadOutlined} from '@ant-design/icons';
 import { InvestorFundCardView } from './InvestorFundCardView';
 import './css/InvestorFundCardView.css';
+import { PaginationView } from './CommonPagination';
 
 export const InvestorPoolView : React.FC = () => {
 
@@ -19,6 +20,16 @@ export const InvestorPoolView : React.FC = () => {
     const [loaded, setLoaded] = useState(false);
 
     const [investorPoolLoading, setInvestorPoolLoading] = useState(false);
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const numberPerPage = 6; 
+
+    const pageOnChange = (page : number) =>{
+
+        setCurrentPage(page);
+    }
+
 
     async function readInvestorPool(){
 
@@ -54,9 +65,16 @@ export const InvestorPoolView : React.FC = () => {
        
     }, []);
 
+    const start = (currentPage - 1) * numberPerPage;
+
+    const end =  ((currentPage - 1) * numberPerPage) + numberPerPage;
+   
     const investorPoolsView =
-    (addresses.map.length ?? 0) > 0 ?
-    addresses.map(  (address, index ) => {
+    
+    (addresses.length ?? 0) > 0 ?
+    
+    addresses.slice( start , end ).map(  
+        (address, index ) => {
 
         return <InvestorFundCardView  address={address} 
         key={"InvPool"+index} className={(index % 3 === 0) ? "investorPoolNorm" : "investorPoolBrk"} />
@@ -87,6 +105,19 @@ export const InvestorPoolView : React.FC = () => {
     </p>
 
     {investorPoolsView}
+    <p>&nbsp;</p>
+    
+    {
 
+        addresses.length > 0 ?
+
+        <PaginationView currentPage={currentPage} numberPerPage={numberPerPage} 
+        pageOnChange={pageOnChange} total={addresses.length} />
+
+        :
+
+        <></>
+    }
+   
     </div>
 }

@@ -12,7 +12,7 @@ import { success,error } from '../../utils/Mesg';
 import {ShareView} from './ShareView';
 import {PoolManageView} from './PoolManageView';
 import {ICONS} from './IconsChooser';
-
+import {PaginationView} from './CommonPagination';
 
 interface ManagerPoolViewProp {
 
@@ -64,6 +64,15 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     const [manageViewPresented, setManageViewPresented] = useState(false);
     
     const [poolPageAddress , setPoolPageAddress] = useState("");
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const numberPerPage = 6; 
+
+    const pageOnChange = (page : number) =>{
+
+        setCurrentPage(page);
+    }
 
 
     const setValuesOf = (token_count : number, token_to_sol : 
@@ -148,7 +157,8 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     
     (fundPoolAddresses.map.length ?? 0) > 0 ? 
 
-    fundPoolAddresses.map(  (poolAddr, index) => {
+    fundPoolAddresses.slice( (currentPage - 1) * numberPerPage, 
+    ((currentPage - 1) * numberPerPage) + numberPerPage ).map(  (poolAddr, index) => {
 
         return <FundPoolCardView2 address={poolAddr} solToUsd={0} 
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
@@ -235,6 +245,20 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     <p>{topTitle}</p>
 
     {fundPoolsView}
+
+    <p>&nbsp;</p>
+
+    {
+
+        fundPoolAddresses.length > numberPerPage ?
+
+        <PaginationView currentPage={currentPage} numberPerPage={numberPerPage} 
+        pageOnChange={pageOnChange} total={fundPoolAddresses.length} />
+
+        : <></>
+    } 
+   
+
 
     <Modal title={<label style={{ color: "white" }}>Create Fund Pool</label>}
 

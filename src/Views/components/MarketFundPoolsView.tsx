@@ -5,12 +5,11 @@ import { FundPool, Market } from '../../state';
 import { error, success } from '../../utils/Mesg';
 import * as web3 from '@solana/web3.js';
 import { FundPoolCardView2 } from './FundPoolCardView2';
-import {Spin, Pagination, Button} from 'antd';
+import {Spin} from 'antd';
 import './css/modal.css';
 import {InvestmentModalForm, ShareModalForm} from '../components/CommonModalForms';
 import usePythSolToUsdAuto from '../../Hooks/usePythSolToUsdAuto';
-import {LeftOutlined, RightOutlined} from '@ant-design/icons';
-
+import {PaginationView} from './CommonPagination';
 
 interface MarketFundPoolsProps {
 
@@ -52,32 +51,6 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
 
     const numberPerPage = 12; 
 
-
-    const itemRender = (current : number, type : string, originalElement : React.ReactElement) => {
-    
-        if (type === 'prev') {
-    
-            return <Button shape="circle" style={{marginRight:"10px",backgroundColor:"#223", color:"wheat"}}>
-                <LeftOutlined/>
-            </Button>;
-        }
-        if (type === 'next') {
-     
-            return <Button shape="circle" style={{marginLeft:"10px",backgroundColor:"#223", color:"wheat"}}>
-                <RightOutlined/>
-            </Button>;
-     
-        }
-        if ( type === "page"){
-
-            return <div style={{display:"inline-block",minWidth:"30px",
-            backgroundColor:"#223", color:"wheat", fontWeight:"bolder", border:0}}>
-            {current}</div>;
-        }
-
-        return originalElement;
-       
-    }
 
     const completion = (res : boolean | Error) =>  {
 
@@ -228,9 +201,8 @@ export const MarketFundPoolsView : React.FC <MarketFundPoolsProps> = ({address, 
    
    <p>&nbsp;</p>
 
-   <Pagination current={currentPage} pageSize={numberPerPage} 
-   style={{marginTop:"30px",margin:"auto"}} itemRender={itemRender}
-   onChange={pageOnChange} total={fundPoolAddresses.length}  />;
+   <PaginationView currentPage={currentPage} numberPerPage={numberPerPage} 
+   pageOnChange={pageOnChange} total={fundPoolAddresses.length} />;
 
    <InvestmentModalForm modalPresented={modalPresented} setModalPresented={setModalPresented}
     submitInvestor={submitInvestor} selectedFundPool={selectedFundPool} investorLoading={investorLoading}
