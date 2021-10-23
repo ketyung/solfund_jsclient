@@ -269,9 +269,17 @@ export default function useInvestor(){
         // use associated token address
         const receiverTokenAcc =  await findAssociatedTokenAddress(publicKey, mint);
 
-        // and create it if null !
+       // not sure why having this check will fail with simulated transactions on wallet e.g. phantom
+       // const ata = await splToken.Token.getAssociatedTokenAddress(SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+        // splToken.TOKEN_PROGRAM_ID, mint, publicKey, true);
+
+       
+       // console.log("ata:::", ata.toBase58(), receiverTokenAcc.toBase58());
+
         if ( await connection.getAccountInfo(receiverTokenAcc) == null ){
 
+        // and create it if not equal !
+        //if ( !ata.equals(receiverTokenAcc)){
             tx.add(
     
                 splToken.Token.createAssociatedTokenAccountInstruction(
@@ -279,7 +287,6 @@ export default function useInvestor(){
                     mint,receiverTokenAcc,publicKey, publicKey),
         
             );
-            
         }
 
         

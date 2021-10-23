@@ -13,6 +13,7 @@ import {ShareView} from './ShareView';
 import {PoolManageView} from './PoolManageView';
 import {ICONS} from './IconsChooser';
 import {PaginationView} from './CommonPagination';
+import usePythSolToUsdAuto from '../../Hooks/usePythSolToUsdAuto';
 
 interface ManagerPoolViewProp {
 
@@ -64,6 +65,8 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     const [manageViewPresented, setManageViewPresented] = useState(false);
     
     const [poolPageAddress , setPoolPageAddress] = useState("");
+
+    const [solToUsd] = usePythSolToUsdAuto();
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -160,7 +163,7 @@ export const ManagerPoolView : React.FC <ManagerPoolViewProp> = ({address}) => {
     fundPoolAddresses.slice( (currentPage - 1) * numberPerPage, 
     ((currentPage - 1) * numberPerPage) + numberPerPage ).map(  (poolAddr, index) => {
 
-        return <FundPoolCardView2 address={poolAddr} solToUsd={0} 
+        return <FundPoolCardView2 address={poolAddr} solToUsd={solToUsd} 
         className={index % 3 === 0 ? "fundPoolBrk" : "fundPoolNorm"}
         key ={"fundPool" + index } managedByManager={ address ? false : true}
         setFundPoolPresented={setFundPoolPresented} setShareView={setShareView}/>
