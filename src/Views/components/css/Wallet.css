@@ -22,14 +22,14 @@
     min-width:160px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size:10pt;
-    background: #ae4;
-    color:black;
+    background: #136;
+    color:white;
     border-radius: 4px;
     float:right;
     margin:10px;
     height: 30px;
 }
-
+/**
 .disconButton {
 
     min-width:160px;
@@ -47,3 +47,4 @@
 
     display:none;
 }
+*/

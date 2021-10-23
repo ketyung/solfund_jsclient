@@ -1,16 +1,17 @@
 import React from 'react';
 import {
     WalletModalProvider,
-    WalletDisconnectButton,
-    WalletMultiButton
+  //  WalletDisconnectButton,
+    WalletMultiButton,
+    
 } from '@solana/wallet-adapter-react-ui';
 import './css/Wallet.css';
-import { useWallet } from '@solana/wallet-adapter-react';
+//import { useWallet } from '@solana/wallet-adapter-react';
 import { MenuView } from './MenuView';
 
 export const Wallet : React.FC = () => {
 
-    const { publicKey } = useWallet();
+   // const { publicKey } = useWallet();
 
     
     return <div>    
@@ -18,7 +19,11 @@ export const Wallet : React.FC = () => {
         <div className="walletBar">
            <MenuView/>
            <WalletMultiButton className="walletButton" />
-           <WalletDisconnectButton className={!publicKey? "disconHidden" : "disconButton"} />
+           {
+            /** // remove the disconnect button 
+            <WalletDisconnectButton className={!publicKey? "disconHidden" : "disconButton"} />
+            */      
+           }
            
         </div>
     </WalletModalProvider>      
