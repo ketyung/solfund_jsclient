@@ -1,3 +1,8 @@
+/*
+Some of these codes borrowed from RaydiumUI https://github.com/raydium-io/raydium-ui
+Trying to experiment/R&D for possiblity of integrating Raydium AMM DEX with my own UI in react
+By Christopher K Y Chee ketyung@techchee.com
+*/
 // @ts-ignore
 import { nu64, struct, u8 } from 'buffer-layout'
 

@@ -1,3 +1,8 @@
+/*
+Some of these codes borrowed from RaydiumUI https://github.com/raydium-io/raydium-ui
+Trying to experiment/R&D for possiblity of integrating Raydium AMM DEX with my own UI in react
+By Christopher K Y Chee ketyung@techchee.com
+*/
 import { initializeAccount } from '@project-serum/serum/lib/token-instructions';
 // @ts-ignore without ts ignore, yarn build will failed
 import { Token } from '@solana/spl-token';

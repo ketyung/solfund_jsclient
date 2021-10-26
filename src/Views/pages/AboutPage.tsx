@@ -21,6 +21,9 @@ export const AboutPage : React.FC = () => {
                 <p>Designed &amp; Developed By Christopher K Y Chee (ketyung@techchee.com 
                     &nbsp;<a target="_blank" href="https://github.com/ketyung/" rel="noreferrer">https://github.com/ketyung/</a>) for 
                 Solana Ignition Hackathon</p> 
+
+                <p><a target="_blank" href="https://twitter.com/techchee" rel="noreferrer">Twitter</a></p> 
+                
                 <p>Initial Idea Credit To Marcus Yong</p>
             </div>
             

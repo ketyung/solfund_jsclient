@@ -1,3 +1,9 @@
+/*
+Some of these codes borrowed from RaydiumUI https://github.com/raydium-io/raydium-ui
+Trying to R&D for possiblity of integrating Raydium with my own UI in react
+By Christopher K Y Chee ketyung@techchee.com
+*/
+
 import { bool, publicKey, struct, u32, u64, u8 } from '@project-serum/borsh'
 
 // https://github.com/solana-labs/solana-program-library/blob/master/token/js/client/token.js#L210

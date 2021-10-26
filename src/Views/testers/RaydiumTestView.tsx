@@ -1,3 +1,8 @@
+/**
+ * This is the view for testing the Raydium code
+ * By Christiopher K Y Chee (ketyung@techchee.com)
+ */
+
 import React, {useState} from 'react';
 import { Input, Button } from 'antd';
 import { getMarket } from '../../Raydium/utils/market';

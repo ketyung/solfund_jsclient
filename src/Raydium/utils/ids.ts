@@ -1,3 +1,8 @@
+/*
+Some of these codes borrowed from RaydiumUI https://github.com/raydium-io/raydium-ui
+Trying to R&D for possiblity of integrating Raydium with my own UI in react
+By Christopher K Y Chee ketyung@techchee.com
+*/
 import { PublicKey } from '@solana/web3.js'
 
 export const SYSTEM_PROGRAM_ID = new PublicKey('11111111111111111111111111111111')

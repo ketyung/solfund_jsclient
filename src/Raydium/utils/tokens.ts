@@ -1,3 +1,8 @@
+/*
+Some of these codes borrowed from RaydiumUI https://github.com/raydium-io/raydium-ui
+Trying to experiment/R&D for possiblity of integrating Raydium AMM DEX with my own UI in react
+By Christopher K Y Chee ketyung@techchee.com
+*/
 import { cloneDeep } from 'lodash-es'
 
 import { TokenAmount } from './safe-math'

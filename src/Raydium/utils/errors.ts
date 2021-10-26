@@ -1,3 +1,9 @@
+/*
+Some of these codes borrowed from RaydiumUI https://github.com/raydium-io/raydium-ui
+Trying to R&D for possiblity of integrating Raydium with my own UI in react
+By Christopher K Y Chee ketyung@techchee.com
+*/
+
 export function throwIfUndefined<T>(
   value: T | undefined,
   message = 'Not found'
