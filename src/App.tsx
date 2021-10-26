@@ -10,6 +10,7 @@ import { clusterApiUrl } from '@solana/web3.js';
 import {FundPoolPage} from './Views/pages/FundPoolPage';
 import { ManagerPoolPage } from './Views/pages/ManagerPoolPage';
 import { TokenTestView } from './Views/testers/TokenTestView';
+import { RaydiumTestView } from './Views/testers/RaydiumTestView';
 import { AboutPage } from './Views/pages/AboutPage';
 import {Wallet} from './Views/components/Wallet';
 import {programId} from './Hooks/useSolana';
@@ -102,6 +103,10 @@ function App() {
 
       <Route path="/tokentest">
        <TokenTestView/>
+      </Route>
+
+      <Route path="/raydiumtest">
+       <RaydiumTestView/>
       </Route>
 
         </WalletProvider>

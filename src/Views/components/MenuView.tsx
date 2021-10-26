@@ -22,6 +22,7 @@ export const MenuView : React.FC = () => {
     const [matchPoolMarket] = useRoute("/market");
 
    // const [matchTokenTest] = useRoute("/tokentest");
+    const [matchRaydiumTest] = useRoute("/raydiumtest");
 
     const [matchAbout] = useRoute("/about");
 
@@ -92,6 +93,14 @@ export const MenuView : React.FC = () => {
                 </Link>
             </div>*/
             }
+       
+            {
+            <div className={matchRaydiumTest ? "topLinkSel" : "topLink"}>
+                <Link href="/raydiumtest">
+                <a className="link">Raydium</a>
+                </Link>
             </div>
+        }
+        </div>
     </span>
 }
